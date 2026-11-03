@@ -1,0 +1,126 @@
+<nav class="navbar">
+    <div class="nav-inner">
+        <a href="/" class="nav-logo">
+            <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="PDF Toolkit Demo">
+        </a>
+
+        <!-- Desktop: dropdown -->
+        <div class="nav-tools-dropdown">
+            <button class="nav-tools-btn">All PDF Tools <span class="nav-arrow">▾</span></button>
+            <div class="nav-dropdown-menu" style="min-width:760px;">
+                <div class="dropdown-col">
+                    <p class="dropdown-heading">Organize</p>
+                    <a href="/merge">🔀 Merge PDF</a>
+                    <a href="/split">✂️ Split PDF</a>
+                    <a href="/crop">📐 Crop PDF</a>
+                    <a href="/rotate">🔄 Rotate PDF</a>
+                    <a href="/organize-pdf">🗂️ Organize PDF</a>
+                    <a href="/rearrange">↕️ Rearrange Pages</a>
+                    <a href="/delete-pages">🗑️ Delete Pages</a>
+                    <a href="/extract-pages">📤 Extract Pages</a>
+                    <a href="/remove-blank-pages">📃 Remove Blank Pages</a>
+                    <p class="dropdown-heading" style="margin-top:14px;">Optimize</p>
+                    <a href="/compress">🗜️ Compress PDF</a>
+                    <a href="/repair">🔧 Repair PDF</a>
+                    <a href="/ocr">🔤 Extract Text</a>
+                    <a href="/pdf-to-pdfa">🏅 PDF to PDF/A</a>
+                </div>
+                <div class="dropdown-col">
+                    <p class="dropdown-heading">Convert FROM PDF</p>
+                    <a href="/pdf-to-image">📷 PDF to Image</a>
+                    <a href="/pdf-to-word">📝 PDF to Word</a>
+                    <a href="/pdf-to-powerpoint">📽️ PDF to PowerPoint</a>
+                    <a href="/pdf-to-excel">📊 PDF to Excel</a>
+                    <a href="/extract-images">🏞️ Extract Images</a>
+                    <p class="dropdown-heading" style="margin-top:14px;">Convert TO PDF</p>
+                    <a href="/image-to-pdf">🖼️ Image to PDF</a>
+                    <a href="/word-to-pdf">📄 Word to PDF</a>
+                    <a href="/word-to-image">🎨 Word to Image</a>
+                    <a href="/powerpoint-to-pdf">🎞️ PowerPoint to PDF</a>
+                    <a href="/excel-to-pdf">📈 Excel to PDF</a>
+                    <a href="/html-to-pdf">🌐 HTML to PDF</a>
+                    <a href="/webpage-to-pdf">🌍 Webpage to PDF</a>
+                </div>
+                <div class="dropdown-col">
+                    <p class="dropdown-heading">Edit</p>
+                    <a href="/edit-pdf">✏️ Edit PDF</a>
+                    <a href="/watermark">💧 Watermark PDF</a>
+                    <a href="/page-numbers">🔢 Add Page Numbers</a>
+                    <a href="/redact">🖊️ Redact PDF</a>
+                    <a href="/sign">✍️ Sign PDF</a>
+                    <a href="/metadata">📋 PDF Metadata</a>
+                    <a href="/compare">🔍 Compare PDF</a>
+                </div>
+                <div class="dropdown-col">
+                    <p class="dropdown-heading">Security</p>
+                    <a href="/protect">🔒 Protect PDF</a>
+                    <a href="/unlock">🔓 Unlock PDF</a>
+                    <p class="dropdown-heading" style="margin-top:14px;">AI Tools</p>
+                    <a href="/summarize">🤖 Summarize PDF</a>
+                    <a href="/translate">🈯 Translate PDF</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-right-links">
+            <a href="/about">About Us</a>
+            <a href="/contact">Contact</a>
+        </div>
+
+        <!-- Mobile: hamburger -->
+        <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()">☰</button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="nav-mobile-menu" id="navMobileMenu">
+        <p class="dropdown-heading">Organize</p>
+        <a href="/merge">🔀 Merge PDF</a>
+        <a href="/split">✂️ Split PDF</a>
+        <a href="/crop">📐 Crop PDF</a>
+        <a href="/rotate">🔄 Rotate PDF</a>
+        <a href="/organize-pdf">🗂️ Organize PDF</a>
+        <a href="/rearrange">↕️ Rearrange Pages</a>
+        <a href="/delete-pages">🗑️ Delete Pages</a>
+        <a href="/extract-pages">📤 Extract Pages</a>
+        <a href="/remove-blank-pages">📃 Remove Blank Pages</a>
+        <p class="dropdown-heading">Optimize</p>
+        <a href="/compress">🗜️ Compress PDF</a>
+        <a href="/repair">🔧 Repair PDF</a>
+        <a href="/ocr">🔤 Extract Text</a>
+        <a href="/pdf-to-pdfa">🏅 PDF to PDF/A</a>
+        <p class="dropdown-heading">Convert FROM PDF</p>
+        <a href="/pdf-to-image">📷 PDF to Image</a>
+        <a href="/pdf-to-word">📝 PDF to Word</a>
+        <a href="/pdf-to-powerpoint">📽️ PDF to PowerPoint</a>
+        <a href="/pdf-to-excel">📊 PDF to Excel</a>
+        <a href="/extract-images">🏞️ Extract Images</a>
+        <p class="dropdown-heading">Convert TO PDF</p>
+        <a href="/image-to-pdf">🖼️ Image to PDF</a>
+        <a href="/word-to-pdf">📄 Word to PDF</a>
+        <a href="/word-to-image">🎨 Word to Image</a>
+        <a href="/powerpoint-to-pdf">🎞️ PowerPoint to PDF</a>
+        <a href="/excel-to-pdf">📈 Excel to PDF</a>
+        <a href="/html-to-pdf">🌐 HTML to PDF</a>
+        <a href="/webpage-to-pdf">🌍 Webpage to PDF</a>
+        <p class="dropdown-heading">Edit</p>
+        <a href="/edit-pdf">✏️ Edit PDF</a>
+        <a href="/watermark">💧 Watermark PDF</a>
+        <a href="/page-numbers">🔢 Add Page Numbers</a>
+        <a href="/redact">🖊️ Redact PDF</a>
+        <a href="/sign">✍️ Sign PDF</a>
+        <a href="/metadata">📋 PDF Metadata</a>
+        <a href="/compare">🔍 Compare PDF</a>
+        <p class="dropdown-heading">Security & AI</p>
+        <a href="/protect">🔒 Protect PDF</a>
+        <a href="/unlock">🔓 Unlock PDF</a>
+        <a href="/summarize">🤖 Summarize PDF</a>
+        <a href="/translate">🈯 Translate PDF</a>
+    </div>
+</nav>
+
+<script>
+function toggleMobileMenu() {
+    const menu = document.getElementById("navMobileMenu");
+    menu.classList.toggle("open");
+}
+</script>

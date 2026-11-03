@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Page Numbers to PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Add page numbers to your PDF online for free. Choose position and starting number. No installation required.">
+    <meta name="keywords" content="add page numbers PDF, PDF page numbering, number PDF pages, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/page-numbers">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Add Page Numbers to PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/page-numbers">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Add Page Numbers to PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/page-numbers",
+          "url": "https://example.com/page-numbers",
+          "name": "Add Page Numbers - PDF Toolkit Demo",
+          "description": "Add page numbers to your PDF documents online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Edit PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Add Page Numbers","item":"https://example.com/page-numbers"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"Where can I place the page numbers?","acceptedAnswer":{"@type":"Answer","text":"Choose a position at the top or bottom of the page, aligned left, centre, or right. Bottom centre is the conventional choice for most documents; bottom outer edge suits anything that will be bound, since it stays visible when pages are turned."}},
+            {"@type":"Question","name":"Can I start numbering from a page other than the first?","acceptedAnswer":{"@type":"Answer","text":"This matters for documents with a cover or title page that should not carry a number. Where a starting page can be set, begin from the first page of actual content so the numbering matches how the document reads."}},
+            {"@type":"Question","name":"Will page numbers overlap my existing content?","acceptedAnswer":{"@type":"Answer","text":"Choose a position within the page margin, where documents leave space by design. Check the result on a page with content near the edge, since documents with unusually narrow margins occasionally need a different position."}},
+            {"@type":"Question","name":"Why add page numbers if my document already has them?","acceptedAnswer":{"@type":"Answer","text":"Merged documents are the usual reason. Combining three reports that each numbered themselves from one gives you a file containing three page ones. Applying continuous numbering across the merged document restores a sequence that actually works."}},
+            {"@type":"Question","name":"Are page numbers added as real text?","acceptedAnswer":{"@type":"Answer","text":"Yes. They are written as text rather than as images, so they stay sharp at any zoom level, remain searchable, and add almost nothing to the file size."}},
+            {"@type":"Question","name":"Can I add numbers to a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. A password prompt appears automatically after upload if the file is encrypted. Enter it once and numbering proceeds normally. Our Unlock PDF tool can also remove the password first."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Add Page Numbers — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/page-numbers"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Edit PDF</a><span>›</span><strong>Add Page Numbers</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Add Page Numbers</h1>
+    <p class="subtitle">Add page numbers to every page of your PDF</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🔢</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint">Number Style:</p>
+            <div class="mode-tabs" style="flex-wrap:wrap;" id="numStyleTabs">
+                <button type="button" class="mode-btn active" onclick="setNumStyle(this,'arabic')">1, 2, 3 …</button>
+                <button type="button" class="mode-btn" onclick="setNumStyle(this,'roman_lower')">i, ii, iii …</button>
+                <button type="button" class="mode-btn" onclick="setNumStyle(this,'roman_upper')">I, II, III …</button>
+            </div>
+            <input type="hidden" name="num_style" id="numStyleInput" value="arabic">
+            <br>
+            <p class="mode-hint">Prefix text <span style="color:#aaa;font-weight:400;">(optional)</span>:</p>
+            <input type="text" name="prefix" id="prefixInput" class="range-input" placeholder="e.g.  Page ,  পাতা-" style="width:220px;" oninput="updatePreview()">
+            <p style="margin-top:10px; color:#888; font-size:14px;">Preview: <strong id="numPreview" style="color:#333;">1</strong></p>
+            <br>
+            <p class="mode-hint">Position:</p>
+            <div class="mode-tabs" style="flex-wrap:wrap;" id="posTabs">
+                <button type="button" class="mode-btn active" onclick="setPos(this,'bottom-center')">Bottom Center</button>
+                <button type="button" class="mode-btn" onclick="setPos(this,'bottom-right')">Bottom Right</button>
+                <button type="button" class="mode-btn" onclick="setPos(this,'bottom-left')">Bottom Left</button>
+                <button type="button" class="mode-btn" onclick="setPos(this,'top-center')">Top Center</button>
+                <button type="button" class="mode-btn" onclick="setPos(this,'top-right')">Top Right</button>
+                <button type="button" class="mode-btn" onclick="setPos(this,'top-left')">Top Left</button>
+            </div>
+            <input type="hidden" name="position" id="posInput" value="bottom-center">
+            <br>
+            <p class="mode-hint">Start from:</p>
+            <input type="number" name="start_num" id="startNumInput" class="range-input" value="1" min="1" style="width:150px;" oninput="updatePreview()">
+            <br>
+            <button type="submit" class="btn">🔢 Add Page Numbers</button>
+        </div>
+
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput = document.getElementById("pdfInput");
+    const dropArea = document.getElementById("dropArea");
+    const fileCard = document.getElementById("fileCard");
+    const fileName = document.getElementById("fileName");
+    const optionsSection = document.getElementById("optionsSection");
+
+    var _romanLower = ['','i','ii','iii','iv','v','vi','vii','viii','ix','x','xi','xii','xiii','xiv','xv','xvi','xvii','xviii','xix','xx'];
+    var _romanUpper = ['','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
+
+    function toRomanPreview(n, upper) {
+        if (n >= 1 && n <= 20) return upper ? _romanUpper[n] : _romanLower[n];
+        return upper ? 'XXI+' : 'xxi+';
+    }
+
+    function setNumStyle(btn, val) {
+        document.querySelectorAll("#numStyleTabs .mode-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("numStyleInput").value = val;
+        updatePreview();
+    }
+
+    function setPos(btn, val) {
+        document.querySelectorAll("#posTabs .mode-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("posInput").value = val;
+    }
+
+    function updatePreview() {
+        var prefix = document.getElementById("prefixInput").value;
+        var style = document.getElementById("numStyleInput").value;
+        var start = parseInt(document.getElementById("startNumInput").value) || 1;
+        var numStr;
+        if (style === 'roman_lower') numStr = toRomanPreview(start, false);
+        else if (style === 'roman_upper') numStr = toRomanPreview(start, true);
+        else numStr = String(start);
+        document.getElementById("numPreview").textContent = prefix + numStr;
+    }
+
+    function handleFile(file) {
+        window._pdfFile = file;
+        fileName.textContent = file.name;
+        dropArea.style.display = "none";
+        fileCard.style.display = "flex";
+        _tryLoadPdf(null);
+    }
+
+    function _tryLoadPdf(password) {
+        if (!window._pdfFile) return;
+        var r = new FileReader();
+        r.onload = function(e) {
+            var data = new Uint8Array(e.target.result);
+            var opts = password ? {data: data, password: password} : {data: data};
+            pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+                if (password) document.getElementById("pdfPasswordHidden").value = password;
+                document.getElementById("pdfPasswordPrompt").style.display = "none";
+                document.getElementById("pdfPassError").style.display = "none";
+                document.getElementById("optionsSection").style.display = "block";
+                pdf.getPage(1).then(function(page) {
+                    var canvas = document.getElementById("firstPageThumb");
+                    var ctx = canvas.getContext("2d");
+                    var vp = page.getViewport({ scale: 0.5 });
+                    canvas.width = vp.width; canvas.height = vp.height;
+                    page.render({ canvasContext: ctx, viewport: vp });
+                });
+            }).catch(function(err) {
+                if (err.name === "PasswordException") {
+                    document.getElementById("pdfPasswordPrompt").style.display = "block";
+                    if (password) document.getElementById("pdfPassError").style.display = "block";
+                    setTimeout(function() { document.getElementById("pdfPassInput").focus(); }, 100);
+                }
+            });
+        };
+        r.readAsArrayBuffer(window._pdfFile);
+    }
+
+    pdfInput.addEventListener("change", () => { if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+    dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop", e => {
+        e.preventDefault(); dropArea.classList.remove("drag-over");
+        if (e.dataTransfer.files[0]) {
+            const dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+            pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+        }
+    });
+    dropArea.addEventListener("click", (e) => { if (!e.target.closest("label")) pdfInput.click(); });
+
+    function removeFile() {
+        pdfInput.value = "";
+        fileCard.style.display = "none";
+        optionsSection.style.display = "none";
+        dropArea.style.display = "";
+    }
+
+    function confirmPdfPassword() {
+        var pass = document.getElementById("pdfPassInput").value;
+        if (!pass) return;
+        document.getElementById("pdfPassError").style.display = "none";
+        _tryLoadPdf(pass);
+    }
+    function togglePdfPass(btn) {
+        var inp = document.getElementById("pdfPassInput");
+        var svg = btn.querySelector("svg");
+        inp.type = inp.type === "password" ? "text" : "password";
+        svg.setAttribute("stroke", inp.type === "text" ? "#F9A825" : "#888");
+    }
+
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Where can I place the page numbers?</div>
+    <div class="faq-a">Choose a position at the top or bottom of the page, aligned left, centre, or right. Bottom centre is the conventional choice for most documents; bottom outer edge suits anything that will be bound, since it stays visible when pages are turned.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I start numbering from a page other than the first?</div>
+    <div class="faq-a">This matters for documents with a cover or title page that should not carry a number. Where a starting page can be set, begin from the first page of actual content so the numbering matches how the document reads.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will page numbers overlap my existing content?</div>
+    <div class="faq-a">Choose a position within the page margin, where documents leave space by design. Check the result on a page with content near the edge, since documents with unusually narrow margins occasionally need a different position.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why add page numbers if my document already has them?</div>
+    <div class="faq-a">Merged documents are the usual reason. Combining three reports that each numbered themselves from one gives you a file containing three page ones. Applying continuous numbering across the merged document restores a sequence that actually works.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are page numbers added as real text?</div>
+    <div class="faq-a">Yes. They are written as text rather than as images, so they stay sharp at any zoom level, remain searchable, and add almost nothing to the file size.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I add numbers to a password-protected PDF?</div>
+    <div class="faq-a">Yes. A password prompt appears automatically after upload if the file is encrypted. Enter it once and numbering proceeds normally. Our <a href='/unlock'>Unlock PDF</a> tool can also remove the password first.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Add Page Numbers to PDF Online — Free PDF Numbering Tool</h2>
+<p>Apply page numbers across an entire PDF in one operation. Choose the position and style, download the numbered document, and stop trying to describe a page as "about two thirds of the way through". Free, instant, no watermark.</p>
+
+<h3>Why Page Numbers Matter More Than They Seem</h3>
+<p>An unnumbered document cannot be discussed precisely. Every reference becomes approximate — "the section after the budget table", "somewhere near the end" — and in a meeting where several people are looking at printed copies, finding the same place takes a minute of shuffling every single time.</p>
+<p>They also expose loss. Printed documents get dropped and reassembled, and a numbered document immediately reveals a missing sheet. An unnumbered one hides the gap indefinitely, which for a contract or a legal filing is a genuine problem.</p>
+<p>And they signal completeness. Numbered pages read as a finished document; unnumbered ones read as a stack of printouts.</p>
+
+<h3>The Most Common Reason: Merged Documents</h3>
+<p>This is where the tool earns its place. When you combine several PDFs with <a href="/merge">Merge PDF</a>, each source document brings its own numbering with it. The result is a single file containing three separate page ones, three page twos, and no way to reference anything unambiguously.</p>
+<p>Applying continuous numbering across the merged document fixes it in one step. The sequence runs properly from start to finish and the document behaves like the single document it now is.</p>
+
+<h3>Choosing a Position</h3>
+<p><strong>Bottom centre</strong> is the default convention for good reason — it is where readers look, it works for both bound and loose documents, and it rarely collides with content.</p>
+<p><strong>Bottom outer edge</strong> is the traditional choice for anything bound, because it remains visible as pages are turned and is the first thing the eye finds when flipping through.</p>
+<p><strong>Top right</strong> suits documents that will be filed in a folder or clipped together, where the bottom edge may be obscured.</p>
+<p>Whichever you choose, keep it in the margin area. Documents leave that space deliberately, and numbers placed there will not collide with body text.</p>
+
+<h3>Handling Cover Pages</h3>
+<p>A title page carrying "1" looks wrong to anyone who reads documents regularly. Convention numbers the first page of actual content as page one, leaving covers, title pages, and blank separators unnumbered. Where a starting page can be configured, begin from the content rather than from the cover — it is a small detail that noticeably distinguishes a carefully prepared document from a quickly assembled one.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Anyone who has just merged several documents</strong> and needs a coherent sequence. <strong>Legal and administrative teams</strong> preparing bundles where every page must be individually referenceable. <strong>Students</strong> numbering theses and dissertations to meet submission requirements. <strong>Businesses</strong> finishing proposals and reports before they go to a client. <strong>Anyone preparing a document for print</strong> where a missing sheet needs to be detectable.</p>
+
+<h3>How to Add Page Numbers</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Choose the position and style you want. Apply, and download the numbered document. Open it and check a middle page — that is where you will see whether the position sits comfortably against the content, in a way the first page alone does not always reveal.</p>
+
+<h3>Numbers Are Added as Real Text</h3>
+<p>Each number is written into the document as genuine text rather than as an image. That means it stays perfectly sharp at any zoom level, remains searchable, and adds a negligible amount to the file size. It also prints crisply rather than showing the softness that a bitmap would at high resolution.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy is retained.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/merge">Merge PDF</a> combines documents before numbering. <a href="/organize-pdf">Organize PDF</a> lets you finalise the page order first — worth doing before numbering, since reordering afterwards would leave the numbers out of sequence. <a href="/watermark">Watermark PDF</a> adds status text across every page.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/merge">Merge PDF</a> &nbsp;·&nbsp; <a href="/organize-pdf">Organize PDF</a> &nbsp;·&nbsp; <a href="/watermark">Watermark PDF</a> &nbsp;·&nbsp; <a href="/edit-pdf">Edit PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webpage to PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Convert any webpage to PDF online for free. Enter a URL and download it as a PDF instantly.">
+    <meta name="keywords" content="webpage to PDF, URL to PDF, website to PDF, convert webpage PDF, online web to PDF">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/webpage-to-pdf">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Webpage to PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/webpage-to-pdf">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Webpage to PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .url-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 36px 40px;
+            max-width: 700px;
+            margin: 30px auto;
+            text-align: left;
+        }
+        .url-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+        .url-input-row {
+            display: flex;
+            gap: 10px;
+        }
+        .url-input {
+            flex: 1;
+            padding: 13px 16px;
+            font-size: 15px;
+            border: 2px solid #e8e8e8;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.2s;
+            color: #222;
+            background: #fafafa;
+        }
+        .url-input:focus {
+            border-color: #F9A825;
+            background: #fff;
+        }
+        .url-input::placeholder { color: #bbb; }
+        .convert-btn {
+            padding: 13px 28px;
+            background: #F9A825;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .convert-btn:hover { background: #e09000; }
+        .url-hint {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 8px;
+        }
+        .loading-bar {
+            display: none;
+            margin-top: 20px;
+            background: #f0f0f0;
+            border-radius: 99px;
+            height: 6px;
+            overflow: hidden;
+        }
+        .loading-bar-inner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #F9A825, #EF6C00);
+            border-radius: 99px;
+            animation: loadprogress 8s ease forwards;
+        }
+        @keyframes loadprogress {
+            0%   { width: 0%; }
+            30%  { width: 40%; }
+            70%  { width: 75%; }
+            100% { width: 90%; }
+        }
+        .loading-text {
+            display: none;
+            font-size: 14px;
+            color: #888;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .error-box {
+            background: #fff5f5;
+            border: 1px solid #fcc;
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #c0392b;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        .features-row {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .feature-chip {
+            background: white;
+            border-radius: 99px;
+            padding: 8px 18px;
+            font-size: 13px;
+            color: #555;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+    </style>
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/webpage-to-pdf",
+          "url": "https://example.com/webpage-to-pdf",
+          "name": "Webpage to PDF - PDF Toolkit Demo",
+          "description": "Convert any website or URL to a PDF document online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Convert PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Webpage to PDF","item":"https://example.com/webpage-to-pdf"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What kind of pages convert well?","acceptedAnswer":{"@type":"Answer","text":"Article-style pages — news stories, blog posts, documentation, and reference material — convert well because the content is mostly text in a clear reading order. Heavily interactive pages, dashboards, and applications convert poorly, since there is no static version of them to capture."}},
+            {"@type":"Question","name":"Why does the PDF look different from the web page?","acceptedAnswer":{"@type":"Answer","text":"Because the content is extracted and reformatted for print rather than photographed. Navigation menus, sidebars, adverts, and cookie banners are stripped out, leaving the actual article. The result reads well on paper even though it does not look like a screenshot."}},
+            {"@type":"Question","name":"Can I convert a page that requires logging in?","acceptedAnswer":{"@type":"Answer","text":"No. The converter fetches the page as an anonymous visitor, so anything behind a login, a paywall, or a members-only area is not accessible. Only publicly reachable pages can be converted."}},
+            {"@type":"Question","name":"Why does JavaScript-heavy content go missing?","acceptedAnswer":{"@type":"Answer","text":"The page is fetched as delivered by the server. Content that a browser would load afterwards by running scripts is not present at that moment, so single-page applications and infinitely scrolling feeds often produce very little."}},
+            {"@type":"Question","name":"Is it legal to save a web page as a PDF?","acceptedAnswer":{"@type":"Answer","text":"Saving a copy for personal reading, research, or reference is ordinary practice. Republishing or redistributing someone else's content is a different matter and depends on their copyright and licensing. Use the tool for your own reference."}},
+            {"@type":"Question","name":"What is this most useful for?","acceptedAnswer":{"@type":"Answer","text":"Archiving. Web pages change and disappear, and a PDF captures what a page said on the day you read it — useful for research citations, keeping records of terms and prices, and saving reference material for offline reading."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Webpage to PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/webpage-to-pdf"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Convert PDF</a><span>›</span><strong>Webpage to PDF</strong>
+</nav>
+<div class="container">
+    <h1 class="page-title">Webpage to PDF</h1>
+    <p class="subtitle">Convert any website to PDF in seconds — free & no signup</p>
+
+    <div class="features-row">
+        <span class="feature-chip">⚡ Fast conversion</span>
+        <span class="feature-chip">🔒 Private & secure</span>
+        <span class="feature-chip">📄 Clean PDF output</span>
+        <span class="feature-chip">🆓 100% Free</span>
+    </div>
+
+    <div class="url-card">
+        {% if error %}
+        <div class="error-box">⚠️ {{ error }}</div>
+        {% endif %}
+
+        <form method="POST" id="toolForm" onsubmit="startLoading()">
+            <label class="url-label" for="urlInput">Website URL</label>
+            <div class="url-input-row">
+                <input type="url" name="url" id="urlInput" class="url-input"
+                       placeholder="https://example.com" required
+                       value="{{ request.form.get('url', '') }}">
+                <button type="submit" class="convert-btn">🌐 Convert</button>
+            </div>
+            <p class="url-hint">Paste the full URL including https://</p>
+
+            <div class="loading-bar" id="loadingBar">
+                <div class="loading-bar-inner"></div>
+            </div>
+            <p class="loading-text" id="loadingText">⏳ Fetching and converting webpage, please wait...</p>
+        </form>
+    </div>
+</div>
+
+<script>
+function startLoading() {
+    document.getElementById("loadingBar").style.display = "block";
+    document.getElementById("loadingText").style.display = "block";
+    document.querySelector(".convert-btn").disabled = true;
+    document.querySelector(".convert-btn").textContent = "Converting...";
+}
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What kind of pages convert well?</div>
+    <div class="faq-a">Article-style pages — news stories, blog posts, documentation, and reference material — convert well because the content is mostly text in a clear reading order. Heavily interactive pages, dashboards, and applications convert poorly, since there is no static version of them to capture.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why does the PDF look different from the web page?</div>
+    <div class="faq-a">Because the content is extracted and reformatted for print rather than photographed. Navigation menus, sidebars, adverts, and cookie banners are stripped out, leaving the actual article. The result reads well on paper even though it does not look like a screenshot.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I convert a page that requires logging in?</div>
+    <div class="faq-a">No. The converter fetches the page as an anonymous visitor, so anything behind a login, a paywall, or a members-only area is not accessible. Only publicly reachable pages can be converted.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why does JavaScript-heavy content go missing?</div>
+    <div class="faq-a">The page is fetched as delivered by the server. Content that a browser would load afterwards by running scripts is not present at that moment, so single-page applications and infinitely scrolling feeds often produce very little.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Is it legal to save a web page as a PDF?</div>
+    <div class="faq-a">Saving a copy for personal reading, research, or reference is ordinary practice. Republishing or redistributing someone else's content is a different matter and depends on their copyright and licensing. Use the tool for your own reference.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What is this most useful for?</div>
+    <div class="faq-a">Archiving. Web pages change and disappear, and a PDF captures what a page said on the day you read it — useful for research citations, keeping records of terms and prices, and saving reference material for offline reading.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Webpage to PDF Converter Online — Save Any URL as a PDF</h2>
+<p>Enter a web address and download the page as a PDF. Useful for archiving articles, saving reference material for offline reading, and keeping a permanent record of pages that may change or disappear. Free, instant, and no software required.</p>
+
+<h3>Why Save a Web Page as a PDF?</h3>
+<p><strong>Because the web is not permanent.</strong> Pages are edited, moved, paywalled, and deleted. A URL that works today may return nothing in two years, and the content you relied on is simply gone. A PDF captures what the page said on the day you saved it.</p>
+<p>This matters most for <strong>research</strong>, where a citation needs to point at something that still exists, and for <strong>records</strong> — the terms and conditions you agreed to, the price you were quoted, the specification you ordered against. Web pages change quietly and without notice; a saved PDF does not.</p>
+<p><strong>Offline reading</strong> is the other common reason. Long articles saved as PDFs can be read on a flight, on a train, or anywhere the connection is poor, on any device.</p>
+
+<h3>How the Conversion Works</h3>
+<p>The page is fetched and its main content is extracted — the actual article text, headings, and structure — while the surrounding page furniture is discarded. Navigation menus, sidebars, adverts, cookie banners, social sharing widgets, comment sections, and related-article panels all go.</p>
+<p>The result is a clean, readable document rather than a screenshot. This is a deliberate design choice: a photograph of a web page includes all the clutter and reads badly on paper, while extracted content flows properly across pages and prints legibly.</p>
+<p>The consequence is that the PDF will not look like the web page. It contains the same words, laid out for reading rather than for browsing.</p>
+
+<h3>What Converts Well and What Does Not</h3>
+<p><strong>Articles and blog posts</strong> convert excellently. The content is text in a clear reading order, which is exactly what the extraction is designed for.</p>
+<p><strong>Documentation and reference pages</strong> convert well, including their headings and code blocks.</p>
+<p><strong>News stories</strong> convert well, though some sites detect automated fetching and serve a reduced version.</p>
+<p><strong>Single-page applications and dashboards</strong> convert poorly. Their content is assembled in the browser by JavaScript after the initial page loads, so a server fetch sees very little.</p>
+<p><strong>Anything behind a login or paywall</strong> cannot be converted at all, since the fetch is made as an anonymous visitor.</p>
+<p><strong>Infinite-scroll feeds</strong> yield only whatever loaded initially, which is typically a small fraction of what you would see after scrolling.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Students and researchers</strong> archive sources so their citations remain verifiable. <strong>Journalists</strong> preserve pages that may be edited or removed after publication. <strong>Consumers</strong> keep records of prices, terms, and product specifications at the moment of purchase. <strong>Professionals</strong> save documentation and reference material for offline access. <strong>Anyone building a reading list</strong> compiles articles into documents they can read anywhere.</p>
+
+<h3>How to Convert a Web Page to PDF</h3>
+<p>Paste the full URL, including the <code>https://</code> prefix, into the input field. Convert, and the PDF downloads once the page has been fetched and processed — usually within a few seconds, longer for very large pages. Open it and check that the content you wanted came through, since some sites deliver less to automated requests than to browsers.</p>
+
+<h3>Building an Archive</h3>
+<p>For a set of related pages, convert each separately and combine them with <a href="/merge">Merge PDF</a>. This produces a single reference document — a literature review, a competitor analysis, a compiled reading list — from material scattered across many sites. Converting first and merging second lets you drag the sections into a sensible order rather than accepting whatever sequence you happened to save them in.</p>
+
+<h3>A Note on Copyright</h3>
+<p>Saving a copy of a page for your own reading, research, or record-keeping is ordinary and uncontroversial. Republishing or redistributing someone else's content is governed by their copyright and any licence they have granted. The distinction is between keeping a copy and passing it off or passing it on — use the tool for the former.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>The fetched content is processed in memory and discarded the instant your download completes. Nothing is written to disk, no copy is retained, and no record of which URLs you converted is kept.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/html-to-pdf">HTML to PDF</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a> &nbsp;·&nbsp; <a href="/summarize">Summarize PDF</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

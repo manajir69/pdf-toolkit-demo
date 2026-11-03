@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Blank Pages from PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Automatically detect and remove blank pages from a PDF for free. Perfect for cleaning up scanned documents and double-sided scans. No installation required.">
+    <meta name="keywords" content="remove blank pages from PDF, delete empty pages PDF, clean scanned PDF, PDF blank page remover, remove white pages PDF, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/remove-blank-pages">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Remove Blank Pages from PDF - PDF Toolkit Demo">
+    <meta property="og:description" content="Automatically find and delete empty pages from scanned PDFs. Free and instant.">
+    <meta property="og:url" content="https://example.com/remove-blank-pages">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Remove Blank Pages from PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Automatically detect and delete blank pages from any PDF.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+
+    .opt-panel { display: none; max-width: 580px; margin: 22px auto 0; background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .opt-panel.visible { display: block; }
+    .sens-label { font-size: 14px; font-weight: 600; color: #444; margin-bottom: 4px; }
+    .sens-hint { font-size: 12px; color: #999; margin-bottom: 14px; }
+    .sens-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+    #sensRange { flex: 1; accent-color: #E53935; }
+    #sensVal { font-size: 14px; font-weight: 700; color: #E53935; min-width: 52px; text-align: right; }
+    .sens-scale { display: flex; justify-content: space-between; font-size: 11px; color: #bbb; margin-bottom: 18px; }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-row .btn { flex: 1; min-width: 180px; }
+    .btn-scan { background: #F9A825 !important; color: #1a1a1a !important; }
+    .btn-scan:hover { background: #e09000 !important; }
+
+    #scanResult { display: none; margin-top: 18px; padding: 16px; border-radius: 10px; font-size: 14px; line-height: 1.6; }
+    #scanResult.found { background: #fff8e1; border: 1px solid #ffe082; color: #6d4c00; display: block; }
+    #scanResult.clean { background: #e8f5e9; border: 1px solid #a5d6a7; color: #1b5e20; display: block; }
+    #scanResult b { color: inherit; }
+    .pagechip { display: inline-block; background: #fff; border: 1px solid #ffcc80; border-radius: 5px; padding: 2px 8px; margin: 3px 3px 0 0; font-size: 12px; font-weight: 600; color: #e65100; }
+
+    .file-preview { display: none; max-width: 580px; margin: 20px auto 0; background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 16px; align-items: center; gap: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); position: relative; }
+    .file-preview.visible { display: flex; }
+    .file-preview canvas { width: 62px; height: 82px; object-fit: contain; border: 1px solid #eee; border-radius: 5px; }
+    .file-preview .fname { font-size: 14px; font-weight: 600; color: #333; word-break: break-all; }
+    .file-preview .fmeta { font-size: 12px; color: #999; margin-top: 3px; }
+    .file-remove { position: absolute; top: -10px; right: -10px; width: 26px; height: 26px; background: #E53935; color: #fff; border: none; border-radius: 50%; font-size: 13px; cursor: pointer; line-height: 1; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+    .spin { display:inline-block; width:15px; height:15px; border:2px solid rgba(0,0,0,0.15); border-top-color:#E53935; border-radius:50%; animation:sp 0.7s linear infinite; vertical-align:-3px; margin-right:7px; }
+    @keyframes sp { to { transform: rotate(360deg); } }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/remove-blank-pages",
+          "url": "https://example.com/remove-blank-pages",
+          "name": "Remove Blank Pages from PDF - PDF Toolkit Demo",
+          "description": "Automatically detect and delete blank pages from a PDF document online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Organize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Remove Blank Pages","item":"https://example.com/remove-blank-pages"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How does the tool know a page is blank?","acceptedAnswer":{"@type":"Answer","text":"Each page goes through three checks. First it looks for any text characters. Then it looks for embedded images. If both come back empty, the page is rendered and the tool measures what percentage of the pixels are non-white. Only pages that fail all three checks are marked blank, which is why a page holding just a single stray character is never removed by accident."}},
+            {"@type":"Question","name":"What does the sensitivity setting do?","acceptedAnswer":{"@type":"Answer","text":"Sensitivity sets how much ink a page may contain and still count as blank. At the default of 0.2% a page with faint scanner speckle is still treated as empty. Raise it toward 1% for noisy scans with dust and shadow marks. Lower it to 0.05% when you only want to remove pages that are perfectly, absolutely white."}},
+            {"@type":"Question","name":"Should I scan first or remove straight away?","acceptedAnswer":{"@type":"Answer","text":"Scanning first is always safer. It lists exactly which page numbers will be deleted without changing your file, so you can confirm the result matches what you expect before committing. If anything looks wrong, adjust the sensitivity and scan again."}},
+            {"@type":"Question","name":"Why are the backs of my double-sided scans blank?","acceptedAnswer":{"@type":"Answer","text":"Duplex scanners capture both sides of every sheet regardless of whether the back was printed on. A twenty-page single-sided document scanned in duplex mode becomes a forty-page PDF where every second page is empty. This tool removes all of those in one pass."}},
+            {"@type":"Question","name":"Will removing pages affect the quality of the rest?","acceptedAnswer":{"@type":"Answer","text":"No. The pages you keep are copied across untouched with their original resolution, fonts, and embedded images intact. Only the page objects themselves are dropped, so file size goes down while quality stays exactly the same."}},
+            {"@type":"Question","name":"Can I remove blank pages from a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. A password prompt appears automatically after upload if the document is encrypted. Enter it and processing continues as normal. Our Unlock PDF tool can also strip the password permanently beforehand."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Remove Blank Pages from PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/remove-blank-pages"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Organize PDF</a><span>›</span><strong>Remove Blank Pages</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Remove Blank Pages from PDF</h1>
+<p class="subtitle">Automatically find and delete empty pages — perfect for scanned documents</p>
+
+{% if error %}
+<p class="error-msg">⚠️ {{ error }}</p>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data" id="blankForm">
+
+    <div id="dropArea" class="drop-area">
+        <div class="drop-icon">📃</div>
+        <h2>Drag &amp; Drop PDF File Here</h2>
+        <p>OR</p>
+        <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+    </div>
+
+    <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+    <div class="file-preview" id="filePreview">
+        <button type="button" class="file-remove" onclick="resetTool()">✕</button>
+        <canvas id="thumbCanvas"></canvas>
+        <div>
+            <div class="fname" id="fileName"></div>
+            <div class="fmeta" id="fileMeta"></div>
+        </div>
+    </div>
+
+    <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+        <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+        <div class="password-wrap" style="margin:0 auto 12px;">
+            <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+            <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+        </div>
+        <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock &amp; Continue</button>
+        <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+    </div>
+    <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+
+    <div class="opt-panel" id="optPanel">
+        <div class="sens-label">Detection sensitivity</div>
+        <div class="sens-hint">How much ink a page may have and still count as blank</div>
+        <div class="sens-row">
+            <input type="range" id="sensRange" name="sensitivity" min="0.05" max="1" step="0.05" value="0.2"
+                   oninput="document.getElementById('sensVal').textContent = this.value + '%'">
+            <span id="sensVal">0.2%</span>
+        </div>
+        <div class="sens-scale">
+            <span>Strict — only pure white</span>
+            <span>Loose — ignores speckle</span>
+        </div>
+
+        <div class="btn-row">
+            <button type="button" class="btn btn-scan" onclick="scanPages()">🔍 Scan First</button>
+            <button type="submit" class="btn" name="action" value="remove">🗑 Remove &amp; Download</button>
+        </div>
+
+        <div id="scanResult"></div>
+    </div>
+
+</form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+var pdfInput = document.getElementById("pdfInput");
+var dropArea = document.getElementById("dropArea");
+var optPanel = document.getElementById("optPanel");
+var preview  = document.getElementById("filePreview");
+var _file    = null;
+
+function handleFile(file) {
+    _file = file;
+    document.getElementById("fileName").textContent = file.name;
+    tryLoad(null);
+}
+
+function tryLoad(password) {
+    if (!_file) return;
+    var r = new FileReader();
+    r.onload = function(e) {
+        var opts = password ? {data: new Uint8Array(e.target.result), password: password}
+                            : {data: new Uint8Array(e.target.result)};
+        pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+            document.getElementById("pdfPasswordPrompt").style.display = "none";
+            document.getElementById("fileMeta").textContent =
+                pdf.numPages + (pdf.numPages === 1 ? " page" : " pages") +
+                " · " + (_file.size / 1024 / 1024).toFixed(2) + " MB";
+            return pdf.getPage(1);
+        }).then(function(page) {
+            var vp = page.getViewport({scale: 0.35});
+            var c = document.getElementById("thumbCanvas");
+            c.width = vp.width; c.height = vp.height;
+            page.render({canvasContext: c.getContext("2d"), viewport: vp});
+            dropArea.style.display = "none";
+            preview.classList.add("visible");
+            optPanel.classList.add("visible");
+        }).catch(function(err) {
+            if (err.name === "PasswordException") {
+                document.getElementById("pdfPasswordPrompt").style.display = "block";
+                if (password) document.getElementById("pdfPassError").style.display = "block";
+                setTimeout(function(){ document.getElementById("pdfPassInput").focus(); }, 100);
+            }
+        });
+    };
+    r.readAsArrayBuffer(_file);
+}
+
+function scanPages() {
+    if (!_file) return;
+    var box = document.getElementById("scanResult");
+    box.className = "found";
+    box.innerHTML = '<span class="spin"></span>Scanning pages…';
+
+    var fd = new FormData();
+    fd.append("pdf_file", _file);
+    fd.append("pdf_password", document.getElementById("pdfPasswordHidden").value || "");
+    fd.append("sensitivity", document.getElementById("sensRange").value);
+    fd.append("action", "scan");
+
+    fetch("/remove-blank-pages", {method: "POST", body: fd})
+      .then(function(r){ return r.json(); })
+      .then(function(d) {
+        if (!d.blank || d.blank.length === 0) {
+            box.className = "clean";
+            box.innerHTML = "✅ <b>No blank pages found.</b> All " + d.total +
+                            " pages contain content — your PDF is already clean.";
+            return;
+        }
+        var chips = d.blank.map(function(p){ return '<span class="pagechip">Page ' + p + '</span>'; }).join("");
+        box.className = "found";
+        box.innerHTML = "⚠️ Found <b>" + d.blank.length + " blank page" +
+            (d.blank.length > 1 ? "s" : "") + "</b> out of " + d.total +
+            ". Your new PDF will have <b>" + d.kept + " pages</b>.<div style='margin-top:8px;'>" +
+            chips + "</div>";
+      })
+      .catch(function(){
+        box.className = "found";
+        box.innerHTML = "⚠️ Could not scan the file. Please try again.";
+      });
+}
+
+function confirmPdfPassword() {
+    var p = document.getElementById("pdfPassInput").value;
+    if (!p) return;
+    document.getElementById("pdfPassError").style.display = "none";
+    document.getElementById("pdfPasswordHidden").value = p;
+    tryLoad(p);
+}
+
+function togglePdfPass(btn) {
+    var i = document.getElementById("pdfPassInput");
+    i.type = i.type === "password" ? "text" : "password";
+    btn.querySelector("svg").setAttribute("stroke", i.type === "text" ? "#F9A825" : "#888");
+}
+
+function resetTool() {
+    pdfInput.value = ""; _file = null;
+    preview.classList.remove("visible");
+    optPanel.classList.remove("visible");
+    document.getElementById("scanResult").className = "";
+    document.getElementById("scanResult").innerHTML = "";
+    dropArea.style.display = "";
+    document.getElementById("pdfPasswordPrompt").style.display = "none";
+    document.getElementById("pdfPasswordHidden").value = "";
+}
+
+pdfInput.addEventListener("change", function(){ if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+dropArea.addEventListener("dragover", function(e){ e.preventDefault(); dropArea.classList.add("drag-over"); });
+dropArea.addEventListener("dragleave", function(){ dropArea.classList.remove("drag-over"); });
+dropArea.addEventListener("drop", function(e) {
+    e.preventDefault(); dropArea.classList.remove("drag-over");
+    if (e.dataTransfer.files[0]) {
+        var dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+        pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+    }
+});
+dropArea.addEventListener("click", function(e){ if (!e.target.closest("label")) pdfInput.click(); });
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How does the tool know a page is blank?</div>
+    <div class="faq-a">Each page goes through three separate checks. First it looks for any text characters. Then it looks for embedded images. If both come back empty, the page is rendered and the tool measures what percentage of the pixels are non-white. Only pages that fail all three checks are marked blank — which is why a page holding just a single stray character or a small logo is never removed by accident.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What does the sensitivity setting do?</div>
+    <div class="faq-a">Sensitivity sets how much ink a page may contain and still count as blank. At the default of 0.2% a page with faint scanner speckle is still treated as empty. Raise it toward 1% for noisy scans with dust, shadows, or edge marks. Lower it to 0.05% when you only want to remove pages that are perfectly, absolutely white.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Should I scan first or remove straight away?</div>
+    <div class="faq-a">Scanning first is always safer. It lists exactly which page numbers will be deleted without changing your file, so you can confirm the result matches what you expect before committing. If anything looks wrong, adjust the sensitivity slider and scan again — it costs nothing to check.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why are the backs of my double-sided scans blank?</div>
+    <div class="faq-a">Duplex scanners capture both sides of every sheet regardless of whether the back was printed on. A twenty-page single-sided document scanned in duplex mode becomes a forty-page PDF where every second page is empty. This tool removes all of those in one pass.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will removing pages affect the quality of the rest?</div>
+    <div class="faq-a">No. The pages you keep are copied across untouched with their original resolution, fonts, and embedded images intact. Only the empty page objects are dropped, so your file size goes down while quality stays exactly the same.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I remove blank pages from a password-protected PDF?</div>
+    <div class="faq-a">Yes. A password prompt appears automatically after upload if the document is encrypted. Enter it and processing continues as normal. Our <a href="/unlock">Unlock PDF</a> tool can also strip the password permanently beforehand.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Remove Blank Pages from PDF — Free Automatic Blank Page Remover</h2>
+<p>Blank pages creep into PDFs almost every time a document passes through a scanner. They pad out the file, break the flow when someone reads it on screen, and waste paper and toner when the document goes to print. This free tool finds every empty page automatically and removes them in one pass — no page numbers to type in, no manual checking, and no software to install.</p>
+
+<h3>Where Blank Pages Come From</h3>
+<p><strong>Duplex scanning</strong> is the biggest culprit by far. A double-sided scanner captures the back of every sheet whether or not anything was printed on it, so a thirty-page single-sided report arrives as a sixty-page PDF with every alternate page empty. <strong>Chapter breaks</strong> in books and manuals deliberately leave the reverse of a section divider blank so the next chapter opens on a right-hand page — useful in print, pointless on screen. <strong>Merged documents</strong> collect the trailing blank pages of every file that went into them. <strong>Fax and multi-function printer output</strong> often adds an empty cover or trailer page to each transmission. <strong>Word and Excel exports</strong> frequently tack on a stray final page created by a paragraph mark or print range that spilled past the last row of content.</p>
+
+<h3>How the Detection Actually Works</h3>
+<p>A page can look blank to you and still contain hidden data, so a single test is not enough. Every page runs through three checks in sequence. The first extracts the text layer and asks whether a single character exists. The second lists the embedded image objects. Only when both come back completely empty does the third check run: the page is rendered to a grayscale bitmap and the tool counts what fraction of pixels are darker than pure white. A page is marked blank only when it fails all three. This layered approach is what stops the tool from deleting a page that holds nothing but a page number, a thin footer line, or a small watermark.</p>
+
+<h3>Getting the Sensitivity Right</h3>
+<p>Real scans are rarely pure white. Paper texture, dust on the glass, the shadow along a book spine, and bleed-through from the reverse side all leave faint marks that a naive detector would count as content. The sensitivity slider tells the tool how much of that noise to forgive.</p>
+<p>The default of <strong>0.2%</strong> handles most documents correctly. Push it toward <strong>0.5–1%</strong> when working with old paper, low-quality scans, or pages with visible speckle and edge shadows. Pull it down to <strong>0.05%</strong> when your PDF was generated digitally rather than scanned, and you want to be certain that only genuinely empty pages are touched.</p>
+
+<h3>Always Scan Before You Remove</h3>
+<p>The <strong>Scan First</strong> button reads your document and reports exactly which page numbers it would delete, without modifying anything. This takes a couple of seconds and eliminates the risk of losing a page you wanted to keep. If the list surprises you, move the sensitivity slider and scan again until the result matches your expectation — then click remove with confidence.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Offices digitising paper archives</strong> strip out thousands of duplex-scan backs in a single step. <strong>Students and academics</strong> clean up scanned journal articles and textbook chapters before annotating them. <strong>Legal and administrative teams</strong> tidy bundled case files so the page count matches the index. <strong>Print shops</strong> remove wasted sheets before a run to cut paper and toner costs. <strong>Anyone emailing a document</strong> reduces the file size and makes the result look deliberate rather than sloppy.</p>
+
+<h3>Smaller Files, Faster Sharing</h3>
+<p>Every blank page in a scanned PDF still carries a full-page image behind it — often several hundred kilobytes of nothing. Removing forty of them can cut the file size dramatically, which matters when you are attaching the document to an email with a size limit or uploading it over a slow connection. If you need to go further, our <a href="/compress">Compress PDF</a> tool reduces the size of the remaining pages too.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your PDF is processed entirely in memory and discarded the moment your download finishes. Nothing is written to disk, nothing is logged, and no copy is kept. The tool runs in any modern browser on Windows, macOS, Linux, Android, and iOS with no app to install and no account to create.</p>
+
+<h3>Related PDF Tools</h3>
+<p>Need finer control? <a href="/delete-pages">Delete Pages</a> lets you remove specific page numbers by hand, <a href="/organize-pdf">Organize PDF</a> gives you a visual grid to rotate, reorder, and delete pages together, and <a href="/split">Split PDF</a> separates a long document into smaller files.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/delete-pages">Delete Pages</a> &nbsp;·&nbsp; <a href="/organize-pdf">Organize PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a> &nbsp;·&nbsp; <a href="/split">Split PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Edit PDF files online for free. Add text annotations to your PDF documents without any software.">
+    <meta name="keywords" content="edit PDF, add text PDF, annotate PDF, PDF editor online free">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/edit-pdf">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Edit PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/edit-pdf">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Edit PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/edit-pdf",
+          "url": "https://example.com/edit-pdf",
+          "name": "Edit PDF - PDF Toolkit Demo",
+          "description": "Add text annotations to PDF files online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Edit PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Edit PDF","item":"https://example.com/edit-pdf"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What can I edit in my PDF with this tool?","acceptedAnswer":{"@type":"Answer","text":"You can add new text anywhere on the page, choosing the font, size, and colour. This covers annotating, labelling, filling in forms that were never made fillable, and adding notes or corrections. It does not rewrite the text that is already in the document — see the next question for why."}},
+            {"@type":"Question","name":"Can I change the text that is already in the PDF?","acceptedAnswer":{"@type":"Answer","text":"Not directly, and this is true of PDFs generally rather than a limitation of this tool. A PDF stores text as positioned glyphs rather than editable paragraphs, so changing a word means reflowing everything around it. To edit existing content properly, convert with PDF to Word, edit in Word, then convert back with Word to PDF."}},
+            {"@type":"Question","name":"Can I fill in a form that is not fillable?","acceptedAnswer":{"@type":"Answer","text":"Yes, and this is one of the most common uses. Many official forms are distributed as flat scans with no interactive fields. Place a text box over each blank line, type your answer, and download — the result looks typed rather than handwritten and is far easier to read."}},
+            {"@type":"Question","name":"Will the text I add be selectable in the final PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. Text is added as real text rather than as a picture of text, so it stays selectable, searchable, and copyable in any PDF reader. It also stays sharp at any zoom level rather than becoming blurry."}},
+            {"@type":"Question","name":"Can I edit a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. If your document is encrypted, a password prompt appears automatically after upload. Enter it once and editing proceeds normally. Our Unlock PDF tool can also remove the password permanently beforehand."}},
+            {"@type":"Question","name":"How do I permanently remove sensitive text rather than cover it?","acceptedAnswer":{"@type":"Answer","text":"Use Redact PDF for that. Drawing a black box over text in an editor only hides it visually — the words remain in the file and can be recovered by copying the text out. Redaction removes the underlying content properly."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Edit PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/edit-pdf"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Edit PDF</a><span>›</span><strong>Edit PDF</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">Edit PDF</h1>
+    <p class="subtitle">Add text and annotations to your PDF</p>
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">✏️</div>
+            <h2>Drag &amp; Drop File Here</h2><p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock &amp; Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint">Text to add:</p>
+            <input type="text" name="add_text" class="range-input" placeholder="Enter text to add to PDF" style="width:100%;max-width:460px;">
+            <br><br>
+            <p class="mode-hint">Font size:</p>
+            <input type="number" name="font_size" class="range-input" value="14" min="6" max="72" style="width:120px;">
+            <br><br>
+            <p class="mode-hint">Position:</p>
+            <div class="mode-tabs">
+                <button type="button" class="mode-btn active" onclick="setEPos(this,'center')">Center</button>
+                <button type="button" class="mode-btn" onclick="setEPos(this,'top-left')">Top Left</button>
+                <button type="button" class="mode-btn" onclick="setEPos(this,'bottom-center')">Bottom Center</button>
+            </div>
+            <input type="hidden" name="text_position" id="editPosInput" value="center">
+            <br>
+            <button type="submit" class="btn">✏️ Edit PDF</button>
+        </div>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function handleFile(file){window._pdfFile=file;fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";_tryLoadPdf(null);}
+    function _tryLoadPdf(password){if(!window._pdfFile)return;var r=new FileReader();r.onload=function(e){var data=new Uint8Array(e.target.result);var opts=password?{data:data,password:password}:{data:data};pdfjsLib.getDocument(opts).promise.then(function(pdf){if(password)document.getElementById("pdfPasswordHidden").value=password;document.getElementById("pdfPasswordPrompt").style.display="none";document.getElementById("pdfPassError").style.display="none";optionsSection.style.display="block";pdf.getPage(1).then(function(page){var canvas=document.getElementById("firstPageThumb");var ctx=canvas.getContext("2d");var vp=page.getViewport({scale:0.5});canvas.width=vp.width;canvas.height=vp.height;page.render({canvasContext:ctx,viewport:vp});});}).catch(function(err){if(err.name==="PasswordException"){document.getElementById("pdfPasswordPrompt").style.display="block";if(password)document.getElementById("pdfPassError").style.display="block";setTimeout(function(){document.getElementById("pdfPassInput").focus();},100);}});};r.readAsArrayBuffer(window._pdfFile);}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";document.getElementById("pdfPasswordPrompt").style.display="none";}
+    function confirmPdfPassword(){var pass=document.getElementById("pdfPassInput").value;if(!pass)return;document.getElementById("pdfPassError").style.display="none";_tryLoadPdf(pass);}
+    function togglePdfPass(btn){var inp=document.getElementById("pdfPassInput");inp.type=inp.type==="password"?"text":"password";btn.querySelector("svg").setAttribute("stroke",inp.type==="text"?"#F9A825":"#888");}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+    function setEPos(btn,val){document.querySelectorAll(".mode-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("editPosInput").value=val;}
+</script>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What can I edit in my PDF with this tool?</div>
+    <div class="faq-a">You can add new text anywhere on the page, choosing the font, size, and colour. This covers annotating, labelling, filling in forms that were never made fillable, and adding notes or corrections. It does not rewrite the text that is already in the document — see the next question for why.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I change the text that is already in the PDF?</div>
+    <div class="faq-a">Not directly, and this is true of PDFs generally rather than a limitation of this tool. A PDF stores text as positioned glyphs rather than editable paragraphs, so changing a word means reflowing everything around it. To edit existing content properly, convert with <a href='/pdf-to-word'>PDF to Word</a>, edit in Word, then convert back with <a href='/word-to-pdf'>Word to PDF</a>.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I fill in a form that is not fillable?</div>
+    <div class="faq-a">Yes, and this is one of the most common uses. Many official forms are distributed as flat scans with no interactive fields. Place a text box over each blank line, type your answer, and download — the result looks typed rather than handwritten and is far easier to read.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will the text I add be selectable in the final PDF?</div>
+    <div class="faq-a">Yes. Text is added as real text rather than as a picture of text, so it stays selectable, searchable, and copyable in any PDF reader. It also stays sharp at any zoom level rather than becoming blurry.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I edit a password-protected PDF?</div>
+    <div class="faq-a">Yes. If your document is encrypted, a password prompt appears automatically after upload. Enter it once and editing proceeds normally. Our <a href='/unlock'>Unlock PDF</a> tool can also remove the password permanently beforehand.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I permanently remove sensitive text rather than cover it?</div>
+    <div class="faq-a">Use <a href='/redact'>Redact PDF</a> for that. Drawing a black box over text in an editor only hides it visually — the words remain in the file and can be recovered by copying the text out. Redaction removes the underlying content properly.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Edit PDF Online — Free PDF Text Editor and Annotator</h2>
+<p>Add text anywhere on a PDF without buying a licence or installing anything. Position a text box, type what you need, choose the font, size, and colour, and download the annotated document. It works for filling flat forms, labelling figures, adding notes, and marking up documents for review — free, in your browser, with no watermark.</p>
+
+<h3>What "Editing a PDF" Actually Means</h3>
+<p>PDFs were designed to look identical everywhere, which is exactly what makes them awkward to edit. A word processor stores text as flowing paragraphs; a PDF stores it as individual characters placed at fixed coordinates. There is no paragraph to reflow, which is why changing one word in the middle of a sentence is a genuinely difficult operation rather than a simple one.</p>
+<p>What is straightforward is <strong>adding</strong> text. Placing new content at a chosen position does not disturb anything already on the page, and that covers the overwhelming majority of what people actually need: filling blanks, adding notes, labelling, correcting, and signing off.</p>
+
+<h3>Filling In Forms That Are Not Fillable</h3>
+<p>This is the single most common use of the tool. Government departments, schools, clinics, and older corporate systems still distribute forms as flat PDFs — often scans of printed paper — with no interactive fields at all. The conventional route is to print the form, write on it by hand, scan it back, and email the result, which takes twenty minutes and produces a document nobody can read.</p>
+<p>Instead, open the form here, place a text box over each blank line, and type your answer. The finished document looks typed rather than handwritten, stays perfectly legible, and never needs to touch a printer. For anything requiring a signature, <a href="/sign">Sign PDF</a> adds a signature image to complete it.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Anyone facing an official form</strong> that was never made fillable — applications, registrations, claim forms, consent sheets. <strong>Teachers</strong> annotate worksheets and add feedback to submitted work. <strong>Reviewers</strong> mark up drafts with comments and corrections. <strong>Small businesses</strong> add reference numbers, dates, and notes to invoices and delivery notes. <strong>Anyone labelling a diagram or figure</strong> for a report or presentation.</p>
+
+<h3>How to Edit a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Click where you want text to appear and a box opens at that point. Type your content and set the font, size, and colour. Repeat for as many text items as the document needs — each keeps its own independent formatting. When everything is in place, download the edited PDF.</p>
+
+<h3>Added Text Stays Real Text</h3>
+<p>Text you add is written into the document as genuine text rather than as a picture of text. That means it stays selectable, searchable, and copyable in any PDF reader, and it remains perfectly sharp at any zoom level instead of turning into a blurry bitmap when someone zooms in to read it. It also keeps the file size small, since text occupies a tiny fraction of what an image of the same content would.</p>
+
+<h3>When You Need to Change Existing Text</h3>
+<p>For genuine revision of content already in the document, the reliable route is a round trip through a word processor: <a href="/pdf-to-word">PDF to Word</a> converts the PDF into an editable document, you make your changes in Word where reflowing text is natural, then <a href="/word-to-pdf">Word to PDF</a> converts it back. Complex layouts do not always survive perfectly, but for text-led documents this works well and is far less frustrating than fighting the PDF format directly.</p>
+
+<h3>Editing Is Not Redaction</h3>
+<p>This distinction matters and catches people out. Drawing a black rectangle over sensitive text hides it visually but leaves the words in the file, where anyone can recover them by selecting and copying the region. If you need information genuinely removed rather than merely covered, use <a href="/redact">Redact PDF</a>, which deletes the underlying content rather than painting over it.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>The page preview and your text placement are rendered locally in your browser. When you download, the file is processed in memory and discarded immediately afterwards. Nothing is written to disk, nothing is logged, and no copy is kept — which matters when you are filling forms with personal details.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/sign">Sign PDF</a> &nbsp;·&nbsp; <a href="/redact">Redact PDF</a> &nbsp;·&nbsp; <a href="/watermark">Watermark PDF</a> &nbsp;·&nbsp; <a href="/pdf-to-word">PDF to Word</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

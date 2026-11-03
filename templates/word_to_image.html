@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word to Image Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Convert Word documents to JPG or PNG images online for free. Turn DOCX files into high-quality images instantly.">
+    <meta name="keywords" content="Word to image, DOCX to JPG, DOCX to PNG, Word to JPG, convert Word image">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/word-to-image">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Word to Image - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/word-to-image">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Word to Image - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/word-to-image",
+          "url": "https://example.com/word-to-image",
+          "name": "Word to Image - PDF Toolkit Demo",
+          "description": "Convert Word documents (.docx) to JPG or PNG images online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Convert PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Word to Image","item":"https://example.com/word-to-image"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What do I get back?","acceptedAnswer":{"@type":"Answer","text":"One image per page of the document, packaged into a ZIP when there is more than one. Files are named by page number so the sequence is always clear."}},
+            {"@type":"Question","name":"Should I choose JPG or PNG?","acceptedAnswer":{"@type":"Answer","text":"PNG is lossless and keeps text edges perfectly crisp, which suits documents since they are mostly text. JPG produces smaller files and handles photographic content well. For a typical Word document, PNG gives the better-looking result."}},
+            {"@type":"Question","name":"Why convert a document to images rather than PDF?","acceptedAnswer":{"@type":"Answer","text":"Because images go where PDFs cannot — social media posts, chat messages, forum uploads, and web content systems that only accept pictures. An image also displays inline everywhere without a viewer or a download prompt."}},
+            {"@type":"Question","name":"Will the text be selectable in the images?","acceptedAnswer":{"@type":"Answer","text":"No. An image is a picture of the page, so the text becomes pixels rather than characters. That is sometimes exactly the point — it makes casual copying harder — but if you need selectable text, convert to PDF instead with Word to PDF."}},
+            {"@type":"Question","name":"Do fonts and formatting look correct?","acceptedAnswer":{"@type":"Answer","text":"Yes. The page is rendered as it appears with the correct fonts, spacing, images, and layout, then captured as a picture. What you see in the image is what the page looks like."}},
+            {"@type":"Question","name":"Are my files stored on your server?","acceptedAnswer":{"@type":"Answer","text":"No. Your document is processed in memory and the images are streamed straight back to your browser. Nothing is written to disk, nothing is logged, and no copy is retained."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Word to Image — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/word-to-image"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Convert PDF</a><span>›</span><strong>Word to Image</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">Word to Image</h1>
+    <p class="subtitle">Convert Word documents to JPG or PNG images instantly</p>
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">📄</div>
+            <h2>Drag &amp; Drop File Here</h2><p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".docx,.doc" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <span style="font-size:40px;">📄</span>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="optionsSection" style="display:none;">
+            <div class="options-row" style="margin-bottom:12px;">
+                <label style="margin-right:16px;font-weight:500;">Format:
+                    <select name="fmt" style="margin-left:6px;padding:4px 8px;border-radius:6px;border:1px solid #ccc;">
+                        <option value="jpg">JPG</option>
+                        <option value="png">PNG</option>
+                    </select>
+                </label>
+                <label style="font-weight:500;">Quality (DPI):
+                    <select name="dpi" style="margin-left:6px;padding:4px 8px;border-radius:6px;border:1px solid #ccc;">
+                        <option value="96">96 dpi (Web)</option>
+                        <option value="150" selected>150 dpi (Standard)</option>
+                        <option value="200">200 dpi (High)</option>
+                        <option value="300">300 dpi (Print)</option>
+                    </select>
+                </label>
+            </div>
+            <p class="mode-hint" style="color:#888;">Each page will be converted to a separate image. Multiple pages = ZIP file.</p>
+            <button type="submit" class="btn">🖼️ Convert to Image</button>
+        </div>
+    </form>
+</div>
+<script>
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function handleFile(file){fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";optionsSection.style.display="block";}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+</script>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What do I get back?</div>
+    <div class="faq-a">One image per page of the document, packaged into a ZIP when there is more than one. Files are named by page number so the sequence is always clear.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Should I choose JPG or PNG?</div>
+    <div class="faq-a">PNG is lossless and keeps text edges perfectly crisp, which suits documents since they are mostly text. JPG produces smaller files and handles photographic content well. For a typical Word document, PNG gives the better-looking result.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why convert a document to images rather than PDF?</div>
+    <div class="faq-a">Because images go where PDFs cannot — social media posts, chat messages, forum uploads, and web content systems that only accept pictures. An image also displays inline everywhere without a viewer or a download prompt.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will the text be selectable in the images?</div>
+    <div class="faq-a">No. An image is a picture of the page, so the text becomes pixels rather than characters. That is sometimes exactly the point — it makes casual copying harder — but if you need selectable text, convert to PDF instead with <a href='/word-to-pdf'>Word to PDF</a>.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Do fonts and formatting look correct?</div>
+    <div class="faq-a">Yes. The page is rendered as it appears with the correct fonts, spacing, images, and layout, then captured as a picture. What you see in the image is what the page looks like.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my files stored on your server?</div>
+    <div class="faq-a">No. Your document is processed in memory and the images are streamed straight back to your browser. Nothing is written to disk, nothing is logged, and no copy is retained.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Word to Image Converter Online — Free DOCX to JPG and PNG</h2>
+<p>Turn each page of a Word document into a standalone picture. Upload your .docx, choose JPG or PNG, and download the images — one per page, packaged in a ZIP when there is more than one. Free, instant, and no watermark.</p>
+
+<h3>Why Convert a Document to Images?</h3>
+<p><strong>Because images go where documents cannot.</strong> Social media platforms, messaging apps, forums, marketplace listings, and most web content systems accept pictures readily and document files reluctantly or not at all. Converting sidesteps the restriction completely.</p>
+<p><strong>Because an image always displays.</strong> A picture renders inline in every browser, email client, and chat app — no download prompt, no plugin, no "you need an app to open this". For content that simply needs to be seen, that reliability is worth a great deal.</p>
+<p><strong>Because it discourages easy copying.</strong> Text in an image cannot be selected and pasted straight out. This is not real protection, but it does prevent casual lifting of your wording.</p>
+<p><strong>Because you need a preview or thumbnail.</strong> Websites, portfolios, and listings often need a visual representation of a document's first page.</p>
+
+<h3>Common Uses</h3>
+<p><strong>Social media posts.</strong> A one-page summary, a price list, or an announcement written in Word becomes an image you can post directly to Instagram, Facebook, LinkedIn, or X.</p>
+<p><strong>Messaging.</strong> Sending a page as a picture in WhatsApp or Telegram means the recipient sees it immediately in the conversation rather than downloading an attachment they may never open.</p>
+<p><strong>Website content.</strong> Content management systems that handle images well and documents poorly are extremely common, and converting is usually simpler than fighting the CMS.</p>
+<p><strong>Certificates and vouchers.</strong> Designed in Word, distributed as images so recipients can view and share them without any software.</p>
+<p><strong>Portfolio and listing previews.</strong> Show what a document looks like without giving away a downloadable copy.</p>
+
+<h3>Choosing Between JPG and PNG</h3>
+<p><strong>PNG</strong> is lossless — nothing is discarded during encoding. Text edges stay perfectly crisp, thin lines stay clean, and there are none of the faint compression halos that can appear around lettering. Since Word documents are mostly text, PNG is usually the better choice.</p>
+<p><strong>JPG</strong> compresses more aggressively, producing files that are often several times smaller. It handles photographic content very well but can soften the edges of small text. Choose it when file size matters more than absolute crispness, or when your pages are dominated by images.</p>
+
+<h3>How to Convert Word to Images</h3>
+<p>Upload your .docx by dragging it onto the box or clicking to browse. Choose your output format. Convert, and your images download immediately — as a ZIP if the document ran to more than one page, with files named by page number so the order is unambiguous.</p>
+
+<h3>Text Becomes Pixels</h3>
+<p>This is the fundamental trade-off and worth being clear about. Once a page is an image, the text is no longer text. It cannot be selected, copied, or searched, and screen readers cannot read it aloud.</p>
+<p>For a social media post or a chat message that is fine, and the resistance to copying may even be a benefit. For anything that needs to remain accessible, searchable, or usable as a document, convert to PDF instead with <a href="/word-to-pdf">Word to PDF</a>, which keeps the text real while fixing the layout.</p>
+
+<h3>Accessibility Is Worth a Thought</h3>
+<p>An image of text is invisible to screen readers, which affects anyone using assistive technology. If your content is going somewhere public, consider providing the text in an accessible form alongside the image — most social platforms support alternative text descriptions for exactly this reason.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy is retained.</p>
+
+<h3>Related Tools</h3>
+<p><a href="/word-to-pdf">Word to PDF</a> keeps the text selectable while fixing the layout. <a href="/pdf-to-image">PDF to Image</a> does the same job starting from a PDF, and <a href="/image-to-pdf">Image to PDF</a> converts a set of pictures back into a document.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/word-to-pdf">Word to PDF</a> &nbsp;·&nbsp; <a href="/pdf-to-image">PDF to Image</a> &nbsp;·&nbsp; <a href="/image-to-pdf">Image to PDF</a> &nbsp;·&nbsp; <a href="/pdf-to-word">PDF to Word</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

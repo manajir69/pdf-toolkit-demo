@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Crop PDF pages online for free. Draw to select the exact area you want to keep. Download as JPG or PDF instantly.">
+    <meta name="keywords" content="crop PDF, trim PDF margins, remove PDF whitespace, PDF cropper, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/crop">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Crop PDF - PDF Toolkit Demo">
+    <meta property="og:description" content="Crop PDF pages online for free. Remove margins and whitespace instantly.">
+    <meta property="og:url" content="https://example.com/crop">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Crop PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Crop PDF pages online for free. Remove margins and whitespace instantly.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+
+    /* ── Crop Studio ── */
+    #cropStudio { display: none; max-width: 820px; margin: 0 auto; padding: 0 16px 32px; }
+    .page-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 18px 0 12px; }
+    .page-nav button { background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px; padding: 7px 18px; font-size: 14px; cursor: pointer; transition: 0.15s; color: #333; font-weight: 600; }
+    .page-nav button:hover { background: #e8e8e8; }
+    .page-nav button:disabled { opacity: 0.35; cursor: default; }
+    #pageInfo { font-size: 14px; color: #555; min-width: 90px; text-align: center; }
+    #canvasWrap { position: relative; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.10); cursor: crosshair; margin: 0 auto; background: #f9f9f9; display: none; }
+    #pdfCanvas { display: block; max-width: 100%; border-radius: 7px; }
+    #textCanvas  { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; border-radius: 7px; }
+    #selectCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: crosshair; border-radius: 7px; }
+    .crop-hint { text-align: center; font-size: 13px; color: #888; margin: 10px 0 14px; }
+    .crop-hint b { color: #555; }
+    #selInfo { text-align: center; font-size: 13px; color: #E53935; margin-bottom: 8px; min-height: 18px; font-weight: 500; }
+    #downloadBtns { display: none; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+    #downloadBtns.visible { display: flex; }
+    .dl-btn { padding: 11px 28px; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+    .dl-btn-jpg { background: #F9A825; color: #1a1a1a; }
+    .dl-btn-jpg:hover { background: #e09000; }
+    .dl-btn-pdf { background: #E53935; color: #fff; }
+    .dl-btn-pdf:hover { background: #c0392b; }
+    .dl-btn-clear { background: #f0f0f0; color: #555; }
+    .dl-btn-clear:hover { background: #e0e0e0; }
+    #pdfLoading { text-align: center; padding: 40px 20px; color: #aaa; font-size: 14px; display: none; }
+    .spinner { display: inline-block; width: 24px; height: 24px; border: 3px solid #ddd; border-top-color: #E53935; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #dlSpinner { display: none; text-align: center; font-size: 13px; color: #888; margin-top: 8px; }
+
+    /* ── Mode switcher ── */
+    .tool-mode-row { display: flex; justify-content: center; gap: 8px; margin: 14px 0 10px; flex-wrap: wrap; }
+    .tool-mode-btn { padding: 8px 22px; border: 2px solid #ddd; border-radius: 8px; background: #fff; font-size: 14px; font-weight: 600; cursor: pointer; color: #555; transition: 0.15s; }
+    .tool-mode-btn.active { border-color: #E53935; color: #E53935; background: #fff5f5; }
+    .tool-mode-btn:hover:not(.active) { border-color: #bbb; background: #f9f9f9; }
+
+    /* ── Text toolbar ── */
+    #textToolbar {
+        display: none; align-items: center; gap: 6px; flex-wrap: wrap;
+        justify-content: center; background: #fff; border: 1px solid #e0e0e0;
+        border-radius: 10px; padding: 8px 12px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+        position: fixed; z-index: 1000;
+        transform: translateX(-50%);
+        white-space: nowrap;
+    }
+    #textToolbar.visible { display: flex; }
+    .tb-sep { width: 1px; height: 24px; background: #e0e0e0; margin: 0 4px; }
+    #tbFont { padding: 5px 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; cursor: pointer; }
+    #tbSize { width: 52px; padding: 5px 6px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; text-align: center; }
+    .tb-btn { width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: 0.12s; }
+    .tb-btn:hover { background: #f5f5f5; }
+    .tb-btn.active { background: #E53935; color: #fff; border-color: #E53935; }
+    #tbColor { width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; padding: 2px; }
+    #tbDeleteText { padding: 5px 12px; border: 1px solid #ffcdd2; border-radius: 6px; background: #fff5f5; color: #c62828; font-size: 13px; font-weight: 600; cursor: pointer; display: none; }
+    #tbDeleteText.visible { display: block; }
+
+    /* ── Floating text editor (fixed to viewport) ── */
+    #floatingEditor {
+        display: none; position: fixed; z-index: 9999;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.22);
+    }
+    #textInput {
+        min-width: 80px; min-height: 28px; max-width: 600px;
+        outline: none; border: 2px dashed #E53935;
+        padding: 4px 8px; background: rgba(255,255,255,0.92);
+        white-space: pre; line-height: 1.3; cursor: text;
+        border-radius: 3px;
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/crop",
+          "url": "https://example.com/crop",
+          "name": "Crop PDF - PDF Toolkit Demo",
+          "description": "Crop and remove margins from PDF pages online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Edit PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Crop PDF","item":"https://example.com/crop"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How do I select the area I want to keep?","acceptedAnswer":{"@type":"Answer","text":"Drag anywhere on the page preview to draw a rectangle. Everything inside it is kept and everything outside is trimmed away. Once drawn, drag inside the rectangle to move it, or drag any of the eight handles on its edges and corners to resize it precisely."}},
+            {"@type":"Question","name":"How do I add text on top of the PDF?","acceptedAnswer":{"@type":"Answer","text":"Draw your crop area first. A formatting toolbar appears just above it, then click anywhere inside the selection to place a text box. Type your text, adjust the font, size, bold, italic, underline, and colour from the toolbar, and click outside or press Ctrl+Enter to stamp it onto the page."}},
+            {"@type":"Question","name":"Can I move or edit text after placing it?","acceptedAnswer":{"@type":"Answer","text":"Yes. Drag any placed text to reposition it. Double-click it to reopen the editor and change the wording. A single click selects it so the toolbar controls apply to that item, letting you change its font or colour after the fact. Each text item keeps its own independent formatting."}},
+            {"@type":"Question","name":"Should I download as JPG or PDF?","acceptedAnswer":{"@type":"Answer","text":"Choose PDF when you want a document — if you have not added text, the crop is applied to the original file so the text stays selectable and the quality is untouched. Choose JPG when you need a picture to paste into a slide, a message, or a web page."}},
+            {"@type":"Question","name":"Does the crop apply to every page or just the one I see?","acceptedAnswer":{"@type":"Answer","text":"You draw the crop area on the page currently displayed, and that same region is applied to every page when you download as PDF. This works well for documents with a consistent layout, such as a scanned book where every page has the same margins."}},
+            {"@type":"Question","name":"Can I crop a scanned document to remove black scanner borders?","acceptedAnswer":{"@type":"Answer","text":"Yes — this is one of the most common uses. Drag a rectangle that covers only the paper itself and excludes the dark edges the scanner picked up. The result is a clean document with no black frame, which also prints far better and uses less toner."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Crop PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/crop"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Edit PDF</a><span>›</span><strong>Crop PDF</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">Crop PDF</h1>
+    <p class="subtitle">Draw to select the area you want to keep — download as JPG or PDF</p>
+
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+
+    <!-- Upload section -->
+    <div id="uploadSection">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">✂️</div>
+            <h2>Drag &amp; Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+        <input id="pdfInput" type="file" accept=".pdf" hidden>
+
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="thumbCanvas" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock &amp; Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+    </div>
+
+    <!-- Crop Studio -->
+    <div id="cropStudio">
+        <div id="pdfLoading"><span class="spinner"></span> Rendering page…</div>
+
+        <div class="page-nav">
+            <button id="btnPrev" onclick="changePage(-1)" disabled>← Prev</button>
+            <span id="pageInfo">Page 1 of 1</span>
+            <button id="btnNext" onclick="changePage(1)" disabled>Next →</button>
+        </div>
+
+        <!-- Text toolbar (fixed, floats above crop selection) -->
+        <div id="textToolbar">
+            <select id="tbFont" onchange="applyToolbar()" title="Font">
+                <option>Arial</option>
+                <option>Times New Roman</option>
+                <option>Courier New</option>
+                <option>Georgia</option>
+                <option>Verdana</option>
+                <option>Trebuchet MS</option>
+            </select>
+            <input id="tbSize" type="number" value="22" min="8" max="200" onchange="applyToolbar()" title="Font size">
+            <div class="tb-sep"></div>
+            <button class="tb-btn" id="btnBold"      onclick="toggleTb('bold')"      title="Bold"><b>B</b></button>
+            <button class="tb-btn" id="btnItalic"    onclick="toggleTb('italic')"    title="Italic"><i>I</i></button>
+            <button class="tb-btn" id="btnUnderline" onclick="toggleTb('underline')" title="Underline"><u>U</u></button>
+            <div class="tb-sep"></div>
+            <input id="tbColor" type="color" value="#000000" onchange="applyToolbar()" title="Text color">
+            <div class="tb-sep"></div>
+            <button id="tbDeleteText" onclick="deleteSelectedText()" title="Delete selected text">🗑 Delete</button>
+        </div>
+
+        <div id="canvasWrap">
+            <canvas id="pdfCanvas"></canvas>
+            <canvas id="textCanvas"></canvas>
+            <canvas id="selectCanvas"></canvas>
+        </div>
+
+        <p class="crop-hint" id="cropHint">🖱 <b>Drag</b> to select area &nbsp;·&nbsp; drag <b>inside</b> to move &nbsp;·&nbsp; drag <b>handles</b> to resize</p>
+        <div id="selInfo"></div>
+
+        <div id="downloadBtns">
+            <button class="dl-btn dl-btn-jpg" onclick="downloadJPG()">🖼 Download JPG</button>
+            <button class="dl-btn dl-btn-pdf" onclick="downloadPDF()">📄 Download PDF</button>
+            <button class="dl-btn dl-btn-clear" onclick="clearSelection()">✕ Clear Crop</button>
+        </div>
+        <div id="dlSpinner"><span class="spinner"></span> Preparing PDF…</div>
+    </div>
+</div>
+
+<!-- Floating text editor — position:fixed so it appears over the canvas regardless of scroll -->
+<div id="floatingEditor">
+    <div id="textInput" contenteditable="true" spellcheck="false"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+// ── State ──
+var _pdfFile = null, _pdfPassword = "", _pdfDoc = null;
+var _currentPage = 1, _totalPages = 1, _pdfScale = 1, _rendering = false;
+var _sel = null, _mode = null, _dragStart = null, _selAtDrag = null, _lastPos = null;
+var HSIZE = 10, HHALF = 5, MIN_SEL = 20;
+var textItems = [], _selTextIdx = -1, _textDragOff = {x:0,y:0};
+
+// ── DOM refs ──
+var pdfCanvas    = document.getElementById("pdfCanvas");
+var textCanvas   = document.getElementById("textCanvas");
+var selectCanvas = document.getElementById("selectCanvas");
+var pdfCtx       = pdfCanvas.getContext("2d");
+var textCtx      = textCanvas.getContext("2d");
+var selCtx       = selectCanvas.getContext("2d");
+var canvasWrap   = document.getElementById("canvasWrap");
+var pdfInput     = document.getElementById("pdfInput");
+var dropArea     = document.getElementById("dropArea");
+var floatEditor  = document.getElementById("floatingEditor");
+var textInput    = document.getElementById("textInput");
+
+function handleFile(file) {
+    _pdfFile = file;
+    document.getElementById("fileName").textContent = file.name;
+    dropArea.style.display = "none";
+    document.getElementById("fileCard").style.display = "flex";
+    _tryLoadPdf(null);
+}
+
+function _tryLoadPdf(password) {
+    if (!_pdfFile) return;
+    var r = new FileReader();
+    r.onload = function(e) {
+        var data = new Uint8Array(e.target.result);
+        var opts = password ? {data: data, password: password} : {data: data};
+        pdfjsLib.getDocument(opts).promise.then(function(pdfDoc) {
+            _pdfDoc = pdfDoc;
+            _pdfPassword = password || "";
+            _totalPages = pdfDoc.numPages;
+            _currentPage = 1;
+            document.getElementById("pdfPasswordPrompt").style.display = "none";
+            document.getElementById("pdfPassError").style.display = "none";
+            pdfDoc.getPage(1).then(function(page) {
+                var canvas = document.getElementById("thumbCanvas");
+                var ctx = canvas.getContext("2d");
+                var vp = page.getViewport({ scale: 0.5 });
+                canvas.width = vp.width; canvas.height = vp.height;
+                page.render({ canvasContext: ctx, viewport: vp });
+            });
+            document.getElementById("cropStudio").style.display = "block";
+            renderPage(1);
+        }).catch(function(err) {
+            if (err.name === "PasswordException") {
+                document.getElementById("pdfPasswordPrompt").style.display = "block";
+                if (password) document.getElementById("pdfPassError").style.display = "block";
+                setTimeout(function() { document.getElementById("pdfPassInput").focus(); }, 100);
+            }
+        });
+    };
+    r.readAsArrayBuffer(_pdfFile);
+}
+
+function confirmPdfPassword() {
+    var pass = document.getElementById("pdfPassInput").value;
+    if (!pass) return;
+    document.getElementById("pdfPassError").style.display = "none";
+    _tryLoadPdf(pass);
+}
+
+function togglePdfPass(btn) {
+    var inp = document.getElementById("pdfPassInput");
+    inp.type = inp.type === "password" ? "text" : "password";
+    btn.querySelector("svg").setAttribute("stroke", inp.type === "text" ? "#F9A825" : "#888");
+}
+
+function removeFile() {
+    pdfInput.value = ""; _pdfFile = null; _pdfDoc = null; _pdfPassword = "";
+    _sel = null; _mode = null; textItems = []; _selTextIdx = -1;
+    document.getElementById("fileCard").style.display = "none";
+    document.getElementById("cropStudio").style.display = "none";
+    document.getElementById("pdfPasswordPrompt").style.display = "none";
+    hideSelectionUI();
+    document.getElementById("selInfo").textContent = "";
+    dropArea.style.display = "";
+}
+
+pdfInput.addEventListener("change", function() { if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+dropArea.addEventListener("dragover", function(e) { e.preventDefault(); dropArea.classList.add("drag-over"); });
+dropArea.addEventListener("dragleave", function() { dropArea.classList.remove("drag-over"); });
+dropArea.addEventListener("drop", function(e) {
+    e.preventDefault(); dropArea.classList.remove("drag-over");
+    if (e.dataTransfer.files[0]) { var dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]); pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]); }
+});
+dropArea.addEventListener("click", function(e) { if (!e.target.closest("label")) pdfInput.click(); });
+
+// ── Page rendering ──
+function renderPage(pageNum) {
+    if (!_pdfDoc || _rendering) return;
+    _rendering = true;
+    document.getElementById("pdfLoading").style.display = "block";
+    canvasWrap.style.display = "none";
+    clearSelectionSilent();
+    _pdfDoc.getPage(pageNum).then(function(page) {
+        var containerW = Math.min(750, (document.getElementById("cropStudio").offsetWidth || 750) - 32);
+        var naturalVP = page.getViewport({ scale: 1 });
+        _pdfScale = containerW / naturalVP.width;
+        var vp = page.getViewport({ scale: _pdfScale });
+        pdfCanvas.width = vp.width; pdfCanvas.height = vp.height;
+        textCanvas.width = vp.width; textCanvas.height = vp.height;
+        selectCanvas.width = vp.width; selectCanvas.height = vp.height;
+        canvasWrap.style.width = vp.width + "px";
+        canvasWrap.style.height = vp.height + "px";
+        page.render({ canvasContext: pdfCtx, viewport: vp }).promise.then(function() {
+            document.getElementById("pdfLoading").style.display = "none";
+            canvasWrap.style.display = "block";
+            _rendering = false;
+            updatePageNav();
+        });
+    });
+}
+
+function changePage(delta) {
+    var next = _currentPage + delta;
+    if (next < 1 || next > _totalPages) return;
+    _currentPage = next;
+    renderPage(_currentPage);
+}
+
+function updatePageNav() {
+    document.getElementById("pageInfo").textContent = "Page " + _currentPage + " of " + _totalPages;
+    document.getElementById("btnPrev").disabled = (_currentPage <= 1);
+    document.getElementById("btnNext").disabled = (_currentPage >= _totalPages);
+}
+
+// ── Canvas position helper ──
+function getCanvasPos(e) {
+    var rect = selectCanvas.getBoundingClientRect();
+    var sx = selectCanvas.width / rect.width, sy = selectCanvas.height / rect.height;
+    var src = e.changedTouches ? e.changedTouches[0] : (e.touches ? e.touches[0] : e);
+    return { x: (src.clientX - rect.left) * sx, y: (src.clientY - rect.top) * sy };
+}
+
+// ── Handle positions (8 handles) ──
+var HANDLE_IDS = ['nw','n','ne','e','se','s','sw','w'];
+var CURSORS = {nw:'nw-resize',n:'n-resize',ne:'ne-resize',e:'e-resize',
+               se:'se-resize',s:'s-resize',sw:'sw-resize',w:'w-resize'};
+
+function getHandles(sel) {
+    if (!sel) return [];
+    return [
+        {id:'nw', x:sel.x,           y:sel.y},
+        {id:'n',  x:sel.x+sel.w/2,   y:sel.y},
+        {id:'ne', x:sel.x+sel.w,     y:sel.y},
+        {id:'e',  x:sel.x+sel.w,     y:sel.y+sel.h/2},
+        {id:'se', x:sel.x+sel.w,     y:sel.y+sel.h},
+        {id:'s',  x:sel.x+sel.w/2,   y:sel.y+sel.h},
+        {id:'sw', x:sel.x,           y:sel.y+sel.h},
+        {id:'w',  x:sel.x,           y:sel.y+sel.h/2},
+    ];
+}
+
+function hitHandle(pos) {
+    if (!_sel) return null;
+    for (var h of getHandles(_sel)) {
+        if (Math.abs(pos.x - h.x) <= HHALF + 4 && Math.abs(pos.y - h.y) <= HHALF + 4) return h.id;
+    }
+    return null;
+}
+
+function inSel(pos) {
+    return _sel && pos.x >= _sel.x && pos.x <= _sel.x + _sel.w &&
+                   pos.y >= _sel.y && pos.y <= _sel.y + _sel.h;
+}
+
+// ── Interaction ──
+selectCanvas.addEventListener("mousedown",  onDown);
+selectCanvas.addEventListener("mousemove",  onMove);
+selectCanvas.addEventListener("mouseup",    onUp);
+selectCanvas.addEventListener("mouseleave", onUp);
+selectCanvas.addEventListener("touchstart", function(e){e.preventDefault();onDown(e);},{passive:false});
+selectCanvas.addEventListener("touchmove",  function(e){e.preventDefault();onMove(e);},{passive:false});
+selectCanvas.addEventListener("touchend",   function(e){e.preventDefault();onUp(e);},{passive:false});
+
+function onDown(e) {
+    var pos = getCanvasPos(e);
+    _lastPos = pos;
+    var h = hitHandle(pos);
+    if (h) {
+        _mode = 'resize-' + h;
+        _selAtDrag = {x:_sel.x, y:_sel.y, w:_sel.w, h:_sel.h};
+    } else if (inSel(pos)) {
+        _mode = 'move';
+        _selAtDrag = {x:_sel.x, y:_sel.y, w:_sel.w, h:_sel.h};
+    } else {
+        _mode = 'draw';
+        _sel = null;
+        _selAtDrag = null;
+        document.getElementById("downloadBtns").classList.remove("visible");
+        document.getElementById("selInfo").textContent = "";
+    }
+    _dragStart = pos;
+}
+
+function onMove(e) {
+    var pos = getCanvasPos(e);
+    _lastPos = pos;
+    var cw = selectCanvas.width, ch = selectCanvas.height;
+
+    if (!_mode) {
+        // Hover: update cursor only
+        var h = hitHandle(pos);
+        if (h) selectCanvas.style.cursor = CURSORS[h];
+        else if (inSel(pos)) selectCanvas.style.cursor = 'move';
+        else selectCanvas.style.cursor = 'crosshair';
+        return;
+    }
+
+    var dx = pos.x - _dragStart.x, dy = pos.y - _dragStart.y;
+
+    if (_mode === 'draw') {
+        // Live preview while drawing
+        var x = Math.max(0, Math.min(_dragStart.x, pos.x));
+        var y = Math.max(0, Math.min(_dragStart.y, pos.y));
+        var w = Math.min(Math.abs(pos.x - _dragStart.x), cw - x);
+        var hh = Math.min(Math.abs(pos.y - _dragStart.y), ch - y);
+        drawOverlay({x:x, y:y, w:w, h:hh});
+
+    } else if (_mode === 'move') {
+        var nx = Math.max(0, Math.min(cw - _selAtDrag.w, _selAtDrag.x + dx));
+        var ny = Math.max(0, Math.min(ch - _selAtDrag.h, _selAtDrag.y + dy));
+        _sel = {x:nx, y:ny, w:_selAtDrag.w, h:_selAtDrag.h};
+        drawOverlay(_sel);
+        updateSelInfo();
+
+    } else {
+        // Resize
+        var s = {x:_selAtDrag.x, y:_selAtDrag.y, w:_selAtDrag.w, h:_selAtDrag.h};
+        var id = _mode.slice(7); // strip 'resize-'
+        if (id.indexOf('n') >= 0) { s.y = _selAtDrag.y + dy; s.h = _selAtDrag.h - dy; }
+        if (id.indexOf('s') >= 0) { s.h = _selAtDrag.h + dy; }
+        if (id.indexOf('w') >= 0) { s.x = _selAtDrag.x + dx; s.w = _selAtDrag.w - dx; }
+        if (id.indexOf('e') >= 0) { s.w = _selAtDrag.w + dx; }
+        // Enforce minimum size
+        if (s.w < MIN_SEL) { if (id.indexOf('w') >= 0) s.x = _selAtDrag.x + _selAtDrag.w - MIN_SEL; s.w = MIN_SEL; }
+        if (s.h < MIN_SEL) { if (id.indexOf('n') >= 0) s.y = _selAtDrag.y + _selAtDrag.h - MIN_SEL; s.h = MIN_SEL; }
+        // Clamp to canvas
+        s.x = Math.max(0, s.x); s.y = Math.max(0, s.y);
+        if (s.x + s.w > cw) s.w = cw - s.x;
+        if (s.y + s.h > ch) s.h = ch - s.y;
+        _sel = s;
+        drawOverlay(_sel);
+        updateSelInfo();
+    }
+}
+
+function onUp(e) {
+    if (!_mode) return;
+    if (_mode === 'draw') {
+        var pos = _lastPos || _dragStart;
+        var x = Math.max(0, Math.min(_dragStart.x, pos.x));
+        var y = Math.max(0, Math.min(_dragStart.y, pos.y));
+        var w = Math.abs(pos.x - _dragStart.x);
+        var hh = Math.abs(pos.y - _dragStart.y);
+        if (w >= 10 && hh >= 10) {
+            _sel = {x:x, y:y, w:w, h:hh};
+            drawOverlay(_sel);
+            updateSelInfo();
+            document.getElementById("downloadBtns").classList.add("visible");
+        } else {
+            clearSelectionSilent();
+        }
+    }
+    // move/resize: _sel already updated in onMove; just show download
+    if (_sel) {
+        document.getElementById("downloadBtns").classList.add("visible");
+        updateSelInfo();
+    }
+    _mode = null; _dragStart = null; _selAtDrag = null;
+}
+
+// ── Draw overlay + handles ──
+function drawOverlay(sel) {
+    var cw = selectCanvas.width, ch = selectCanvas.height;
+    selCtx.clearRect(0, 0, cw, ch);
+    // dark vignette outside
+    selCtx.fillStyle = "rgba(0,0,0,0.45)";
+    selCtx.fillRect(0, 0, cw, ch);
+    selCtx.clearRect(sel.x, sel.y, sel.w, sel.h);
+    // borders
+    selCtx.save();
+    selCtx.strokeStyle = "#ffffff"; selCtx.lineWidth = 2; selCtx.setLineDash([7,4]);
+    selCtx.strokeRect(sel.x+1, sel.y+1, sel.w-2, sel.h-2);
+    selCtx.strokeStyle = "#E53935"; selCtx.lineWidth = 1; selCtx.setLineDash([]);
+    selCtx.strokeRect(sel.x, sel.y, sel.w, sel.h);
+    selCtx.restore();
+    // 8 handles
+    getHandles(sel).forEach(function(h) {
+        selCtx.fillStyle = "#fff";
+        selCtx.fillRect(h.x - HHALF, h.y - HHALF, HSIZE, HSIZE);
+        selCtx.strokeStyle = "#E53935"; selCtx.lineWidth = 1.5; selCtx.setLineDash([]);
+        selCtx.strokeRect(h.x - HHALF, h.y - HHALF, HSIZE, HSIZE);
+    });
+    // toolbar কে selection এর সাথে সরাও
+    var tb = document.getElementById("textToolbar");
+    if (tb && tb.classList.contains("visible")) positionToolbar();
+}
+
+function updateSelInfo() {
+    if (!_sel) return;
+    document.getElementById("selInfo").textContent =
+        "Selected: " + Math.round(_sel.w / _pdfScale) + " × " + Math.round(_sel.h / _pdfScale) + " pts";
+}
+
+function clearSelection() {
+    _sel = null; _mode = null;
+    if (selectCanvas.width) selCtx.clearRect(0, 0, selectCanvas.width, selectCanvas.height);
+    hideSelectionUI();
+    document.getElementById("selInfo").textContent = "";
+    selectCanvas.style.cursor = "crosshair";
+    commitText(); textItems = []; _selTextIdx = -1;
+    if (textCanvas.width) textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height);
+}
+function clearSelectionSilent() {
+    _sel = null; _mode = null;
+    if (selectCanvas.width) selCtx.clearRect(0, 0, selectCanvas.width, selectCanvas.height);
+    hideSelectionUI();
+    document.getElementById("selInfo").textContent = "";
+    commitText();
+    textItems = []; _selTextIdx = -1;
+    if (textCanvas.width) textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height);
+}
+
+function positionToolbar() {
+    if (!_sel) return;
+    var tb = document.getElementById("textToolbar");
+    var rect = canvasWrap.getBoundingClientRect();
+    var sx = rect.width / pdfCanvas.width;
+    var sy = rect.height / pdfCanvas.height;
+
+    var selCenterX = rect.left + (_sel.x + _sel.w / 2) * sx;
+    var selTopY    = rect.top  + _sel.y * sy;
+    var tbH        = tb.offsetHeight || 52;
+    var topPos     = selTopY - tbH - 10;
+
+    // যদি viewport এর উপরে চলে যায়, নিচে দেখাও
+    if (topPos < 8) topPos = rect.top + (_sel.y + _sel.h) * sy + 10;
+
+    tb.style.left = selCenterX + "px";
+    tb.style.top  = topPos + "px";
+}
+
+function showSelectionUI() {
+    document.getElementById("downloadBtns").classList.add("visible");
+    document.getElementById("textToolbar").classList.add("visible");
+    positionToolbar();
+    document.getElementById("cropHint").innerHTML =
+        "🖱 Drag <b>handles</b> to resize &nbsp;·&nbsp; drag <b>inside</b> to move &nbsp;·&nbsp; <b>click</b> inside to add text";
+}
+function hideSelectionUI() {
+    document.getElementById("downloadBtns").classList.remove("visible");
+    document.getElementById("textToolbar").classList.remove("visible");
+    document.getElementById("cropHint").innerHTML =
+        "🖱 <b>Drag</b> to select the area you want to keep";
+}
+
+// ── Toolbar helpers ──
+function isBold()      { return document.getElementById("btnBold").classList.contains("active"); }
+function isItalic()    { return document.getElementById("btnItalic").classList.contains("active"); }
+function isUnderline() { return document.getElementById("btnUnderline").classList.contains("active"); }
+
+function toggleTb(prop) {
+    var btn = document.getElementById("btn" + prop.charAt(0).toUpperCase() + prop.slice(1));
+    btn.classList.toggle("active");
+    var on = btn.classList.contains("active");
+    if (_selTextIdx >= 0 && textItems[_selTextIdx]) {
+        textItems[_selTextIdx][prop] = on;
+        renderTextItems();
+    }
+    if (floatEditor.style.display !== "none") {
+        if (prop === "bold")      textInput.style.fontWeight      = on ? "bold"      : "normal";
+        if (prop === "italic")    textInput.style.fontStyle       = on ? "italic"    : "normal";
+        if (prop === "underline") textInput.style.textDecoration  = on ? "underline" : "none";
+    }
+}
+
+function applyToolbar() {
+    var font  = document.getElementById("tbFont").value;
+    var size  = parseInt(document.getElementById("tbSize").value) || 22;
+    var color = document.getElementById("tbColor").value;
+    if (floatEditor.style.display !== "none") {
+        var sx = canvasWrap.getBoundingClientRect().width / pdfCanvas.width;
+        textInput.style.fontFamily = font;
+        textInput.style.fontSize   = (size * sx) + "px";
+        textInput.style.color      = color;
+    }
+    if (_selTextIdx >= 0 && textItems[_selTextIdx]) {
+        var it = textItems[_selTextIdx];
+        it.font = font; it.size = size; it.color = color;
+        it.bold = isBold(); it.italic = isItalic(); it.underline = isUnderline();
+        renderTextItems();
+    }
+}
+
+// ── All canvas events on selectCanvas (unified) ──
+function hitTestText(pos) {
+    for (var i = textItems.length - 1; i >= 0; i--) {
+        var b = textItems[i]._bbox;
+        if (b && pos.x >= b.x-6 && pos.x <= b.x+b.w+6 &&
+                 pos.y >= b.y-6 && pos.y <= b.y+b.h+6) return i;
+    }
+    return -1;
+}
+
+function onDown(e) {
+    var pos = getCanvasPos(e); _lastPos = pos;
+    // 1. Text item hit? → select + drag
+    var th = hitTestText(pos);
+    if (th >= 0) {
+        commitText();
+        _selTextIdx = th;
+        _mode = 'text-drag';
+        _dragStart = pos;
+        _textDragOff = {x: pos.x - textItems[th].x, y: pos.y - textItems[th].y};
+        loadToolbarFromItem(textItems[th]);
+        renderTextItems();
+        selectCanvas.style.cursor = 'move';
+        return;
+    }
+    // 2. Crop handle?
+    var h = hitHandle(pos);
+    if (h) {
+        commitText(); _selTextIdx = -1;
+        _mode = 'resize-' + h;
+        _selAtDrag = {x:_sel.x, y:_sel.y, w:_sel.w, h:_sel.h};
+        _dragStart = pos;
+        document.getElementById("tbDeleteText").classList.remove("visible");
+        renderTextItems(); return;
+    }
+    // 3. Inside crop area?
+    if (inSel(pos)) {
+        commitText(); _selTextIdx = -1;
+        _mode = 'move';
+        _selAtDrag = {x:_sel.x, y:_sel.y, w:_sel.w, h:_sel.h};
+        _dragStart = pos;
+        document.getElementById("tbDeleteText").classList.remove("visible");
+        renderTextItems(); return;
+    }
+    // 4. Outside → draw new crop
+    commitText();
+    _mode = 'draw'; _sel = null; _selAtDrag = null; _selTextIdx = -1;
+    _dragStart = pos;
+    selCtx.clearRect(0, 0, selectCanvas.width, selectCanvas.height);
+    hideSelectionUI();
+    document.getElementById("selInfo").textContent = "";
+    document.getElementById("tbDeleteText").classList.remove("visible");
+    renderTextItems();
+}
+
+function onMove(e) {
+    var pos = getCanvasPos(e); _lastPos = pos;
+    var cw = selectCanvas.width, ch = selectCanvas.height;
+    if (!_mode) {
+        // Hover cursor
+        if (hitTestText(pos) >= 0) selectCanvas.style.cursor = 'move';
+        else { var h = hitHandle(pos);
+            if (h) selectCanvas.style.cursor = CURSORS[h];
+            else if (inSel(pos)) selectCanvas.style.cursor = 'text';
+            else selectCanvas.style.cursor = 'crosshair';
+        }
+        return;
+    }
+    var dx = pos.x-_dragStart.x, dy = pos.y-_dragStart.y;
+    if (_mode === 'text-drag') {
+        textItems[_selTextIdx].x = pos.x - _textDragOff.x;
+        textItems[_selTextIdx].y = pos.y - _textDragOff.y;
+        renderTextItems(); return;
+    }
+    if (_mode === 'draw') {
+        var x=Math.max(0,Math.min(_dragStart.x,pos.x)), y=Math.max(0,Math.min(_dragStart.y,pos.y));
+        var w=Math.min(Math.abs(pos.x-_dragStart.x),cw-x), hh=Math.min(Math.abs(pos.y-_dragStart.y),ch-y);
+        drawOverlay({x,y,w,h:hh}); return;
+    }
+    if (_mode === 'move') {
+        var nx=Math.max(0,Math.min(cw-_selAtDrag.w,_selAtDrag.x+dx));
+        var ny=Math.max(0,Math.min(ch-_selAtDrag.h,_selAtDrag.y+dy));
+        _sel={x:nx,y:ny,w:_selAtDrag.w,h:_selAtDrag.h}; drawOverlay(_sel); updateSelInfo(); return;
+    }
+    // resize
+    var s={x:_selAtDrag.x,y:_selAtDrag.y,w:_selAtDrag.w,h:_selAtDrag.h};
+    var id=_mode.slice(7);
+    if(id.indexOf('n')>=0){s.y=_selAtDrag.y+dy;s.h=_selAtDrag.h-dy;}
+    if(id.indexOf('s')>=0){s.h=_selAtDrag.h+dy;}
+    if(id.indexOf('w')>=0){s.x=_selAtDrag.x+dx;s.w=_selAtDrag.w-dx;}
+    if(id.indexOf('e')>=0){s.w=_selAtDrag.w+dx;}
+    if(s.w<MIN_SEL){if(id.indexOf('w')>=0)s.x=_selAtDrag.x+_selAtDrag.w-MIN_SEL;s.w=MIN_SEL;}
+    if(s.h<MIN_SEL){if(id.indexOf('n')>=0)s.y=_selAtDrag.y+_selAtDrag.h-MIN_SEL;s.h=MIN_SEL;}
+    s.x=Math.max(0,s.x);s.y=Math.max(0,s.y);
+    if(s.x+s.w>cw)s.w=cw-s.x; if(s.y+s.h>ch)s.h=ch-s.y;
+    _sel=s; drawOverlay(_sel); updateSelInfo();
+}
+
+function onUp(e) {
+    if (!_mode) return;
+    var pos = _lastPos || _dragStart;
+    if (_mode === 'text-drag') {
+        _mode = null; selectCanvas.style.cursor = 'text'; renderTextItems(); return;
+    }
+    if (_mode === 'move') {
+        var dist = Math.sqrt(Math.pow(pos.x-_dragStart.x,2)+Math.pow(pos.y-_dragStart.y,2));
+        if (dist < 6) {
+            // Quick click inside selection → open text editor
+            _sel = Object.assign({}, _selAtDrag);
+            _mode = null; _dragStart = null; _selAtDrag = null;
+            openEditor(pos);
+            return;
+        }
+        showSelectionUI(); updateSelInfo();
+    } else if (_mode === 'draw') {
+        var x=Math.max(0,Math.min(_dragStart.x,pos.x)), y=Math.max(0,Math.min(_dragStart.y,pos.y));
+        var w=Math.abs(pos.x-_dragStart.x), hh=Math.abs(pos.y-_dragStart.y);
+        if (w>=10 && hh>=10) {
+            _sel={x,y,w,h:hh}; drawOverlay(_sel); showSelectionUI(); updateSelInfo();
+        } else { clearSelectionSilent(); }
+    } else if (_sel) {
+        showSelectionUI(); updateSelInfo();
+    }
+    _mode = null; _dragStart = null; _selAtDrag = null;
+}
+
+selectCanvas.addEventListener("mousedown",  onDown);
+selectCanvas.addEventListener("mousemove",  onMove);
+selectCanvas.addEventListener("mouseup",    onUp);
+selectCanvas.addEventListener("mouseleave", onUp);
+selectCanvas.addEventListener("touchstart", function(e){e.preventDefault();onDown(e);},{passive:false});
+selectCanvas.addEventListener("touchmove",  function(e){e.preventDefault();onMove(e);},{passive:false});
+selectCanvas.addEventListener("touchend",   function(e){e.preventDefault();onUp(e);},{passive:false});
+
+// Double-click on canvas to re-edit existing text
+selectCanvas.addEventListener("dblclick", function(e) {
+    var pos = getCanvasPos(e);
+    var hit = hitTestText(pos);
+    if (hit >= 0) {
+        commitText();
+        var it = textItems[hit];
+        textItems.splice(hit, 1);
+        renderTextItems();
+        openEditor(pos, it);
+    }
+});
+
+// ── Floating editor ──
+function openEditor(pos, existingItem) {
+    var rect = canvasWrap.getBoundingClientRect();
+    var sx = rect.width / pdfCanvas.width, sy = rect.height / pdfCanvas.height;
+    // position: fixed (viewport coords)
+    var screenX = rect.left + pos.x * sx;
+    var screenY = rect.top  + pos.y * sy;
+
+    var font  = existingItem ? existingItem.font  : document.getElementById("tbFont").value;
+    var size  = existingItem ? existingItem.size  : (parseInt(document.getElementById("tbSize").value)||22);
+    var color = existingItem ? existingItem.color : document.getElementById("tbColor").value;
+    var bold  = existingItem ? existingItem.bold  : isBold();
+    var ital  = existingItem ? existingItem.italic : isItalic();
+    var undr  = existingItem ? existingItem.underline : isUnderline();
+
+    if (existingItem) {
+        document.getElementById("tbFont").value = font;
+        document.getElementById("tbSize").value = size;
+        document.getElementById("tbColor").value = color;
+        document.getElementById("btnBold").classList.toggle("active", bold);
+        document.getElementById("btnItalic").classList.toggle("active", ital);
+        document.getElementById("btnUnderline").classList.toggle("active", undr);
+    }
+
+    textInput.style.fontFamily      = font;
+    textInput.style.fontSize        = (size * sx) + "px";
+    textInput.style.fontWeight      = bold ? "bold"      : "normal";
+    textInput.style.fontStyle       = ital ? "italic"    : "normal";
+    textInput.style.textDecoration  = undr ? "underline" : "none";
+    textInput.style.color           = color;
+    textInput.innerText             = existingItem ? existingItem.text : "";
+
+    floatEditor.style.left    = screenX + "px";
+    floatEditor.style.top     = screenY + "px";
+    floatEditor.style.display = "block";
+    floatEditor.dataset.canvasX = pos.x;
+    floatEditor.dataset.canvasY = pos.y;
+
+    setTimeout(function(){
+        textInput.focus();
+        // Move cursor to end
+        var range = document.createRange();
+        range.selectNodeContents(textInput); range.collapse(false);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(range);
+    }, 20);
+}
+
+function commitText() {
+    if (!floatEditor || floatEditor.style.display === "none") return;
+    var text = textInput.innerText.trim();
+    floatEditor.style.display = "none";
+    if (!text) return;
+    textItems.push({
+        x: parseFloat(floatEditor.dataset.canvasX),
+        y: parseFloat(floatEditor.dataset.canvasY),
+        text: text,
+        font: document.getElementById("tbFont").value,
+        size: parseInt(document.getElementById("tbSize").value) || 22,
+        bold: isBold(), italic: isItalic(), underline: isUnderline(),
+        color: document.getElementById("tbColor").value,
+        _bbox: null
+    });
+    renderTextItems();
+}
+
+document.addEventListener("mousedown", function(e) {
+    if (floatEditor.style.display !== "none"
+        && !floatEditor.contains(e.target)
+        && !document.getElementById("textToolbar").contains(e.target)) {
+        commitText();
+    }
+});
+
+textInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); commitText(); }
+    if (e.key === "Escape") { floatEditor.style.display = "none"; }
+});
+
+// ── Render text to textCanvas ──
+function getFont(it) {
+    return (it.italic?"italic ":"") + (it.bold?"bold ":"") + it.size + "px " + it.font;
+}
+
+function loadToolbarFromItem(it) {
+    document.getElementById("tbFont").value  = it.font;
+    document.getElementById("tbSize").value  = it.size;
+    document.getElementById("tbColor").value = it.color;
+    document.getElementById("btnBold").classList.toggle("active", it.bold);
+    document.getElementById("btnItalic").classList.toggle("active", it.italic);
+    document.getElementById("btnUnderline").classList.toggle("active", it.underline);
+    document.getElementById("tbDeleteText").classList.add("visible");
+}
+
+function renderTextItems() {
+    if (!textCanvas.width) return;
+    textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height);
+    textItems.forEach(function(it, idx) {
+        var lines = it.text.split("\n");
+        textCtx.font = getFont(it);
+        textCtx.fillStyle = it.color;
+        var lineH = it.size * 1.35;
+        var maxW = 0;
+        lines.forEach(function(ln, li) {
+            var y = it.y + (li + 1) * lineH;
+            textCtx.fillText(ln, it.x, y);
+            if (it.underline) {
+                var w = textCtx.measureText(ln).width;
+                textCtx.fillRect(it.x, y + 3, w, Math.max(1, it.size * 0.06));
+            }
+            maxW = Math.max(maxW, textCtx.measureText(ln).width);
+        });
+        it._bbox = {x: it.x, y: it.y, w: maxW, h: lines.length * lineH};
+        // Highlight selected
+        if (idx === _selTextIdx) {
+            textCtx.strokeStyle = "#E53935"; textCtx.lineWidth = 1.5; textCtx.setLineDash([4,3]);
+            textCtx.strokeRect(it._bbox.x - 4, it._bbox.y, it._bbox.w + 8, it._bbox.h + 4);
+            textCtx.setLineDash([]);
+        }
+    });
+}
+
+function deleteSelectedText() {
+    if (_selTextIdx < 0) return;
+    textItems.splice(_selTextIdx, 1);
+    _selTextIdx = -1;
+    document.getElementById("tbDeleteText").classList.remove("visible");
+    renderTextItems();
+}
+
+// ── Composite canvas helper (pdf + text) ──
+function getComposite() {
+    var tmp = document.createElement("canvas");
+    tmp.width = pdfCanvas.width; tmp.height = pdfCanvas.height;
+    var ctx = tmp.getContext("2d");
+    ctx.drawImage(pdfCanvas, 0, 0);
+    ctx.drawImage(textCanvas, 0, 0);
+    return tmp;
+}
+
+// ── Downloads ──
+function downloadJPG() {
+    if (!_sel) return;
+    commitText();
+    var comp = getComposite();
+    var tmp = document.createElement("canvas");
+    tmp.width = Math.round(_sel.w); tmp.height = Math.round(_sel.h);
+    tmp.getContext("2d").drawImage(comp, _sel.x, _sel.y, _sel.w, _sel.h, 0, 0, tmp.width, tmp.height);
+    var a = document.createElement("a");
+    a.href = tmp.toDataURL("image/jpeg", 0.93);
+    a.download = "cropped.jpg"; a.click();
+}
+
+async function downloadPDF() {
+    if (!_sel) return;
+    commitText();
+    var spinner = document.getElementById("dlSpinner");
+    spinner.style.display = "block";
+
+    if (textItems.length === 0 && _pdfFile) {
+        // No text: use original PDF crop (best quality)
+        var x1 = _sel.x/_pdfScale, y1 = _sel.y/_pdfScale;
+        var x2 = (_sel.x+_sel.w)/_pdfScale, y2 = (_sel.y+_sel.h)/_pdfScale;
+        var fd = new FormData();
+        fd.append("pdf_file", _pdfFile);
+        fd.append("pdf_password", _pdfPassword || "");
+        fd.append("x1", x1.toFixed(2)); fd.append("y1", y1.toFixed(2));
+        fd.append("x2", x2.toFixed(2)); fd.append("y2", y2.toFixed(2));
+        try {
+            var resp = await fetch("/crop-visual", {method:"POST", body:fd});
+            if (!resp.ok) throw new Error("Server error " + resp.status);
+            var blob = await resp.blob();
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a"); a.href=url; a.download="cropped.pdf"; a.click();
+            setTimeout(function(){URL.revokeObjectURL(url);}, 3000);
+        } catch(err) { alert("PDF error: " + err.message); }
+    } else {
+        // Has text: flatten canvas → image → PDF
+        var comp = getComposite();
+        var tmp = document.createElement("canvas");
+        tmp.width = Math.round(_sel.w); tmp.height = Math.round(_sel.h);
+        tmp.getContext("2d").drawImage(comp, _sel.x, _sel.y, _sel.w, _sel.h, 0, 0, tmp.width, tmp.height);
+        var imageData = tmp.toDataURL("image/png");
+        var fd = new FormData();
+        fd.append("image_data", imageData);
+        try {
+            var resp = await fetch("/canvas-to-pdf", {method:"POST", body:fd});
+            if (!resp.ok) throw new Error("Server error " + resp.status);
+            var blob = await resp.blob();
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a"); a.href=url; a.download="cropped_with_text.pdf"; a.click();
+            setTimeout(function(){URL.revokeObjectURL(url);}, 3000);
+        } catch(err) { alert("PDF error: " + err.message); }
+    }
+    spinner.style.display = "none";
+}
+
+// scroll বা resize হলে toolbar আবার position করো
+window.addEventListener("scroll", function() {
+    var tb = document.getElementById("textToolbar");
+    if (tb && tb.classList.contains("visible")) positionToolbar();
+}, true);
+window.addEventListener("resize", function() {
+    var tb = document.getElementById("textToolbar");
+    if (tb && tb.classList.contains("visible")) positionToolbar();
+});
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I select the area I want to keep?</div>
+    <div class="faq-a">Drag anywhere on the page preview to draw a rectangle. Everything inside it is kept and everything outside is trimmed away. Once drawn, drag inside the rectangle to move it, or drag any of the eight handles on its edges and corners to resize it precisely.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I add text on top of the PDF?</div>
+    <div class="faq-a">Draw your crop area first. A formatting toolbar appears just above it, then click anywhere inside the selection to place a text box. Type your text, adjust the font, size, bold, italic, underline, and colour from the toolbar, and click outside or press Ctrl+Enter to stamp it onto the page.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I move or edit text after placing it?</div>
+    <div class="faq-a">Yes. Drag any placed text to reposition it. Double-click it to reopen the editor and change the wording. A single click selects it so the toolbar controls apply to that item, letting you change its font or colour after the fact. Each text item keeps its own independent formatting.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Should I download as JPG or PDF?</div>
+    <div class="faq-a">Choose PDF when you want a document — if you have not added text, the crop is applied to the original file so the text stays selectable and the quality is untouched. Choose JPG when you need a picture to paste into a slide, a message, or a web page.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does the crop apply to every page or just the one I see?</div>
+    <div class="faq-a">You draw the crop area on the page currently displayed, and that same region is applied to every page when you download as PDF. This works well for documents with a consistent layout, such as a scanned book where every page has the same margins.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I crop a scanned document to remove black scanner borders?</div>
+    <div class="faq-a">Yes — this is one of the most common uses. Drag a rectangle that covers only the paper itself and excludes the dark edges the scanner picked up. The result is a clean document with no black frame, which also prints far better and uses less toner.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Crop PDF Online — Free Visual PDF Cropping Tool</h2>
+<p>Most PDF croppers ask you to type margin measurements in millimetres and hope for the best. This one shows you the page and lets you draw the area you want to keep with your mouse. You see the result before you commit to it, you can nudge and resize the selection until it is exactly right, and you can add text on top before downloading as either a PDF or a JPG image.</p>
+
+<h3>Why Crop a PDF?</h3>
+<p><strong>Scanner borders</strong> are the most common reason. When a page is smaller than the scanner glass, the surrounding area comes out as a black or grey frame that wastes toner when printed and looks unprofessional on screen. Cropping removes it completely.</p>
+<p><strong>Excessive margins</strong> are the second. Documents formatted for print often carry generous white space that serves no purpose on a screen — and on a phone or tablet it means the actual content is rendered uselessly small. Cropping the margins away makes the text noticeably larger and more readable on a mobile device.</p>
+<p><strong>Isolating a region</strong> is the third. Sometimes you only need one table, one chart, or one photograph out of a busy page. Draw a rectangle around it and download just that.</p>
+
+<h3>Drawing, Moving, and Resizing the Selection</h3>
+<p>Drag anywhere on the page to draw your first rectangle. From that point on the selection is fully editable: drag from inside it to slide the whole area to a new position, or grab any of the eight handles around its edge to resize. The dimensions in PDF points are shown live as you work, which is useful when you need to match a specific size.</p>
+<p>Nothing is applied until you download, so you are free to adjust the selection as many times as you like. The Clear button removes it entirely and lets you start again.</p>
+
+<h3>Adding Text to Your PDF</h3>
+<p>Once a crop area exists, a formatting toolbar appears directly above it and you can click inside the selection to place a text box. Choose from six font families, set any size, apply bold, italic, or underline, and pick any colour. Each text item is independent, so one label can be large and red while another is small and black.</p>
+<p>Placed text remains editable. Drag it to move, double-click to change the wording, or click once to select it and adjust its formatting from the toolbar. This makes the tool useful for annotating scanned forms, adding captions to figures, labelling diagrams, and marking up documents for review.</p>
+
+<h3>Choosing Between PDF and JPG</h3>
+<p><strong>Download as PDF</strong> when you need a document. If you have not added any text, the crop is applied directly to the original file using its native page geometry, which means the text stays selectable and searchable and the quality is completely untouched. This is the option for anything that will be printed, archived, or read as a document.</p>
+<p><strong>Download as JPG</strong> when you need a picture — something to drop into a presentation slide, attach to a message, or embed in a web page. The image reproduces exactly what you see, including any text you added.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Students and researchers</strong> crop figures and tables out of papers to cite in their own work. <strong>Offices digitising paper</strong> strip scanner borders from thousands of archived pages. <strong>Anyone reading PDFs on a phone or e-reader</strong> trims margins so the text fills the screen properly. <strong>Designers</strong> extract artwork regions from proofs and layouts. <strong>Teams reviewing documents</strong> crop to the relevant section and add a text note before circulating it.</p>
+
+<h3>How to Crop a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Use the page navigation to reach the page you want to work from. Drag to draw your crop area, then fine-tune it by moving the rectangle or dragging its handles. Add text if you need it. Click Download JPG or Download PDF and the result arrives immediately.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>The page preview, the crop selection, and any text you add are all rendered locally in your browser — none of that leaves your machine. When you download, the file is processed in memory and discarded immediately afterwards. Nothing is written to disk and no copy is kept.</p>
+
+<h3>Related PDF Tools</h3>
+<p>After cropping, <a href="/rotate">Rotate PDF</a> corrects any pages that are the wrong way up, <a href="/compress">Compress PDF</a> reduces the file size, and <a href="/organize-pdf">Organize PDF</a> lets you reorder and remove pages. For text annotation across a whole document rather than one region, try <a href="/edit-pdf">Edit PDF</a>.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/rotate">Rotate PDF</a> &nbsp;·&nbsp; <a href="/edit-pdf">Edit PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a> &nbsp;·&nbsp; <a href="/organize-pdf">Organize PDF</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

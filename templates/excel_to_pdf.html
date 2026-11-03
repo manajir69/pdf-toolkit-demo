@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel to PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Convert Excel spreadsheets to PDF online for free. Turn XLSX files into PDF documents instantly.">
+    <meta name="keywords" content="Excel to PDF, XLSX to PDF, spreadsheet to PDF, convert Excel PDF">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/excel-to-pdf">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Excel to PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/excel-to-pdf">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Excel to PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/excel-to-pdf",
+          "url": "https://example.com/excel-to-pdf",
+          "name": "Excel to PDF - PDF Toolkit Demo",
+          "description": "Convert Excel spreadsheets to PDF format with tables intact.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Convert PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Excel to PDF","item":"https://example.com/excel-to-pdf"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"Will my spreadsheet fit properly on the page?","acceptedAnswer":{"@type":"Answer","text":"Wide spreadsheets are the main challenge, since a sheet that scrolls sideways on screen has to be divided across pages on paper. Setting the print area and page orientation in Excel before converting gives you control over exactly where those breaks fall."}},
+            {"@type":"Question","name":"Do multiple worksheets all convert?","acceptedAnswer":{"@type":"Answer","text":"Sheets in the workbook are converted in order, each starting on a new page. If you only want one sheet, the cleanest approach is to copy it into a new workbook and convert that, which avoids any ambiguity about what should be included."}},
+            {"@type":"Question","name":"Are formulas visible in the PDF?","acceptedAnswer":{"@type":"Answer","text":"No — and this is the point of converting. The PDF shows the calculated results as they appear on screen. Recipients see the numbers without the underlying formulas, which is usually exactly what you want when sharing figures."}},
+            {"@type":"Question","name":"Will charts and conditional formatting come across?","acceptedAnswer":{"@type":"Answer","text":"Yes. Charts, cell colours, conditional formatting, borders, and number formatting all appear in the PDF as they do in Excel. The PDF is a faithful picture of the sheet as it looks on your screen."}},
+            {"@type":"Question","name":"Why send a PDF instead of the spreadsheet file?","acceptedAnswer":{"@type":"Answer","text":"Because a spreadsheet invites editing and reveals your working. A PDF presents the figures as a finished statement that cannot be accidentally altered, and hides the formulas, hidden columns, and notes that a workbook carries along with it."}},
+            {"@type":"Question","name":"Are my files stored on your server?","acceptedAnswer":{"@type":"Answer","text":"No. Your workbook is processed in memory and the PDF is streamed straight back to your browser. Nothing is written to disk, nothing is logged, and no copy is retained after your download completes."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Excel to PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/excel-to-pdf"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Convert PDF</a><span>›</span><strong>Excel to PDF</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">Excel to PDF</h1>
+    <p class="subtitle">Convert Excel spreadsheets to PDF</p>
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">📊</div>
+            <h2>Drag &amp; Drop File Here</h2><p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".xlsx,.xls" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <span style="font-size:40px;">📊</span>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint" style="color:#888;">Converts your Excel (.xlsx) spreadsheet to a PDF document.</p>
+            <button type="submit" class="btn">📊 Convert to PDF</button>
+        </div>
+    </form>
+</div>
+<script>
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function handleFile(file){fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";optionsSection.style.display="block";}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+</script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function handleFile(file){window._pdfFile=file;fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";_tryLoadPdf(null);}
+    function _tryLoadPdf(password){if(!window._pdfFile)return;var r=new FileReader();r.onload=function(e){var data=new Uint8Array(e.target.result);var opts=password?{data:data,password:password}:{data:data};pdfjsLib.getDocument(opts).promise.then(function(pdf){if(password)document.getElementById("pdfPasswordHidden").value=password;document.getElementById("pdfPasswordPrompt").style.display="none";document.getElementById("pdfPassError").style.display="none";optionsSection.style.display="block";pdf.getPage(1).then(function(page){var canvas=document.getElementById("firstPageThumb");var ctx=canvas.getContext("2d");var vp=page.getViewport({scale:0.5});canvas.width=vp.width;canvas.height=vp.height;page.render({canvasContext:ctx,viewport:vp});});}).catch(function(err){if(err.name==="PasswordException"){document.getElementById("pdfPasswordPrompt").style.display="block";if(password)document.getElementById("pdfPassError").style.display="block";setTimeout(function(){document.getElementById("pdfPassInput").focus();},100);}});};r.readAsArrayBuffer(window._pdfFile);}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";document.getElementById("pdfPasswordPrompt").style.display="none";}
+    function confirmPdfPassword(){var pass=document.getElementById("pdfPassInput").value;if(!pass)return;document.getElementById("pdfPassError").style.display="none";_tryLoadPdf(pass);}
+    function togglePdfPass(btn){var inp=document.getElementById("pdfPassInput");inp.type=inp.type==="password"?"text":"password";btn.querySelector("svg").setAttribute("stroke",inp.type==="text"?"#F9A825":"#888");}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+
+</script>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will my spreadsheet fit properly on the page?</div>
+    <div class="faq-a">Wide spreadsheets are the main challenge, since a sheet that scrolls sideways on screen has to be divided across pages on paper. Setting the print area and page orientation in Excel before converting gives you control over exactly where those breaks fall.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Do multiple worksheets all convert?</div>
+    <div class="faq-a">Sheets in the workbook are converted in order, each starting on a new page. If you only want one sheet, the cleanest approach is to copy it into a new workbook and convert that, which avoids any ambiguity about what should be included.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are formulas visible in the PDF?</div>
+    <div class="faq-a">No — and this is the point of converting. The PDF shows the calculated results as they appear on screen. Recipients see the numbers without the underlying formulas, which is usually exactly what you want when sharing figures.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will charts and conditional formatting come across?</div>
+    <div class="faq-a">Yes. Charts, cell colours, conditional formatting, borders, and number formatting all appear in the PDF as they do in Excel. The PDF is a faithful picture of the sheet as it looks on your screen.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why send a PDF instead of the spreadsheet file?</div>
+    <div class="faq-a">Because a spreadsheet invites editing and reveals your working. A PDF presents the figures as a finished statement that cannot be accidentally altered, and hides the formulas, hidden columns, and notes that a workbook carries along with it.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my files stored on your server?</div>
+    <div class="faq-a">No. Your workbook is processed in memory and the PDF is streamed straight back to your browser. Nothing is written to disk, nothing is logged, and no copy is retained after your download completes.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Excel to PDF Converter Online — Free XLSX to PDF</h2>
+<p>Convert spreadsheets into clean PDF documents with the tables, charts, and formatting intact. Upload your workbook, download a PDF, and share figures that look identical to everyone who opens them. Free, instant, and no watermark.</p>
+
+<h3>Why Convert a Spreadsheet to PDF?</h3>
+<p><strong>To present results rather than working.</strong> A spreadsheet shows how you got there — every formula, every helper column, every note left in a cell during the build. A PDF shows the finished figures. When you are sending numbers to a client, a manager, or a board, the result is what matters and the workings usually are not meant to be part of the conversation.</p>
+<p><strong>To prevent accidental changes.</strong> Someone reviewing a workbook can type over a value without noticing, and now their copy disagrees with yours with no record of why. A PDF cannot be edited casually.</p>
+<p><strong>To guarantee consistent appearance.</strong> Spreadsheets render differently depending on version, screen size, and installed fonts. Row heights shift, columns clip, and a carefully arranged sheet can arrive looking broken. A PDF is fixed.</p>
+<p><strong>To ensure it can be opened at all.</strong> Not everyone has Excel, and mobile devices handle spreadsheet files inconsistently. Every device opens a PDF.</p>
+
+<h3>Set the Print Area Before Converting</h3>
+<p>This is the single most useful piece of preparation, and it takes a minute in Excel.</p>
+<p>A spreadsheet has no natural page boundaries — it extends as far as your data goes. A PDF is made of fixed pages. Something has to decide where the divisions fall, and if you do not decide, the converter will.</p>
+<p>In Excel, set the print area to the range you actually want, choose landscape orientation for wide tables, and use the scaling option to fit all columns on one page. The Page Break Preview view shows exactly where each division will land, so you can adjust before converting rather than discovering an awkward split afterwards.</p>
+<p>Ten minutes spent here is the difference between a PDF that reads as a professional report and one where the last two columns appear alone on a stray final page.</p>
+
+<h3>What Carries Across</h3>
+<p>The PDF reproduces the sheet as it appears on screen. <strong>Charts and graphs</strong> render at full quality. <strong>Cell formatting</strong> — colours, borders, fonts, and alignment — is preserved. <strong>Conditional formatting</strong> appears with its calculated colours applied. <strong>Number formatting</strong> including currency symbols, decimal places, and date formats displays exactly as configured.</p>
+<p>What does not carry across, by design, are the formulas themselves. The PDF shows calculated values, which is precisely the point of the conversion.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Accountants</strong> send financial statements and reports to clients in a fixed, non-editable form. <strong>Project managers</strong> distribute schedules and budget summaries. <strong>Sales teams</strong> issue quotations built in spreadsheets as finished documents. <strong>Analysts</strong> attach data tables to reports. <strong>Anyone sharing figures</strong> who wants the numbers seen without the underlying model.</p>
+
+<h3>How to Convert Excel to PDF</h3>
+<p>Prepare your print area and orientation in Excel first if the sheet is wide. Upload your workbook by dragging it onto the box or clicking to browse. The conversion runs automatically and the PDF downloads when ready. Open it and check the page breaks before sending it on.</p>
+
+<h3>Handling Multiple Worksheets</h3>
+<p>Sheets in a workbook are converted in order, each starting on a new page. If you only need one sheet out of several, copy it into a fresh workbook and convert that — it removes any ambiguity about what gets included and avoids accidentally publishing a working sheet you had forgotten was in the file.</p>
+<p>That last point is worth emphasising. Workbooks accumulate hidden sheets, draft calculations, and old versions. Converting the whole file publishes all of it. Checking what is actually in the workbook before converting has saved people from some awkward disclosures.</p>
+
+<h3>After Converting</h3>
+<p>To combine the spreadsheet PDF with other documents into one report, use <a href="/merge">Merge PDF</a>. If the file is large because of embedded charts, <a href="/compress">Compress PDF</a> reduces it. For financial documents going to clients, <a href="/protect">Protect PDF</a> adds password encryption.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your workbook is processed in memory and discarded the moment your download completes. Nothing is written to disk, nothing is logged, and no copy is retained.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/pdf-to-excel">PDF to Excel</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a> &nbsp;·&nbsp; <a href="/protect">Protect PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

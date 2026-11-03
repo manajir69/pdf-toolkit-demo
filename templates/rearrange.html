@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rearrange PDF Pages Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Rearrange or reorder pages in your PDF online for free. Drag and drop to change page order. No installation required.">
+    <meta name="keywords" content="rearrange PDF pages, reorder PDF pages, change PDF page order, drag drop PDF, online PDF editor, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/rearrange">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Rearrange PDF Pages - PDF Toolkit Demo">
+    <meta property="og:description" content="Drag and drop to rearrange pages in your PDF online for free.">
+    <meta property="og:url" content="https://example.com/rearrange">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Rearrange PDF Pages - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Drag and drop to rearrange pages in your PDF online for free.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/rearrange",
+          "url": "https://example.com/rearrange",
+          "name": "Rearrange Pages - PDF Toolkit Demo",
+          "description": "Drag and drop to reorder PDF pages in any order you want.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Organize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Rearrange Pages","item":"https://example.com/rearrange"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How do I move a page to a new position?","acceptedAnswer":{"@type":"Answer","text":"Drag its thumbnail and drop it where you want it. The surrounding pages shift to make room and the numbering updates immediately, so the layout on screen always shows exactly what the finished document will look like."}},
+            {"@type":"Question","name":"Can I reorder pages on a phone or tablet?","acceptedAnswer":{"@type":"Answer","text":"Dragging works on touchscreens, though it can be fiddly with many pages. For precise control on a small screen, Organize PDF gives every page left and right buttons that move it one position at a time without any dragging."}},
+            {"@type":"Question","name":"Does reordering affect quality or file size?","acceptedAnswer":{"@type":"Answer","text":"No. Pages are copied into their new positions exactly as they exist in the source document. Embedded fonts, image resolution, and vector graphics are all untouched, and the file size stays essentially the same since the same content is simply written in a different sequence."}},
+            {"@type":"Question","name":"Can I reorder and rotate pages at the same time?","acceptedAnswer":{"@type":"Answer","text":"Not on this page — this tool focuses on order alone. Organize PDF combines reordering with rotation and deletion in a single visual editor, so all your changes happen in one upload and one download instead of three separate rounds."}},
+            {"@type":"Question","name":"What happens to bookmarks and internal links?","acceptedAnswer":{"@type":"Answer","text":"Internal page links are remapped to follow the pages they point at. Bookmarks in complex documents may need checking after a substantial reorganisation, so it is worth opening the result and testing the navigation if your document relies heavily on a table of contents."}},
+            {"@type":"Question","name":"Can I reorder a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. A password prompt appears automatically after upload if the file is encrypted. Enter it once and the thumbnails render as normal. To remove the password permanently instead, use our Unlock PDF tool first."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Rearrange Pages — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/rearrange"
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Organize PDF</a><span>›</span><strong>Rearrange Pages</strong>
+</nav>
+
+
+<div class="container">
+<h1 class="page-title">Rearrange Pages</h1>
+    <p class="subtitle">Drag and drop to reorder pages in your PDF</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="splitForm">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">↕️</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+        </div>
+
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="modeSection" style="display:none;">
+
+            <div id="visualSection">
+                <p class="mode-hint">Drag to reorder pages • Click ✖ to remove</p>
+                <div id="visualGrid" class="visual-grid"></div>
+                <input type="hidden" name="page_order" id="pageOrderInput">
+            </div>
+
+            <input type="hidden" name="mode" id="modeInput" value="visual">
+
+            <button type="submit" id="splitBtn" class="btn">💾 Save PDF</button>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script src="{{ url_for('static', filename='js/split.js') }}"></script>
+
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I move a page to a new position?</div>
+    <div class="faq-a">Drag its thumbnail and drop it where you want it. The surrounding pages shift to make room and the numbering updates immediately, so the layout on screen always shows exactly what the finished document will look like.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I reorder pages on a phone or tablet?</div>
+    <div class="faq-a">Dragging works on touchscreens, though it can be fiddly with many pages. For precise control on a small screen, <a href='/organize-pdf'>Organize PDF</a> gives every page left and right buttons that move it one position at a time without any dragging.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does reordering affect quality or file size?</div>
+    <div class="faq-a">No. Pages are copied into their new positions exactly as they exist in the source document. Embedded fonts, image resolution, and vector graphics are all untouched, and the file size stays essentially the same since the same content is simply written in a different sequence.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I reorder and rotate pages at the same time?</div>
+    <div class="faq-a">Not on this page — this tool focuses on order alone. <a href='/organize-pdf'>Organize PDF</a> combines reordering with rotation and deletion in a single visual editor, so all your changes happen in one upload and one download instead of three separate rounds.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What happens to bookmarks and internal links?</div>
+    <div class="faq-a">Internal page links are remapped to follow the pages they point at. Bookmarks in complex documents may need checking after a substantial reorganisation, so it is worth opening the result and testing the navigation if your document relies heavily on a table of contents.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I reorder a password-protected PDF?</div>
+    <div class="faq-a">Yes. A password prompt appears automatically after upload if the file is encrypted. Enter it once and the thumbnails render as normal. To remove the password permanently instead, use our <a href='/unlock'>Unlock PDF</a> tool first.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Rearrange PDF Pages Online — Free Drag and Drop Page Reorder</h2>
+<p>Pages end up in the wrong order constantly — a scanner picked up the stack upside down, a merge joined files in the wrong sequence, or a document was simply assembled out of order. This tool shows every page as a thumbnail you can drag into position, so you fix the sequence visually rather than by typing page numbers and hoping. It is free and runs entirely in your browser.</p>
+
+<h3>Why Page Order Goes Wrong</h3>
+<p><strong>Scanning</strong> is the usual culprit. Sheet feeders take paper from the top of the stack, so a bundle loaded face-up produces a document running backwards from the last page to the first. Reloading the feeder halfway through a long job interleaves the batches incorrectly.</p>
+<p><strong>Merging</strong> is the other common cause. Files joined in alphabetical order rarely land in the order the content should actually read, particularly when names begin with dates or numbers that sort in unexpected ways.</p>
+<p><strong>Late additions</strong> account for the rest. An appendix gets appended at the end when it belongs after chapter three; a signature page arrives separately and gets tacked on wherever there was room.</p>
+
+<h3>Why Dragging Beats Typing</h3>
+<p>Reordering by typing a sequence like <code>1,5,2,3,4</code> works, but only if you already know precisely which page is which. With scanned documents you usually do not — page seventeen might be the start of a chapter or the middle of a table, and there is no way to tell from the number alone.</p>
+<p>Seeing thumbnails removes the guesswork entirely. You recognise a page by looking at it, drag it where it belongs, and watch the numbering update as you go. Mistakes become obvious immediately instead of after you have downloaded the file and opened it.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Anyone working with scans</strong> puts reverse-order documents back the right way round. <strong>Students</strong> assemble lecture notes, readings, and handouts into a coherent study document. <strong>Office teams</strong> reorder merged reports so sections follow the intended structure. <strong>Legal and administrative staff</strong> arrange bundle pages to match a filed index exactly. <strong>Anyone preparing something for print</strong> checks the sequence visually before committing paper to it.</p>
+
+<h3>How to Rearrange PDF Pages</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Every page renders as a thumbnail within a few seconds. Drag any page and drop it where it belongs — the pages around it shift to make room and the numbers update live. When the order on screen matches what you want, download the reordered file.</p>
+<p>Nothing is applied to your document until you download, so you can experiment freely and start over at any point.</p>
+
+<h3>Reordering Is Completely Lossless</h3>
+<p>Changing page order does not change page content. Each page is copied into its new position exactly as it exists in the source — embedded fonts stay embedded, text remains selectable and searchable, vector graphics stay sharp at any zoom, and images keep their original resolution. File size is essentially unchanged, since the same content is simply written in a different sequence.</p>
+
+<h3>Reorder Alone, or Everything Together?</h3>
+<p>If order is the only problem, this tool is the quickest route. But documents that arrived in the wrong order often have other issues from the same source — pages that fed in sideways, blank backs from duplex scanning, a duplicate sheet or two. In that case <a href="/organize-pdf">Organize PDF</a> saves several rounds of work by combining reordering, rotation, and deletion in a single editor with one upload and one download.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Thumbnails are rendered locally in your browser, so the visual editing happens entirely on your own machine. When you download, the file is processed in memory and discarded immediately afterwards. Nothing is written to disk, nothing is logged, and no copy is retained.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/organize-pdf">Organize PDF</a> combines reordering with rotation and deletion. <a href="/rotate">Rotate PDF</a> fixes orientation on its own, <a href="/delete-pages">Delete Pages</a> removes specific pages, and <a href="/merge">Merge PDF</a> joins several documents before you arrange them.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/organize-pdf">Organize PDF</a> &nbsp;·&nbsp; <a href="/rotate">Rotate PDF</a> &nbsp;·&nbsp; <a href="/delete-pages">Delete Pages</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

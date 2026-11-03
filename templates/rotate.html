@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotate PDF Pages Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Rotate PDF pages online for free. Rotate individual pages by 90, 180, or 270 degrees. No installation required.">
+    <meta name="keywords" content="rotate PDF, rotate PDF pages, PDF page rotation, online PDF editor, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/rotate">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Rotate PDF Pages - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/rotate">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Rotate PDF Pages - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .rotate-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .rotate-card {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 160px;
+            position: relative;
+        }
+        .rotate-remove-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 28px;
+            height: 28px;
+            background: #E53935;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .rotate-remove-btn:hover { background: #b71c1c; }
+        .rotate-card canvas {
+            border: 1px solid #eee;
+            border-radius: 4px;
+            transition: transform 0.4s ease;
+            width: 120px;
+            height: 160px;
+            object-fit: contain;
+        }
+        .rotate-card .page-label {
+            font-size: 13px;
+            color: #888;
+        }
+        .rotate-card .rotate-btn {
+            background: #F9A825;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 18px;
+            font-size: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            width: 100%;
+        }
+        .rotate-card .rotate-btn:hover {
+            background: #EF6C00;
+        }
+        .rotate-card .angle-label {
+            font-size: 13px;
+            color: #E53935;
+            font-weight: bold;
+        }
+        .download-bar {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+    </style>
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/rotate",
+          "url": "https://example.com/rotate",
+          "name": "Rotate PDF - PDF Toolkit Demo",
+          "description": "Rotate PDF pages 90, 180, or 270 degrees online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Organize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Rotate PDF","item":"https://example.com/rotate"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"Can I rotate just one page instead of all of them?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every page appears as a thumbnail with its own rotate button, so you can fix a single sideways scan while leaving the rest untouched. This is the normal case with scanned documents, where usually only a few sheets fed in the wrong way."}},
+            {"@type":"Question","name":"What rotation angles are available?","acceptedAnswer":{"@type":"Answer","text":"Each click turns the page 90° clockwise. Click twice for 180° to flip an upside-down page, and three times for 270°, which is the same as 90° counter-clockwise. The current angle is shown under each thumbnail so you always know where you are."}},
+            {"@type":"Question","name":"Does rotating affect text quality or searchability?","acceptedAnswer":{"@type":"Answer","text":"No. Rotation is stored as a page property that the PDF reader applies when displaying the page, not by re-rendering the content as an image. Text stays perfectly sharp, fully selectable, and searchable exactly as before."}},
+            {"@type":"Question","name":"Will the rotation stick when I open the file elsewhere?","acceptedAnswer":{"@type":"Answer","text":"Yes. The rotation is written into the document itself, so every standards-compliant PDF reader — Acrobat, Preview, Chrome, Edge, and mobile apps — displays the pages the way you set them. It is not a temporary view setting."}},
+            {"@type":"Question","name":"Can I rotate a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. If your file is encrypted, a password prompt appears automatically after upload. Enter it once and the pages render as normal. To strip the password permanently instead, use our Unlock PDF tool first."}},
+            {"@type":"Question","name":"Can I rotate and reorder pages at the same time?","acceptedAnswer":{"@type":"Answer","text":"Not on this page — this tool focuses on rotation alone. If you need to rotate, reorder, and delete pages together in one pass, use Organize PDF, which combines all three in a single visual editor with one upload and one download."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Rotate PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/rotate"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Organize PDF</a><span>›</span><strong>Rotate PDF</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Rotate PDF</h1>
+    <p class="subtitle">Rotate individual pages of your PDF</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="rotateForm">
+        <input type="hidden" name="page_rotations" id="pageRotations">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🔄</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+
+        <div id="rotateGrid" class="rotate-grid"></div>
+
+        <div class="download-bar" id="downloadBar">
+            <p class="mode-hint">Click ↻ on each page to rotate. Then download.</p>
+            <button type="submit" class="btn">⬇️ Download Rotated PDF</button>
+        </div>
+
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+    const pdfInput = document.getElementById("pdfInput");
+    const dropArea = document.getElementById("dropArea");
+    const rotateGrid = document.getElementById("rotateGrid");
+    const downloadBar = document.getElementById("downloadBar");
+    const pageRotationsInput = document.getElementById("pageRotations");
+
+    let pageAngles = []; // rotation per page
+
+    function renderAllPages(arrayBuffer, password) {
+        const opts = password ? {data: arrayBuffer, password: password} : {data: arrayBuffer};
+        pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+            document.getElementById("pdfPasswordPrompt").style.display = "none";
+            const total = pdf.numPages;
+            pageAngles = new Array(total).fill(0);
+            rotateGrid.innerHTML = "";
+
+            for (let i = 1; i <= total; i++) {
+                pdf.getPage(i).then(function(page) {
+                    const vp = page.getViewport({ scale: 1.0 });
+                    const canvas = document.createElement("canvas");
+                    canvas.width = vp.width;
+                    canvas.height = vp.height;
+                    page.render({ canvasContext: canvas.getContext("2d"), viewport: vp });
+
+                    const pageIndex = i - 1;
+                    const angleLabel = document.createElement("div");
+                    angleLabel.className = "angle-label";
+                    angleLabel.id = "angle-label-" + pageIndex;
+                    angleLabel.textContent = "0°";
+
+                    const rotateBtn = document.createElement("button");
+                    rotateBtn.type = "button";
+                    rotateBtn.className = "rotate-btn";
+                    rotateBtn.textContent = "↻ Rotate";
+                    rotateBtn.onclick = function() {
+                        pageAngles[pageIndex] = (pageAngles[pageIndex] + 90) % 360;
+                        canvas.style.transform = "rotate(" + pageAngles[pageIndex] + "deg)";
+                        angleLabel.textContent = pageAngles[pageIndex] === 0 ? "0°" : pageAngles[pageIndex] + "°";
+                        updateRotations();
+                    };
+
+                    const removeBtn = document.createElement("button");
+                    removeBtn.type = "button";
+                    removeBtn.className = "rotate-remove-btn";
+                    removeBtn.textContent = "✕";
+                    removeBtn.title = "Remove this page";
+                    removeBtn.onclick = function() {
+                        card.remove();
+                        updateRotations();
+                    };
+
+                    const card = document.createElement("div");
+                    card.className = "rotate-card";
+                    const label = document.createElement("div");
+                    label.className = "page-label";
+                    label.textContent = "Page " + i;
+
+                    card.appendChild(removeBtn);
+                    card.appendChild(canvas);
+                    card.appendChild(angleLabel);
+                    card.appendChild(rotateBtn);
+                    card.appendChild(label);
+                    rotateGrid.appendChild(card);
+                });
+            }
+
+            updateRotations();
+            dropArea.style.display = "none";
+            downloadBar.style.display = "flex";
+        }).catch(function(err) {
+            if (err.name === "PasswordException") {
+                document.getElementById("pdfPasswordPrompt").style.display = "block";
+                if (password) document.getElementById("pdfPassError").style.display = "block";
+                setTimeout(function() { document.getElementById("pdfPassInput").focus(); }, 100);
+            }
+        });
+    }
+
+    function updateRotations() {
+        pageRotationsInput.value = pageAngles.join(",");
+    }
+
+    function handleFile(file) {
+        window._pdfFile = file;
+        _tryLoadRotate(null);
+    }
+
+    function _tryLoadRotate(password) {
+        if (!window._pdfFile) return;
+        var r = new FileReader();
+        r.onload = function(e) {
+            renderAllPages(new Uint8Array(e.target.result), password);
+        };
+        r.readAsArrayBuffer(window._pdfFile);
+    }
+
+    function confirmPdfPassword() {
+        var pass = document.getElementById("pdfPassInput").value;
+        if (!pass) return;
+        document.getElementById("pdfPassError").style.display = "none";
+        document.getElementById("pdfPasswordHidden").value = pass;
+        _tryLoadRotate(pass);
+    }
+
+    function togglePdfPass(btn) {
+        const inp = document.getElementById("pdfPassInput");
+        const svg = btn.querySelector("svg");
+        inp.type = inp.type === "password" ? "text" : "password";
+        svg.setAttribute("stroke", inp.type === "text" ? "#F9A825" : "#888");
+    }
+
+    function resetRotate() {
+        pdfInput.value = "";
+        window._pdfFile = null;
+        rotateGrid.innerHTML = "";
+        pageAngles = [];
+        downloadBar.style.display = "none";
+        document.getElementById("pdfPasswordPrompt").style.display = "none";
+        document.getElementById("pdfPasswordHidden").value = "";
+        dropArea.style.display = "";
+    }
+
+    pdfInput.addEventListener("change", () => { if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+    dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop", e => {
+        e.preventDefault(); dropArea.classList.remove("drag-over");
+        if (e.dataTransfer.files[0]) {
+            const dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+            pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+        }
+    });
+    dropArea.addEventListener("click", (e) => { if (!e.target.closest("label")) pdfInput.click(); });
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I rotate just one page instead of all of them?</div>
+    <div class="faq-a">Yes. Every page appears as a thumbnail with its own rotate button, so you can fix a single sideways scan while leaving the rest untouched. This is the normal case with scanned documents, where usually only a few sheets fed in the wrong way.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What rotation angles are available?</div>
+    <div class="faq-a">Each click turns the page 90° clockwise. Click twice for 180° to flip an upside-down page, and three times for 270°, which is the same as 90° counter-clockwise. The current angle is shown under each thumbnail so you always know where you are.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does rotating affect text quality or searchability?</div>
+    <div class="faq-a">No. Rotation is stored as a page property that the PDF reader applies when displaying the page, not by re-rendering the content as an image. Text stays perfectly sharp, fully selectable, and searchable exactly as before.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will the rotation stick when I open the file elsewhere?</div>
+    <div class="faq-a">Yes. The rotation is written into the document itself, so every standards-compliant PDF reader — Acrobat, Preview, Chrome, Edge, and mobile apps — displays the pages the way you set them. It is not a temporary view setting.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I rotate a password-protected PDF?</div>
+    <div class="faq-a">Yes. If your file is encrypted, a password prompt appears automatically after upload. Enter it once and the pages render as normal. To strip the password permanently instead, use our <a href='/unlock'>Unlock PDF</a> tool first.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I rotate and reorder pages at the same time?</div>
+    <div class="faq-a">Not on this page — this tool focuses on rotation alone. If you need to rotate, reorder, and delete pages together in one pass, use <a href='/organize-pdf'>Organize PDF</a>, which combines all three in a single visual editor with one upload and one download.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Rotate PDF Pages Online — Free PDF Rotation Tool</h2>
+<p>Sideways and upside-down pages are the most common defect in any scanned document, and they make a file genuinely unpleasant to read. This tool shows you every page as a thumbnail, lets you turn the ones that need it, and hands back a corrected PDF. It is free, runs in your browser, and requires nothing to be installed.</p>
+
+<h3>Why Pages End Up Rotated</h3>
+<p><strong>Sheet feeders</strong> pick up paper in whatever orientation it was stacked, so a bundle that was not squared before scanning produces a mix of correct and rotated pages. <strong>Landscape content</strong> — spreadsheets, wide tables, technical drawings — is often scanned in portrait mode and ends up needing a quarter turn. <strong>Photographed documents</strong> inherit the orientation the camera was held in, and phone cameras frequently record this inconsistently. <strong>Merged files</strong> combine documents that each had their own orientation convention, producing a single PDF where some sections read one way and others another.</p>
+
+<h3>Rotation Is Lossless</h3>
+<p>This is worth understanding because it explains why the operation is completely safe. A PDF page carries a rotation attribute — a number the reader consults before drawing the page. Setting it to 90 tells every reader to display that page turned a quarter turn. The page content itself is never touched, re-rendered, or re-compressed.</p>
+<p>The practical result is that text stays perfectly crisp and fully selectable, vector graphics remain sharp at any zoom, photographs keep their exact original resolution, and the file size does not change at all. You can rotate a page a dozen times and the twelfth result is bit-for-bit as good as the first.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Offices digitising paper records</strong> correct the pages that fed in the wrong way before filing the document. <strong>Students</strong> fix scanned textbook chapters and lecture handouts so they read normally on screen. <strong>Accountants</strong> turn landscape spreadsheets and financial statements the right way up within a portrait report. <strong>Engineers and architects</strong> orient wide technical drawings correctly for on-screen review. <strong>Anyone who photographs documents</strong> with a phone corrects the inevitable orientation mistakes afterwards.</p>
+
+<h3>How to Rotate PDF Pages</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Every page renders as a live thumbnail within a few seconds. Click the rotate button under any page to turn it 90° — click again for 180°, and once more for 270°. The thumbnail turns as you click, so you can see exactly what the finished document will look like. When everything reads correctly, download the corrected file.</p>
+<p>Because the preview reflects the real result, there is no guesswork and no need to download, check, and try again.</p>
+
+<h3>Getting the Orientation Right for Print</h3>
+<p>Orientation matters more on paper than on screen. A reader can tilt their head or rotate the view; a printed sheet is fixed. Correcting rotation before printing means the document comes out readable in the intended binding direction, which is essential for anything being bound, filed, or distributed as hard copy. It is worth a final check of every page before committing a long document to print.</p>
+
+<h3>Rotate Alone, or Everything Together?</h3>
+<p>If rotation is the only problem, this tool is the fastest route. But scanned documents rarely have just one issue — the same batch that came out sideways often also has pages in the wrong order and blank backs from duplex scanning. In that case <a href="/organize-pdf">Organize PDF</a> is more efficient: it puts rotation, reordering, and deletion in a single visual editor so all your corrections happen in one upload and one download rather than three.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Page thumbnails are rendered locally in your browser, so the preview never leaves your machine. When you download, the file is processed in memory and discarded immediately afterwards. Nothing is written to disk, nothing is logged, and no copy is kept. The tool works identically on Windows, macOS, Linux, Android, and iOS.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/organize-pdf">Organize PDF</a> combines rotation with reordering and deletion. <a href="/crop">Crop PDF</a> trims margins and scanner borders. <a href="/remove-blank-pages">Remove Blank Pages</a> strips empty pages from duplex scans, and <a href="/merge">Merge PDF</a> joins the corrected files together.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/organize-pdf">Organize PDF</a> &nbsp;·&nbsp; <a href="/crop">Crop PDF</a> &nbsp;·&nbsp; <a href="/rearrange">Rearrange Pages</a> &nbsp;·&nbsp; <a href="/remove-blank-pages">Remove Blank Pages</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

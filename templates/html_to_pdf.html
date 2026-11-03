@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML to PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Convert HTML to PDF online for free. Paste HTML code or enter a URL to generate a PDF document instantly.">
+    <meta name="keywords" content="HTML to PDF, URL to PDF, webpage to PDF, convert HTML PDF">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/html-to-pdf">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="HTML to PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/html-to-pdf">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="HTML to PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/html-to-pdf",
+          "url": "https://example.com/html-to-pdf",
+          "name": "HTML to PDF - PDF Toolkit Demo",
+          "description": "Convert HTML code to a PDF document online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Convert PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"HTML to PDF","item":"https://example.com/html-to-pdf"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What HTML can I convert?","acceptedAnswer":{"@type":"Answer","text":"Paste any HTML markup and it is rendered into a PDF. Standard elements — headings, paragraphs, lists, tables, links, and images — all convert. Inline CSS styling is applied, so you can control fonts, colours, spacing, and layout directly in the markup."}},
+            {"@type":"Question","name":"Does external CSS work?","acceptedAnswer":{"@type":"Answer","text":"Inline styles and styles inside a  block are the reliable approach. Stylesheets linked from external files may not be fetched, so for predictable results put your CSS directly in the markup you paste."}},
+            {"@type":"Question","name":"Will JavaScript run?","acceptedAnswer":{"@type":"Answer","text":"No. The converter renders the markup as supplied rather than executing scripts, so anything generated dynamically by JavaScript will not appear. Paste the final HTML you want in the document, not code that would produce it in a browser."}},
+            {"@type":"Question","name":"Can I convert a live web page instead?","acceptedAnswer":{"@type":"Answer","text":"Yes — use Webpage to PDF for that. Enter a URL and the page content is fetched and converted. This tool is for HTML you already have; that one is for pages on the web."}},
+            {"@type":"Question","name":"Will images show up?","acceptedAnswer":{"@type":"Answer","text":"Images referenced by a full public URL are fetched and included. Images embedded as base64 data URIs always work, since the data travels with the markup. Local file paths will not resolve, because the converter has no access to your computer."}},
+            {"@type":"Question","name":"What is this useful for?","acceptedAnswer":{"@type":"Answer","text":"Generating documents from HTML you have produced elsewhere — invoices from a template, reports from a system export, formatted content from a CMS, or email newsletters you want to archive as documents."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "HTML to PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/html-to-pdf"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Convert PDF</a><span>›</span><strong>HTML to PDF</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">HTML to PDF</h1>
+    <p class="subtitle">Convert HTML code or webpage to PDF</p>
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🌐</div>
+            <h2>Drag &amp; Drop File Here</h2><p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock &amp; Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint">Paste your HTML code:</p>
+            <textarea name="html_content" rows="8" placeholder="&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello World&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;" style="width:100%;max-width:560px;padding:12px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;font-family:monospace;resize:vertical;box-sizing:border-box;"></textarea>
+            <br><br>
+            <button type="submit" class="btn">🌐 Convert to PDF</button>
+        </div>
+    </form>
+</div>
+<script>    // No PDF.js needed for HTML to PDF
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    // Show options immediately for HTML tool
+    document.addEventListener("DOMContentLoaded", function(){ optionsSection.style.display="block"; dropArea.style.display="none"; });
+    function removeFile(){}</script>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What HTML can I convert?</div>
+    <div class="faq-a">Paste any HTML markup and it is rendered into a PDF. Standard elements — headings, paragraphs, lists, tables, links, and images — all convert. Inline CSS styling is applied, so you can control fonts, colours, spacing, and layout directly in the markup.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does external CSS work?</div>
+    <div class="faq-a">Inline styles and styles inside a <style> block are the reliable approach. Stylesheets linked from external files may not be fetched, so for predictable results put your CSS directly in the markup you paste.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will JavaScript run?</div>
+    <div class="faq-a">No. The converter renders the markup as supplied rather than executing scripts, so anything generated dynamically by JavaScript will not appear. Paste the final HTML you want in the document, not code that would produce it in a browser.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I convert a live web page instead?</div>
+    <div class="faq-a">Yes — use <a href='/webpage-to-pdf'>Webpage to PDF</a> for that. Enter a URL and the page content is fetched and converted. This tool is for HTML you already have; that one is for pages on the web.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will images show up?</div>
+    <div class="faq-a">Images referenced by a full public URL are fetched and included. Images embedded as base64 data URIs always work, since the data travels with the markup. Local file paths will not resolve, because the converter has no access to your computer.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What is this useful for?</div>
+    <div class="faq-a">Generating documents from HTML you have produced elsewhere — invoices from a template, reports from a system export, formatted content from a CMS, or email newsletters you want to archive as documents.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>HTML to PDF Converter Online — Free Markup to PDF</h2>
+<p>Paste HTML and get a PDF document back. Useful for turning templated markup into finished documents — invoices, reports, certificates, and formatted content — without setting up a rendering pipeline of your own. Free, instant, no watermark.</p>
+
+<h3>What This Tool Is For</h3>
+<p>HTML is a genuinely good way to describe a document. It handles headings, paragraphs, lists, tables, and images naturally, and CSS gives precise control over how everything looks. What it lacks is a fixed page — HTML flows to whatever container displays it, which is fine on screen and unhelpful when you need something to print, file, or send.</p>
+<p>This tool supplies the missing step. Paste your markup, get a paginated PDF with the layout applied.</p>
+<p>The typical use is generating documents from templates. If you have an invoice layout in HTML and fill it with different values each time, converting to PDF turns it into a deliverable you can send. The same applies to reports built from system exports, certificates generated per recipient, and any content that starts as structured markup and needs to end as a document.</p>
+
+<h3>Styling Your Output</h3>
+<p>Put your CSS directly in the markup — either inline on elements or inside a <code>&lt;style&gt;</code> block at the top. Externally linked stylesheets may not be fetched, so anything you depend on should travel with the HTML you paste.</p>
+<p>A few properties matter more than usual when the target is paper rather than a screen. Set explicit font sizes in points rather than relative units, since there is no browser default to inherit from. Use <code>page-break-before</code> and <code>page-break-after</code> to control where pages divide, particularly around headings and table boundaries. Set margins on the body to keep content away from the page edge.</p>
+
+<h3>What Does Not Carry Across</h3>
+<p><strong>JavaScript does not run.</strong> The markup is rendered as supplied, not executed. Anything a script would have generated, fetched, or modified simply will not be there. Paste the final HTML you want in the document rather than code that would produce it.</p>
+<p><strong>Interactive elements become static.</strong> Form fields, buttons, and anything relying on hover or click states render as their default appearance. A PDF is not interactive.</p>
+<p><strong>Local file paths do not resolve.</strong> An image referenced as <code>images/logo.png</code> means nothing to the converter, which has no access to your computer. Use a full public URL or embed the image as a base64 data URI.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Developers</strong> testing how a document template will render before wiring up a full generation pipeline. <strong>Small businesses</strong> producing invoices and quotations from an HTML template. <strong>Anyone with content in a CMS</strong> who needs a document version of it. <strong>Marketers</strong> archiving email newsletters as PDFs. <strong>Anyone who has HTML output</strong> from a system and needs it as a file they can send.</p>
+
+<h3>How to Convert HTML to PDF</h3>
+<p>Paste your HTML into the input area, including any CSS you want applied. Convert, and the PDF downloads immediately. Open it and check the page breaks — this is where HTML-to-PDF conversion most often needs adjustment, since content that flows continuously on screen has to be divided somewhere.</p>
+
+<h3>Getting Page Breaks Right</h3>
+<p>This is the main thing that separates a rough conversion from a polished one. On screen, content simply scrolls. On paper it has to break, and the default break points are frequently awkward — a heading stranded alone at the bottom of a page, or a table split with its header on one page and its rows on the next.</p>
+<p>The CSS page-break properties give you control. Applying <code>page-break-after: avoid</code> to headings keeps them with the content that follows. Applying <code>page-break-inside: avoid</code> to a table or a block keeps it whole. A few of these rules in the right places substantially improve the result.</p>
+
+<h3>Converting a Live Web Page Instead</h3>
+<p>If what you want is a page that exists on the web rather than markup you already have, <a href="/webpage-to-pdf">Webpage to PDF</a> is the right tool. Enter the URL and the content is fetched and converted for you.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your markup is processed in memory and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy is retained.</p>
+
+<h3>After Converting</h3>
+<p>To combine several generated documents, use <a href="/merge">Merge PDF</a>. <a href="/compress">Compress PDF</a> reduces the file size, and <a href="/protect">Protect PDF</a> adds password encryption for documents containing customer or financial details.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/webpage-to-pdf">Webpage to PDF</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a> &nbsp;·&nbsp; <a href="/word-to-pdf">Word to PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

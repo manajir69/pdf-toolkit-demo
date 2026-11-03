@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Repair corrupted or damaged PDF files online for free. Fix broken PDF files. No installation required.">
+    <meta name="keywords" content="repair PDF, fix PDF, corrupted PDF, damaged PDF repair, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/repair">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Repair PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/repair">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Repair PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/repair",
+          "url": "https://example.com/repair",
+          "name": "Repair PDF - PDF Toolkit Demo",
+          "description": "Fix corrupted or damaged PDF files and recover your document.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Optimize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Repair PDF","item":"https://example.com/repair"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What kinds of damage can be repaired?","acceptedAnswer":{"@type":"Answer","text":"Structural problems are the recoverable kind — a broken cross-reference table, a damaged index, an incorrect file trailer, or corruption introduced by an interrupted download or transfer. The tool rebuilds the internal structure by locating the page objects directly."}},
+            {"@type":"Question","name":"What cannot be repaired?","acceptedAnswer":{"@type":"Answer","text":"Missing data. If a transfer stopped halfway and the second half of the file was never written, those pages do not exist anywhere and no tool can produce them. Repair reconstructs damaged structure around content that is still present; it cannot invent content that is gone."}},
+            {"@type":"Question","name":"Will I get everything back?","acceptedAnswer":{"@type":"Answer","text":"Often yes, sometimes partially. A file with a corrupted index but intact page data usually recovers completely. A truncated file recovers whatever portion actually arrived. It is always worth attempting — recovering most of a document is far better than recovering none of it."}},
+            {"@type":"Question","name":"Why did my PDF become corrupted?","acceptedAnswer":{"@type":"Answer","text":"Interrupted downloads and transfers are the most common cause, followed by unsafe removal of a USB drive mid-write, application crashes during save, email systems that alter attachments, and failing storage hardware."}},
+            {"@type":"Question","name":"Can repair remove a password?","acceptedAnswer":{"@type":"Answer","text":"No, and it should not. Repair fixes structural damage; it does not bypass encryption. If you need to remove a password you know, use Unlock PDF."}},
+            {"@type":"Question","name":"What should I do after repairing?","acceptedAnswer":{"@type":"Answer","text":"Open the file and check every page, not just the first. Then save a backup copy somewhere separate. A file that has been corrupted once often indicates a storage or transfer problem that may recur."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Repair PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/repair"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Optimize PDF</a><span>›</span><strong>Repair PDF</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Repair PDF</h1>
+    <p class="subtitle">Fix and recover corrupted or damaged PDF files</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🔧</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint">We will clean and optimize the PDF structure.</p>
+            <button type="submit" class="btn">🔧 Repair PDF</button>
+        </div>
+
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput = document.getElementById("pdfInput");
+    const dropArea = document.getElementById("dropArea");
+    const fileCard = document.getElementById("fileCard");
+    const fileName = document.getElementById("fileName");
+    const optionsSection = document.getElementById("optionsSection");
+
+    function handleFile(file) {
+        window._pdfFile = file;
+        fileName.textContent = file.name;
+        dropArea.style.display = "none";
+        fileCard.style.display = "flex";
+        _tryLoadPdf(null);
+    }
+
+    function _tryLoadPdf(password) {
+        if (!window._pdfFile) return;
+        var r = new FileReader();
+        r.onload = function(e) {
+            var data = new Uint8Array(e.target.result);
+            var opts = password ? {data: data, password: password} : {data: data};
+            pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+                if (password) document.getElementById("pdfPasswordHidden").value = password;
+                document.getElementById("pdfPasswordPrompt").style.display = "none";
+                document.getElementById("pdfPassError").style.display = "none";
+                document.getElementById("optionsSection").style.display = "block";
+                pdf.getPage(1).then(function(page) {
+                    var canvas = document.getElementById("firstPageThumb");
+                    var ctx = canvas.getContext("2d");
+                    var vp = page.getViewport({ scale: 0.5 });
+                    canvas.width = vp.width; canvas.height = vp.height;
+                    page.render({ canvasContext: ctx, viewport: vp });
+                });
+            }).catch(function(err) {
+                if (err.name === "PasswordException") {
+                    document.getElementById("pdfPasswordPrompt").style.display = "block";
+                    if (password) document.getElementById("pdfPassError").style.display = "block";
+                    setTimeout(function() { document.getElementById("pdfPassInput").focus(); }, 100);
+                }
+            });
+        };
+        r.readAsArrayBuffer(window._pdfFile);
+    }
+
+    pdfInput.addEventListener("change", () => { if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+    dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop", e => {
+        e.preventDefault(); dropArea.classList.remove("drag-over");
+        if (e.dataTransfer.files[0]) {
+            const dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+            pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+        }
+    });
+    dropArea.addEventListener("click", (e) => { if (!e.target.closest("label")) pdfInput.click(); });
+
+    function removeFile() {
+        pdfInput.value = "";
+        fileCard.style.display = "none";
+        optionsSection.style.display = "none";
+        dropArea.style.display = "";
+    }
+
+    function confirmPdfPassword() {
+        var pass = document.getElementById("pdfPassInput").value;
+        if (!pass) return;
+        document.getElementById("pdfPassError").style.display = "none";
+        _tryLoadPdf(pass);
+    }
+    function togglePdfPass(btn) {
+        var inp = document.getElementById("pdfPassInput");
+        var svg = btn.querySelector("svg");
+        inp.type = inp.type === "password" ? "text" : "password";
+        svg.setAttribute("stroke", inp.type === "text" ? "#F9A825" : "#888");
+    }
+
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What kinds of damage can be repaired?</div>
+    <div class="faq-a">Structural problems are the recoverable kind — a broken cross-reference table, a damaged index, an incorrect file trailer, or corruption introduced by an interrupted download or transfer. The tool rebuilds the internal structure by locating the page objects directly.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What cannot be repaired?</div>
+    <div class="faq-a">Missing data. If a transfer stopped halfway and the second half of the file was never written, those pages do not exist anywhere and no tool can produce them. Repair reconstructs damaged structure around content that is still present; it cannot invent content that is gone.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will I get everything back?</div>
+    <div class="faq-a">Often yes, sometimes partially. A file with a corrupted index but intact page data usually recovers completely. A truncated file recovers whatever portion actually arrived. It is always worth attempting — recovering most of a document is far better than recovering none of it.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why did my PDF become corrupted?</div>
+    <div class="faq-a">Interrupted downloads and transfers are the most common cause, followed by unsafe removal of a USB drive mid-write, application crashes during save, email systems that alter attachments, and failing storage hardware.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can repair remove a password?</div>
+    <div class="faq-a">No, and it should not. Repair fixes structural damage; it does not bypass encryption. If you need to remove a password you know, use <a href='/unlock'>Unlock PDF</a>.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What should I do after repairing?</div>
+    <div class="faq-a">Open the file and check every page, not just the first. Then save a backup copy somewhere separate. A file that has been corrupted once often indicates a storage or transfer problem that may recur.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Repair PDF Online — Free Corrupted PDF Recovery</h2>
+<p>Attempt recovery of a PDF that will not open. Upload the damaged file and the tool rebuilds its internal structure, recovering whatever content is still intact. Free, immediate, and worth trying before you conclude a document is lost.</p>
+
+<h3>Why PDFs Become Unreadable</h3>
+<p>A PDF is more than a stream of page content — it has an internal index called a cross-reference table that tells the reader where every object in the file is located. When that index is damaged, the reader cannot find anything, and the file appears completely broken even though the pages themselves may be perfectly intact.</p>
+<p>The usual causes are mundane. <strong>Interrupted transfers</strong> — a download that dropped, a copy that failed partway — leave a file that is structurally incomplete. <strong>Unsafe removal of storage</strong> while a file is being written truncates it. <strong>Application crashes during save</strong> produce files where the content was written but the index never was. <strong>Email systems</strong> occasionally alter attachments in transit. <strong>Failing drives</strong> corrupt sectors, which may or may not fall in an important part of the file.</p>
+
+<h3>What Repair Can and Cannot Do</h3>
+<p>The distinction is straightforward once stated. <strong>Repair rebuilds structure. It cannot restore missing data.</strong></p>
+<p>If the page content is still in the file but the index pointing to it is damaged, recovery works well — the tool scans the file directly, locates the page objects, and constructs a valid document around them. This is the most common corruption scenario and it usually recovers completely.</p>
+<p>If part of the file was never written — a download that stopped at 40%, a copy that failed halfway — then the missing pages do not exist anywhere in the file. No tool can recover them, because there is nothing to recover. What repair achieves in that case is salvaging the portion that did arrive, which is frequently still worth having.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Anyone whose download failed</strong> and produced a file that will not open. <strong>Offices retrieving old archives</strong> where files have degraded on ageing storage. <strong>People recovering from a crash</strong> that interrupted a save. <strong>Anyone sent a file that will not open</strong> when the sender is unavailable to resend it. <strong>Students and researchers</strong> facing a corrupted document with a deadline approaching.</p>
+
+<h3>How to Repair a PDF</h3>
+<p>Upload the damaged file by dragging it onto the box or clicking to browse. The tool analyses what is present and rebuilds a valid document from the recoverable content. Download the result and open it.</p>
+<p>Check every page rather than assuming the first one being fine means the document is whole. Partial recovery is a real outcome, and it is better to know immediately which pages are missing than to discover it later when you need them.</p>
+
+<h3>Before You Try Repair</h3>
+<p>A few quick checks occasionally solve the problem without any repair at all.</p>
+<p><strong>Try a different reader.</strong> Some readers are far more tolerant of minor structural irregularities than others. A file that Acrobat rejects sometimes opens perfectly in Chrome, Firefox, or macOS Preview.</p>
+<p><strong>Check the file size.</strong> If it is very small — a few kilobytes for what should be a large document — the transfer clearly failed and re-downloading is more likely to help than repairing.</p>
+<p><strong>Try downloading again.</strong> If the file came from the web or a shared drive, a fresh copy is the simplest fix and takes less time than any recovery attempt.</p>
+
+<h3>After a Successful Repair</h3>
+<p>Save a backup copy somewhere separate immediately. A file that has been corrupted once is a signal worth heeding — it may indicate a failing drive, an unreliable network connection, or a storage device that should be replaced. Recovering the document is the immediate problem; not losing it again is the one worth addressing next.</p>
+<p>If pages were lost, <a href="/merge">Merge PDF</a> can combine the recovered portion with a replacement section if you can obtain one from another source.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your file is processed in memory and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy is retained.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/compress">Compress PDF</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a> &nbsp;·&nbsp; <a href="/unlock">Unlock PDF</a> &nbsp;·&nbsp; <a href="/pdf-to-pdfa">PDF to PDF/A</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

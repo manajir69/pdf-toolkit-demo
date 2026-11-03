@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Word Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Convert PDF to Word document online for free. Extract text from PDF to editable DOCX format instantly.">
+    <meta name="keywords" content="PDF to Word, PDF to DOCX, convert PDF Word, PDF Word converter free">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/pdf-to-word">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF to Word - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/pdf-to-word">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="PDF to Word - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/pdf-to-word",
+          "url": "https://example.com/pdf-to-word",
+          "name": "PDF to Word - PDF Toolkit Demo",
+          "description": "Convert PDF files to editable Word (.docx) documents online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Convert PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"PDF to Word","item":"https://example.com/pdf-to-word"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"Will my layout survive the conversion?","acceptedAnswer":{"@type":"Answer","text":"Text-led documents such as reports, letters, and articles convert very well and usually need no cleanup at all. Complex layouts with multiple columns, text boxes, and precisely positioned graphics are harder, because Word has to rebuild in flowing paragraphs what the PDF stored as fixed coordinates. Expect some tidying on design-heavy files."}},
+            {"@type":"Question","name":"Can I convert a scanned PDF to Word?","acceptedAnswer":{"@type":"Answer","text":"A scan is a photograph of a page, so there is no text layer to convert — you would get pictures inside a Word file. Run the document through Extract Text (OCR) first to recognise the characters, then work with the recognised text."}},
+            {"@type":"Question","name":"What file format do I get back?","acceptedAnswer":{"@type":"Answer","text":"A standard .docx file, which opens in Microsoft Word, Google Docs, LibreOffice Writer, Apple Pages, and every other modern word processor. There is nothing proprietary about the output."}},
+            {"@type":"Question","name":"Will fonts and images be preserved?","acceptedAnswer":{"@type":"Answer","text":"Images are carried across into the document. Fonts are matched to what is available on the system opening the file — if the PDF used an unusual typeface that is not installed, Word substitutes the closest match, which can shift line breaks slightly."}},
+            {"@type":"Question","name":"Can I convert a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. A password prompt appears automatically after upload if the file is encrypted. Enter it once and conversion proceeds normally. Our Unlock PDF tool can also remove the password permanently first."}},
+            {"@type":"Question","name":"How do I get back to PDF after editing?","acceptedAnswer":{"@type":"Answer","text":"Use Word to PDF. This round trip — PDF to Word, edit, Word to PDF — is the most practical way to genuinely revise the text in a PDF, since editing it in place is severely limited by the format itself."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "PDF to Word — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/pdf-to-word"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Convert PDF</a><span>›</span><strong>PDF to Word</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">PDF to Word</h1>
+    <p class="subtitle">Convert PDF to editable Word document</p>
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">📝</div>
+            <h2>Drag &amp; Drop File Here</h2><p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock &amp; Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint" style="color:#888;">Extracts text content from your PDF into a Word (.docx) file.</p>
+            <button type="submit" class="btn">📝 Convert to Word</button>
+        </div>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function handleFile(file){window._pdfFile=file;fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";_tryLoadPdf(null);}
+    function _tryLoadPdf(password){if(!window._pdfFile)return;var r=new FileReader();r.onload=function(e){var data=new Uint8Array(e.target.result);var opts=password?{data:data,password:password}:{data:data};pdfjsLib.getDocument(opts).promise.then(function(pdf){if(password)document.getElementById("pdfPasswordHidden").value=password;document.getElementById("pdfPasswordPrompt").style.display="none";document.getElementById("pdfPassError").style.display="none";optionsSection.style.display="block";pdf.getPage(1).then(function(page){var canvas=document.getElementById("firstPageThumb");var ctx=canvas.getContext("2d");var vp=page.getViewport({scale:0.5});canvas.width=vp.width;canvas.height=vp.height;page.render({canvasContext:ctx,viewport:vp});});}).catch(function(err){if(err.name==="PasswordException"){document.getElementById("pdfPasswordPrompt").style.display="block";if(password)document.getElementById("pdfPassError").style.display="block";setTimeout(function(){document.getElementById("pdfPassInput").focus();},100);}});};r.readAsArrayBuffer(window._pdfFile);}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";document.getElementById("pdfPasswordPrompt").style.display="none";}
+    function confirmPdfPassword(){var pass=document.getElementById("pdfPassInput").value;if(!pass)return;document.getElementById("pdfPassError").style.display="none";_tryLoadPdf(pass);}
+    function togglePdfPass(btn){var inp=document.getElementById("pdfPassInput");inp.type=inp.type==="password"?"text":"password";btn.querySelector("svg").setAttribute("stroke",inp.type==="text"?"#F9A825":"#888");}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+
+</script>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will my layout survive the conversion?</div>
+    <div class="faq-a">Text-led documents such as reports, letters, and articles convert very well and usually need no cleanup at all. Complex layouts with multiple columns, text boxes, and precisely positioned graphics are harder, because Word has to rebuild in flowing paragraphs what the PDF stored as fixed coordinates. Expect some tidying on design-heavy files.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I convert a scanned PDF to Word?</div>
+    <div class="faq-a">A scan is a photograph of a page, so there is no text layer to convert — you would get pictures inside a Word file. Run the document through <a href='/ocr'>Extract Text (OCR)</a> first to recognise the characters, then work with the recognised text.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What file format do I get back?</div>
+    <div class="faq-a">A standard .docx file, which opens in Microsoft Word, Google Docs, LibreOffice Writer, Apple Pages, and every other modern word processor. There is nothing proprietary about the output.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will fonts and images be preserved?</div>
+    <div class="faq-a">Images are carried across into the document. Fonts are matched to what is available on the system opening the file — if the PDF used an unusual typeface that is not installed, Word substitutes the closest match, which can shift line breaks slightly.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I convert a password-protected PDF?</div>
+    <div class="faq-a">Yes. A password prompt appears automatically after upload if the file is encrypted. Enter it once and conversion proceeds normally. Our <a href='/unlock'>Unlock PDF</a> tool can also remove the password permanently first.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I get back to PDF after editing?</div>
+    <div class="faq-a">Use <a href='/word-to-pdf'>Word to PDF</a>. This round trip — PDF to Word, edit, Word to PDF — is the most practical way to genuinely revise the text in a PDF, since editing it in place is severely limited by the format itself.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>PDF to Word Converter Online — Free PDF to DOCX</h2>
+<p>Turn a PDF into an editable Word document you can actually work with. Upload your file, get a .docx back, and edit the text in Word, Google Docs, LibreOffice, or Pages exactly as you would any other document. It is free, needs no software, and adds no watermark.</p>
+
+<h3>Why Convert PDF to Word?</h3>
+<p>Because editing a PDF directly is genuinely difficult, and not by accident. A PDF stores text as individual characters placed at fixed coordinates on a page — that is precisely what makes it look identical on every device. But it means there are no paragraphs to reflow, so changing one sentence in the middle of a page is a structural problem rather than a simple edit.</p>
+<p>A Word document stores the same text as flowing paragraphs. Delete a sentence and everything after it moves up automatically. Converting to Word gives you back that flexibility, which is why the PDF → Word → PDF round trip remains the most reliable way to substantially revise a document you only have as a PDF.</p>
+
+<h3>What Converts Well and What Needs Cleanup</h3>
+<p>Being realistic about this saves frustration. <strong>Reports, letters, articles, essays, and contracts</strong> — anything that is mostly flowing text in a single column — convert extremely well and typically need no correction at all.</p>
+<p><strong>Documents with tables</strong> usually convert with the table structure intact, though column widths sometimes need adjusting.</p>
+<p><strong>Multi-column layouts, newsletters, brochures, and anything designed rather than typed</strong> are the hard cases. The converter has to infer reading order and paragraph structure from spatial positions, and where a human eye sees two obvious columns, the underlying data is just characters at coordinates. Expect to spend some time tidying these.</p>
+<p><strong>Scanned documents</strong> cannot be converted meaningfully at all, because there is no text to convert — only a picture of text. See below.</p>
+
+<h3>Scanned PDFs Need OCR First</h3>
+<p>If your PDF came from a scanner or a photograph, every page is an image. Converting it to Word produces a Word file containing pictures, which is not what anyone wants. The step you need is optical character recognition: <a href="/ocr">Extract Text (OCR)</a> analyses the image and recognises the actual characters, turning the picture into real text you can then edit.</p>
+<p>A quick way to check which kind of PDF you have: open it and try to select a sentence with your cursor. If the text highlights, there is a text layer and conversion will work. If nothing selects, it is a scan and you need OCR first.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Anyone who has lost the original file</strong> and only has the exported PDF — an extremely common situation with documents a few years old. <strong>Students</strong> repurpose material from PDF sources into their own work. <strong>Office teams</strong> update contracts, policies, and templates that were only ever archived as PDFs. <strong>Translators</strong> need editable text to work from. <strong>Anyone correcting a typo</strong> in a document they no longer have the source for.</p>
+
+<h3>How to Convert PDF to Word</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. The conversion runs automatically and your .docx file downloads when it is ready — usually within a few seconds, though very long documents take proportionally longer. Open it in your word processor and check the formatting before making substantial edits.</p>
+
+<h3>Completing the Round Trip</h3>
+<p>Once you have made your changes in Word, <a href="/word-to-pdf">Word to PDF</a> converts the document back. The result is a clean, standard PDF ready to share, print, or archive. For documents that are mostly text, this round trip is nearly lossless and far quicker than trying to edit the PDF directly.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your file is processed in memory and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy is retained. The tool runs in any modern browser on Windows, macOS, Linux, Android, and iOS with nothing to install and no account required.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/word-to-pdf">Word to PDF</a> converts back the other way. <a href="/ocr">Extract Text (OCR)</a> handles scanned documents. <a href="/pdf-to-excel">PDF to Excel</a> is better when your content is mainly tabular data, and <a href="/edit-pdf">Edit PDF</a> lets you add text without converting at all.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/word-to-pdf">Word to PDF</a> &nbsp;·&nbsp; <a href="/ocr">Extract Text (OCR)</a> &nbsp;·&nbsp; <a href="/pdf-to-excel">PDF to Excel</a> &nbsp;·&nbsp; <a href="/edit-pdf">Edit PDF</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

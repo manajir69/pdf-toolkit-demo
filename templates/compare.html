@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare PDF Files Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Compare two PDF files online for free. Find differences between PDF documents. No installation required.">
+    <meta name="keywords" content="compare PDF, PDF comparison, diff PDF, find differences in PDF, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/compare">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Compare PDF Files - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/compare">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Compare PDF Files - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin: 30px auto; }
+        .compare-box { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .compare-box h3 { margin: 0 0 15px; color: #2B2B2B; font-size: 18px; }
+        .result-card { background: white; border-radius: 12px; padding: 30px; max-width: 600px; margin: 20px auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .result-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; font-size: 18px; }
+        .badge-same { background: #4caf50; color: white; padding: 6px 16px; border-radius: 20px; font-weight: bold; }
+        .badge-diff { background: #e53935; color: white; padding: 6px 16px; border-radius: 20px; font-weight: bold; }
+        @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
+    </style>
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/compare",
+          "url": "https://example.com/compare",
+          "name": "Compare PDF - PDF Toolkit Demo",
+          "description": "Compare two PDF files side by side and highlight differences.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Edit PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Compare PDF","item":"https://example.com/compare"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What kinds of differences will it find?","acceptedAnswer":{"@type":"Answer","text":"Textual changes — added text, removed text, and modified wording. This covers the great majority of what matters when comparing document versions: what was actually said differently."}},
+            {"@type":"Question","name":"Can it compare scanned documents?","acceptedAnswer":{"@type":"Answer","text":"Not reliably. A scan contains no text to compare, only images of pages. Run both files through Extract Text (OCR) first, though be aware that recognition errors can appear as false differences."}},
+            {"@type":"Question","name":"Why is it showing differences I did not make?","acceptedAnswer":{"@type":"Answer","text":"Reformatting is the usual explanation. Changing a font, adjusting margins, or altering line spacing shifts where words fall on the page, which can register as differences even though the wording is identical."}},
+            {"@type":"Question","name":"What is this most useful for?","acceptedAnswer":{"@type":"Answer","text":"Contract review, where a returned document may contain changes that were not flagged. Comparing your sent version against the returned one surfaces every alteration rather than relying on the other party to have highlighted them all."}},
+            {"@type":"Question","name":"Does it detect formatting or image changes?","acceptedAnswer":{"@type":"Answer","text":"The focus is textual content — what the document says. Changes to images, colours, and layout are outside that scope, so a visual comparison remains worthwhile for design-led documents."}},
+            {"@type":"Question","name":"Are my files stored on your server?","acceptedAnswer":{"@type":"Answer","text":"No. Both documents are processed in memory and discarded once the comparison is complete. Nothing is written to disk, nothing is logged, and no copy is retained."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Compare PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/compare"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Edit PDF</a><span>›</span><strong>Compare PDF</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Compare PDF</h1>
+    <p class="subtitle">Compare two PDF files and see the differences</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    {% if info %}
+    <div class="result-card">
+        <h3 style="margin-bottom:20px;">📊 Comparison Result</h3>
+        <div class="result-row"><span>File 1</span><span>{{ info.name1 }}</span></div>
+        <div class="result-row"><span>File 2</span><span>{{ info.name2 }}</span></div>
+        <div class="result-row"><span>Pages (File 1)</span><span>{{ info.pages1 }}</span></div>
+        <div class="result-row"><span>Pages (File 2)</span><span>{{ info.pages2 }}</span></div>
+        <div class="result-row"><span>Characters (File 1)</span><span>{{ info.chars1 }}</span></div>
+        <div class="result-row"><span>Characters (File 2)</span><span>{{ info.chars2 }}</span></div>
+        <div class="result-row">
+            <span>Result</span>
+            {% if info.identical %}
+            <span class="badge-same">✅ Identical</span>
+            {% else %}
+            <span class="badge-diff">⚠️ Different</span>
+            {% endif %}
+        </div>
+    </div>
+    <a href="/compare" class="btn" style="text-decoration:none;">↩ Compare Again</a>
+    {% else %}
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="compare-grid">
+            <div class="compare-box">
+                <h3>📄 First PDF</h3>
+                <input type="file" name="pdf_file1" accept=".pdf" required style="width:100%; font-size:16px;">
+            </div>
+            <div class="compare-box">
+                <h3>📄 Second PDF</h3>
+                <input type="file" name="pdf_file2" accept=".pdf" required style="width:100%; font-size:16px;">
+            </div>
+        </div>
+        <button type="submit" class="btn">🔍 Compare PDFs</button>
+    </form>
+    {% endif %}
+
+</div>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What kinds of differences will it find?</div>
+    <div class="faq-a">Textual changes — added text, removed text, and modified wording. This covers the great majority of what matters when comparing document versions: what was actually said differently.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can it compare scanned documents?</div>
+    <div class="faq-a">Not reliably. A scan contains no text to compare, only images of pages. Run both files through <a href='/ocr'>Extract Text (OCR)</a> first, though be aware that recognition errors can appear as false differences.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why is it showing differences I did not make?</div>
+    <div class="faq-a">Reformatting is the usual explanation. Changing a font, adjusting margins, or altering line spacing shifts where words fall on the page, which can register as differences even though the wording is identical.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What is this most useful for?</div>
+    <div class="faq-a">Contract review, where a returned document may contain changes that were not flagged. Comparing your sent version against the returned one surfaces every alteration rather than relying on the other party to have highlighted them all.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does it detect formatting or image changes?</div>
+    <div class="faq-a">The focus is textual content — what the document says. Changes to images, colours, and layout are outside that scope, so a visual comparison remains worthwhile for design-led documents.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my files stored on your server?</div>
+    <div class="faq-a">No. Both documents are processed in memory and discarded once the comparison is complete. Nothing is written to disk, nothing is logged, and no copy is retained.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Compare PDF Files Online — Free PDF Difference Checker</h2>
+<p>Compare two PDFs and find what changed between them. Upload both versions and see the textual differences instead of reading two documents side by side hoping to spot an altered clause. Free, immediate, and nothing to install.</p>
+
+<h3>Why Manual Comparison Fails</h3>
+<p>Reading two versions of a long document to find what changed is a task humans are genuinely bad at. Attention drifts after the first few pages, and the differences that matter most are precisely the ones designed not to stand out — a "shall" changed to "may", a figure adjusted by one digit, a negation quietly inserted or removed.</p>
+<p>Word's track changes solves this within Word, but PDFs arrive without any change history. The recipient of a returned contract has the sent version and the returned version and no indication of what happened in between beyond whatever the other party chose to mention.</p>
+<p>Automated comparison finds every textual difference regardless of how small or how deliberately unobtrusive.</p>
+
+<h3>The Contract Review Case</h3>
+<p>This is where the tool matters most. You send a contract, the other side returns it saying they made "a couple of minor amendments", and the honest answer is that you cannot easily verify that claim. Reading forty pages of legal text closely enough to catch a single altered word is slow, and the consequences of missing one can be significant.</p>
+<p>Comparing the sent version against the returned one surfaces every change, including any that were not mentioned. Most of the time the changes are exactly what was described. Occasionally they are not, and finding out before signing rather than afterwards is the entire value of the exercise.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Anyone reviewing a returned contract</strong> — the single most common and most valuable use. <strong>Compliance teams</strong> checking what changed between policy revisions. <strong>Editors and publishers</strong> verifying that a corrected proof contains the corrections and nothing else. <strong>Procurement teams</strong> comparing supplier quotations across revisions. <strong>Anyone with two files</strong> named <code>final</code> and <code>final_v2</code> who needs to know what actually distinguishes them.</p>
+
+<h3>How to Compare Two PDFs</h3>
+<p>Upload both documents — typically the original or sent version and the revised or returned version. The comparison runs and the textual differences are reported. Work through them and evaluate each one, since the tool tells you what changed but only you can judge whether a given change is acceptable.</p>
+
+<h3>Understanding the Results</h3>
+<p>Not every reported difference is a meaningful edit, and knowing why helps you read the output efficiently.</p>
+<p><strong>Reformatting produces false positives.</strong> Changing a font, adjusting margins, or altering line spacing shifts where words break across lines, which can register as differences even when the wording is byte-for-byte identical.</p>
+<p><strong>Conversion artefacts appear.</strong> If one version passed through a different tool on its way to PDF, small variations in character encoding and spacing can show up.</p>
+<p><strong>Scanned pages are unreliable.</strong> Two scans of the same page are never pixel-identical, and OCR of each produces slightly different text.</p>
+<p>The practical approach is to scan the reported differences quickly, dismiss the ones that are obviously formatting noise, and examine closely the ones that change meaning.</p>
+
+<h3>Scanned Documents Need OCR First</h3>
+<p>A scanned PDF has no text to compare. Run both files through <a href="/ocr">Extract Text (OCR)</a> first to obtain text layers. Be aware that OCR is not perfect and its errors will appear as differences, so results from scanned sources need more careful interpretation than comparisons between digital documents.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Both documents are processed in memory and discarded once the comparison completes. Nothing is written to disk, nothing is logged, and no copy of either file is retained — which matters given that contracts and confidential agreements are exactly what people bring here.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/ocr">Extract Text (OCR)</a> prepares scanned documents for comparison. <a href="/metadata">PDF Metadata</a> shows creation and modification dates, which sometimes clarifies which version came first. <a href="/extract-pages">Extract Pages</a> lets you compare just one section of two long documents.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/ocr">Extract Text (OCR)</a> &nbsp;·&nbsp; <a href="/metadata">PDF Metadata</a> &nbsp;·&nbsp; <a href="/extract-pages">Extract Pages</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

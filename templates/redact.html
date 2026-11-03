@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redact PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Redact sensitive information from PDF files online for free. Permanently remove text and images from PDFs. No installation required.">
+    <meta name="keywords" content="redact PDF, remove text PDF, black out PDF, PDF redaction, hide sensitive information PDF">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/redact">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Redact PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/redact">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Redact PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/redact",
+          "url": "https://example.com/redact",
+          "name": "Redact PDF - PDF Toolkit Demo",
+          "description": "Permanently black out sensitive text and information in PDF files.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Edit PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Redact PDF","item":"https://example.com/redact"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How is redaction different from drawing a black box?","acceptedAnswer":{"@type":"Answer","text":"A black rectangle drawn in an editor sits on top of the text as a separate graphic. The words are still in the file underneath, and anyone can recover them by selecting the region and copying, or by extracting the text programmatically. Redaction removes the underlying content so there is nothing left to recover."}},
+            {"@type":"Question","name":"Can redacted text be recovered?","acceptedAnswer":{"@type":"Answer","text":"Not when the content has been genuinely removed rather than covered. That distinction is the entire point of redaction, and it is why using the correct tool matters more here than almost anywhere else in document handling."}},
+            {"@type":"Question","name":"What should I redact?","acceptedAnswer":{"@type":"Answer","text":"Anything that identifies a person or exposes something confidential: names, addresses, phone numbers, email addresses, national insurance or social security numbers, account and card numbers, dates of birth, signatures, and internal pricing or commercial terms."}},
+            {"@type":"Question","name":"Should I check the document after redacting?","acceptedAnswer":{"@type":"Answer","text":"Always. Open the redacted file and try to select text in the areas you covered, then search the document for a term you expected to remove. Two minutes of checking is a reasonable price for confidence, particularly on anything being filed publicly."}},
+            {"@type":"Question","name":"Does redaction remove information from the metadata too?","acceptedAnswer":{"@type":"Answer","text":"Redaction addresses page content. Document properties — author name, software used, creation and revision dates — live separately. Run the file through PDF Metadata as well to clear those, since they frequently reveal more than people expect."}},
+            {"@type":"Question","name":"Are my files stored on your server?","acceptedAnswer":{"@type":"Answer","text":"No. The document is processed in memory and discarded the moment your download completes. Nothing is written to disk, nothing is logged, and no copy is retained — which matters particularly for the kind of material people redact."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Redact PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/redact"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Edit PDF</a><span>›</span><strong>Redact PDF</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">Redact PDF</h1>
+    <p class="subtitle">Permanently remove sensitive text from your PDF</p>
+
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🖊️</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint">Text to redact <span style="color:#aaa;font-weight:400;">(one per line)</span>:</p>
+            <textarea name="redact_text" rows="5" placeholder="Enter words or phrases to redact&#10;e.g. John Doe&#10;555-1234&#10;confidential" style="width:100%;max-width:460px;padding:12px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:15px;resize:vertical;box-sizing:border-box;"></textarea>
+            <br><br>
+            <p class="mode-hint">Redaction color:</p>
+            <div class="mode-tabs">
+                <button type="button" class="mode-btn active" onclick="setColor(this,'black')" style="background:#222;color:white;border-color:#222;">■ Black</button>
+                <button type="button" class="mode-btn" onclick="setColor(this,'white')" style="border:2px solid #ccc;">□ White</button>
+            </div>
+            <input type="hidden" name="redact_color" id="redactColorInput" value="black">
+            <br>
+            <button type="submit" class="btn">🖊️ Redact PDF</button>
+            <p style="color:#E53935;font-size:13px;margin-top:8px;">⚠️ Redaction is permanent and cannot be undone.</p>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput = document.getElementById("pdfInput");
+    const dropArea = document.getElementById("dropArea");
+    const fileCard = document.getElementById("fileCard");
+    const fileName = document.getElementById("fileName");
+    const optionsSection = document.getElementById("optionsSection");
+
+    function setColor(btn, val) {
+        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("redactColorInput").value = val;
+    }
+    function handleFile(file) {
+        window._pdfFile = file; fileName.textContent = file.name;
+        dropArea.style.display = "none"; fileCard.style.display = "flex"; _tryLoadPdf(null);
+    }
+    function _tryLoadPdf(password) {
+        if (!window._pdfFile) return;
+        var r = new FileReader();
+        r.onload = function(e) {
+            var data = new Uint8Array(e.target.result);
+            var opts = password ? {data: data, password: password} : {data: data};
+            pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+                if (password) document.getElementById("pdfPasswordHidden").value = password;
+                document.getElementById("pdfPasswordPrompt").style.display = "none";
+                document.getElementById("pdfPassError").style.display = "none";
+                optionsSection.style.display = "block";
+                pdf.getPage(1).then(function(page) {
+                    var canvas = document.getElementById("firstPageThumb");
+                    var ctx = canvas.getContext("2d");
+                    var vp = page.getViewport({ scale: 0.5 });
+                    canvas.width = vp.width; canvas.height = vp.height;
+                    page.render({ canvasContext: ctx, viewport: vp });
+                });
+            }).catch(function(err) {
+                if (err.name === "PasswordException") {
+                    document.getElementById("pdfPasswordPrompt").style.display = "block";
+                    if (password) document.getElementById("pdfPassError").style.display = "block";
+                    setTimeout(function() { document.getElementById("pdfPassInput").focus(); }, 100);
+                }
+            });
+        };
+        r.readAsArrayBuffer(window._pdfFile);
+    }
+    function removeFile() {
+        pdfInput.value = ""; fileCard.style.display = "none";
+        optionsSection.style.display = "none"; dropArea.style.display = "";
+        document.getElementById("pdfPasswordPrompt").style.display = "none";
+    }
+    function confirmPdfPassword() {
+        var pass = document.getElementById("pdfPassInput").value;
+        if (!pass) return;
+        document.getElementById("pdfPassError").style.display = "none"; _tryLoadPdf(pass);
+    }
+    function togglePdfPass(btn) {
+        var inp = document.getElementById("pdfPassInput");
+        inp.type = inp.type === "password" ? "text" : "password";
+        btn.querySelector("svg").setAttribute("stroke", inp.type === "text" ? "#F9A825" : "#888");
+    }
+    pdfInput.addEventListener("change", () => { if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+    dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop", e => {
+        e.preventDefault(); dropArea.classList.remove("drag-over");
+        if (e.dataTransfer.files[0]) { const dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]); pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]); }
+    });
+    dropArea.addEventListener("click", (e) => { if (!e.target.closest("label")) pdfInput.click(); });
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How is redaction different from drawing a black box?</div>
+    <div class="faq-a">A black rectangle drawn in an editor sits on top of the text as a separate graphic. The words are still in the file underneath, and anyone can recover them by selecting the region and copying, or by extracting the text programmatically. Redaction removes the underlying content so there is nothing left to recover.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can redacted text be recovered?</div>
+    <div class="faq-a">Not when the content has been genuinely removed rather than covered. That distinction is the entire point of redaction, and it is why using the correct tool matters more here than almost anywhere else in document handling.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What should I redact?</div>
+    <div class="faq-a">Anything that identifies a person or exposes something confidential: names, addresses, phone numbers, email addresses, national insurance or social security numbers, account and card numbers, dates of birth, signatures, and internal pricing or commercial terms.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Should I check the document after redacting?</div>
+    <div class="faq-a">Always. Open the redacted file and try to select text in the areas you covered, then search the document for a term you expected to remove. Two minutes of checking is a reasonable price for confidence, particularly on anything being filed publicly.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does redaction remove information from the metadata too?</div>
+    <div class="faq-a">Redaction addresses page content. Document properties — author name, software used, creation and revision dates — live separately. Run the file through <a href='/metadata'>PDF Metadata</a> as well to clear those, since they frequently reveal more than people expect.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my files stored on your server?</div>
+    <div class="faq-a">No. The document is processed in memory and discarded the moment your download completes. Nothing is written to disk, nothing is logged, and no copy is retained — which matters particularly for the kind of material people redact.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Redact PDF Online — Free Permanent Text Removal</h2>
+<p>Permanently remove sensitive information from a PDF. Not covered, not hidden behind a black rectangle — removed, so it cannot be recovered by selecting, copying, or extracting the text. Free, runs in your browser, and the rest of the document is left untouched.</p>
+
+<h3>Why Covering Text Does Not Work</h3>
+<p>This is the single most important thing to understand about redaction, and getting it wrong has embarrassed governments, law firms, and major corporations in public.</p>
+<p>When you draw a black rectangle over text in a PDF editor, you add a graphic on top of the page. The text underneath is completely untouched. It is still in the file, still selectable, still searchable, still extractable. Anyone can drag their cursor across the black box, copy, and paste the supposedly hidden words into a text editor. Copying the file into another program often strips the rectangle away entirely and reveals everything.</p>
+<p>There have been repeated real-world incidents of exactly this — court filings, published reports, and released documents where the covered names were recoverable in seconds by anyone who thought to try. The problem is not that the people involved were careless; it is that the visual result looks convincingly like the information is gone.</p>
+
+<h3>What Real Redaction Does</h3>
+<p>Genuine redaction deletes the underlying content rather than obscuring it. After redaction there is no text beneath the marked area, because the text is not in the file any more. Selecting the region yields nothing. Searching for the removed term finds nothing. Extracting the text programmatically returns nothing, because there is nothing to return.</p>
+<p>This is the standard that legal disclosure, freedom of information responses, and data protection compliance all require, and it is the only approach that actually protects the information.</p>
+
+<h3>What Should Be Redacted</h3>
+<p><strong>Direct identifiers</strong> — full names, home addresses, phone numbers, email addresses, and signatures.</p>
+<p><strong>Official numbers</strong> — national insurance or social security numbers, passport and licence numbers, tax references, and account or card numbers.</p>
+<p><strong>Personal details</strong> — dates of birth, medical information, and anything else about an individual that they did not consent to being published.</p>
+<p><strong>Commercial information</strong> — pricing, margins, supplier terms, and internal financial detail in documents going to outside parties.</p>
+<p>Be alert to <strong>indirect identification</strong> as well. A person's name may be removed while their exact job title, department, and start date remain, which in a small organisation identifies them just as clearly. Redaction requires thinking about what the remaining text still reveals in combination.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Legal teams</strong> preparing documents for disclosure or public filing. <strong>Public bodies</strong> responding to information requests where third-party details must be removed. <strong>HR departments</strong> sharing case documents with personal identifiers stripped out. <strong>Researchers</strong> anonymising source material before publication. <strong>Businesses</strong> removing commercial terms from contracts being used as templates or examples.</p>
+
+<h3>How to Redact a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Mark the areas containing information to be removed. Process the document and download the redacted version. Work through methodically rather than quickly — the cost of missing something is much higher than the cost of taking an extra few minutes.</p>
+
+<h3>Always Verify Afterwards</h3>
+<p>Open the redacted file and check it properly before it goes anywhere. Try to select text in the areas you redacted — nothing should highlight. Use the search function to look for a name or number you expected to remove — it should find nothing. Copy a whole page into a text editor and read what comes out.</p>
+<p>This verification takes a couple of minutes and is the step that separates a redaction that works from one that merely looks like it does. For anything being published or filed with a court, it is not optional.</p>
+
+<h3>Do Not Forget the Metadata</h3>
+<p>Redaction handles what is on the page. It does not touch the document's properties, where the original author's name, their organisation, the software used, and the full creation and revision history are frequently recorded. These fields have exposed information in high-profile cases where the page content was redacted perfectly. Run the file through <a href="/metadata">PDF Metadata</a> to clear them as well.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy is retained — which is particularly relevant given the nature of the material people bring to this tool.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/metadata">PDF Metadata</a> &nbsp;·&nbsp; <a href="/protect">Protect PDF</a> &nbsp;·&nbsp; <a href="/delete-pages">Delete Pages</a> &nbsp;·&nbsp; <a href="/watermark">Watermark PDF</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

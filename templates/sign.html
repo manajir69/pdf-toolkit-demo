@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Add your signature to PDF files online for free. Upload a signature image and place it anywhere on your PDF.">
+    <meta name="keywords" content="sign PDF, add signature PDF, PDF signature, electronic signature PDF">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/sign">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Sign PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/sign">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Sign PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/sign",
+          "url": "https://example.com/sign",
+          "name": "Sign PDF - PDF Toolkit Demo",
+          "description": "Add your signature image to PDF documents online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Edit PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Sign PDF","item":"https://example.com/sign"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How do I get my signature into the tool?","acceptedAnswer":{"@type":"Answer","text":"Sign a sheet of white paper in dark ink, photograph or scan it, and upload that image. A PNG with a transparent background gives the cleanest result because the paper does not show as a white box over the document, but an ordinary photograph works too."}},
+            {"@type":"Question","name":"Can I place the signature anywhere on the page?","acceptedAnswer":{"@type":"Answer","text":"Yes. Position it wherever the document requires and adjust the size so it looks natural against the surrounding text. A signature that is noticeably too large or too small is the most common reason a signed document looks wrong."}},
+            {"@type":"Question","name":"Is this a legally binding electronic signature?","acceptedAnswer":{"@type":"Answer","text":"It is a visible signature image, which is what the large majority of everyday documents actually require. It is not a cryptographic digital signature with an identity certificate — for high-value contracts or anything with a regulatory requirement, use a dedicated e-signature service."}},
+            {"@type":"Question","name":"How do I stop someone copying my signature out of the file?","acceptedAnswer":{"@type":"Answer","text":"Anyone can extract an image from a PDF, so this is a real consideration. Send signed documents only to parties you trust, and use Protect PDF to add password encryption when the document is going somewhere sensitive."}},
+            {"@type":"Question","name":"Can I add a date alongside the signature?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use Edit PDF to place the date, a printed name, or a job title next to your signature. Many documents expect these alongside the signature itself."}},
+            {"@type":"Question","name":"Are my files stored on your server?","acceptedAnswer":{"@type":"Answer","text":"No. Both the document and your signature image are processed in memory and discarded the moment your download completes. Nothing is written to disk, nothing is logged, and no copy is retained."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Sign PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/sign"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Edit PDF</a><span>›</span><strong>Sign PDF</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">Sign PDF</h1>
+    <p class="subtitle">Add your signature to any PDF document</p>
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">✍️</div>
+            <h2>Drag &amp; Drop File Here</h2><p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock &amp; Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint">Upload your signature image (PNG with transparent background recommended):</p>
+            <input type="file" name="signature_file" accept="image/*" class="range-input" style="width:100%;max-width:400px;" required>
+            <br><br>
+            <p class="mode-hint">Place signature on:</p>
+            <div class="mode-tabs" id="signPosTabs">
+                <button type="button" class="mode-btn active" onclick="setSPos(this,'all')">All Pages</button>
+                <button type="button" class="mode-btn" onclick="setSPos(this,'first')">First Page</button>
+                <button type="button" class="mode-btn" onclick="setSPos(this,'last')">Last Page</button>
+            </div>
+            <input type="hidden" name="sign_pages" id="signPagesInput" value="all">
+            <br>
+            <p class="mode-hint">Position:</p>
+            <div class="mode-tabs" id="signLocTabs">
+                <button type="button" class="mode-btn active" onclick="setSLoc(this,'bottom-right')">Bottom Right</button>
+                <button type="button" class="mode-btn" onclick="setSLoc(this,'bottom-left')">Bottom Left</button>
+                <button type="button" class="mode-btn" onclick="setSLoc(this,'bottom-center')">Bottom Center</button>
+            </div>
+            <input type="hidden" name="sign_position" id="signPositionInput" value="bottom-right">
+            <br>
+            <button type="submit" class="btn">✍️ Sign PDF</button>
+        </div>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function handleFile(file){window._pdfFile=file;fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";_tryLoadPdf(null);}
+    function _tryLoadPdf(password){if(!window._pdfFile)return;var r=new FileReader();r.onload=function(e){var data=new Uint8Array(e.target.result);var opts=password?{data:data,password:password}:{data:data};pdfjsLib.getDocument(opts).promise.then(function(pdf){if(password)document.getElementById("pdfPasswordHidden").value=password;document.getElementById("pdfPasswordPrompt").style.display="none";document.getElementById("pdfPassError").style.display="none";optionsSection.style.display="block";pdf.getPage(1).then(function(page){var canvas=document.getElementById("firstPageThumb");var ctx=canvas.getContext("2d");var vp=page.getViewport({scale:0.5});canvas.width=vp.width;canvas.height=vp.height;page.render({canvasContext:ctx,viewport:vp});});}).catch(function(err){if(err.name==="PasswordException"){document.getElementById("pdfPasswordPrompt").style.display="block";if(password)document.getElementById("pdfPassError").style.display="block";setTimeout(function(){document.getElementById("pdfPassInput").focus();},100);}});};r.readAsArrayBuffer(window._pdfFile);}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";document.getElementById("pdfPasswordPrompt").style.display="none";}
+    function confirmPdfPassword(){var pass=document.getElementById("pdfPassInput").value;if(!pass)return;document.getElementById("pdfPassError").style.display="none";_tryLoadPdf(pass);}
+    function togglePdfPass(btn){var inp=document.getElementById("pdfPassInput");inp.type=inp.type==="password"?"text":"password";btn.querySelector("svg").setAttribute("stroke",inp.type==="text"?"#F9A825":"#888");}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+    function setSPos(btn,val){document.querySelectorAll("#signPosTabs .mode-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("signPagesInput").value=val;}
+    function setSLoc(btn,val){document.querySelectorAll("#signLocTabs .mode-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("signPositionInput").value=val;}
+</script>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I get my signature into the tool?</div>
+    <div class="faq-a">Sign a sheet of white paper in dark ink, photograph or scan it, and upload that image. A PNG with a transparent background gives the cleanest result because the paper does not show as a white box over the document, but an ordinary photograph works too.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I place the signature anywhere on the page?</div>
+    <div class="faq-a">Yes. Position it wherever the document requires and adjust the size so it looks natural against the surrounding text. A signature that is noticeably too large or too small is the most common reason a signed document looks wrong.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Is this a legally binding electronic signature?</div>
+    <div class="faq-a">It is a visible signature image, which is what the large majority of everyday documents actually require. It is not a cryptographic digital signature with an identity certificate — for high-value contracts or anything with a regulatory requirement, use a dedicated e-signature service.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I stop someone copying my signature out of the file?</div>
+    <div class="faq-a">Anyone can extract an image from a PDF, so this is a real consideration. Send signed documents only to parties you trust, and use <a href='/protect'>Protect PDF</a> to add password encryption when the document is going somewhere sensitive.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I add a date alongside the signature?</div>
+    <div class="faq-a">Yes. Use <a href='/edit-pdf'>Edit PDF</a> to place the date, a printed name, or a job title next to your signature. Many documents expect these alongside the signature itself.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my files stored on your server?</div>
+    <div class="faq-a">No. Both the document and your signature image are processed in memory and discarded the moment your download completes. Nothing is written to disk, nothing is logged, and no copy is retained.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Sign PDF Online — Free Electronic Signature Tool</h2>
+<p>Add your signature to a PDF without printing anything. Upload the document and an image of your signature, position it where it belongs, and download the signed file. Free, takes under a minute, and replaces the print-sign-scan cycle entirely.</p>
+
+<h3>The Problem This Solves</h3>
+<p>The traditional route for signing a document you received by email is genuinely absurd when you lay it out: print the file onto paper, sign the paper with a pen, find a scanner, scan it back into a computer, and email the result. Four steps, two devices, and roughly fifteen minutes to add a few square centimetres of ink.</p>
+<p>The scanned result is also usually worse than the original — slightly skewed, larger in file size, and with the crisp text of the original replaced by a photograph of printed text. Signing digitally skips all of it and produces a cleaner document.</p>
+
+<h3>Getting a Good Signature Image</h3>
+<p>The quality of your signature image determines how professional the signed document looks, and it is worth spending five minutes getting this right once since you will reuse the file indefinitely.</p>
+<p><strong>Sign on plain white paper</strong> with a dark pen — black or dark blue. Avoid lined or coloured paper, which shows in the image.</p>
+<p><strong>Sign larger than usual.</strong> A big signature scaled down looks smooth; a small one scaled up looks pixelated.</p>
+<p><strong>Photograph or scan in even light.</strong> Direct overhead light casts a shadow from your phone; light from a window to one side works much better. Hold the camera parallel to the paper so the signature is not distorted.</p>
+<p><strong>A transparent PNG is ideal.</strong> With a transparent background the signature sits naturally on the page instead of appearing inside a white rectangle that covers the line beneath it. If you have image editing software, removing the white background once is worth the effort.</p>
+
+<h3>Placing the Signature Well</h3>
+<p>Size is what people most often get wrong. A signature dropped in at its native scale is frequently far too large, dominating the page in a way a pen signature never would. Scale it so it sits comfortably on the signature line, roughly matching the height of a handwritten signature relative to the surrounding text. This one adjustment does most of the work in making a signed PDF look properly signed rather than assembled.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Freelancers and contractors</strong> signing client agreements and statements of work. <strong>Tenants and landlords</strong> completing tenancy paperwork. <strong>Employees</strong> returning signed policies, forms, and acknowledgements to HR. <strong>Small businesses</strong> signing quotations, purchase orders, and delivery confirmations. <strong>Anyone dealing with a school, clinic, or council</strong> that sends forms by email expecting a signed return.</p>
+
+<h3>How to Sign a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Upload your signature image. Position it where the document requires and adjust the size until it looks natural. Download the signed document. If the file needs a date or printed name alongside the signature, add those with <a href="/edit-pdf">Edit PDF</a>.</p>
+
+<h3>What Kind of Signature This Is</h3>
+<p>This produces a <strong>visible signature</strong> — an image of your handwriting placed on the page. For the vast majority of everyday documents this is exactly what is being asked for and exactly what is accepted.</p>
+<p>It is distinct from a <strong>cryptographic digital signature</strong>, which embeds a certificate proving who signed and detecting any subsequent change to the document. Those require an identity certificate from a recognised authority and are used for high-value contracts, regulated filings, and situations with a legal requirement for verifiable signing. If your document specifically calls for a digital certificate, a dedicated e-signature service is the right route.</p>
+
+<h3>Protecting a Signed Document</h3>
+<p>A signature image in a PDF can be extracted by anyone with the file, which is worth bearing in mind before sending signed documents widely. Send them only to parties you have reason to trust, and consider <a href="/protect">Protect PDF</a> to add password encryption when the document is sensitive or the recipient is not well known to you.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Both the document and your signature image are processed in memory and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy of either is retained.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/edit-pdf">Edit PDF</a> &nbsp;·&nbsp; <a href="/protect">Protect PDF</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a> &nbsp;·&nbsp; <a href="/watermark">Watermark PDF</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

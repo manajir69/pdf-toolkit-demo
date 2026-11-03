@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Metadata Editor Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="View and edit PDF metadata online for free. Change PDF title, author, subject. No installation required.">
+    <meta name="keywords" content="PDF metadata, edit PDF metadata, PDF properties, PDF title author, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/metadata">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF Metadata Editor - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/metadata">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="PDF Metadata Editor - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .meta-table { width: 100%; max-width: 600px; margin: 20px auto; border-collapse: collapse; text-align: left; }
+        .meta-table td { padding: 12px 16px; border-bottom: 1px solid #eee; font-size: 18px; }
+        .meta-table td:first-child { color: #888; width: 40%; }
+        .meta-form { max-width: 500px; margin: 20px auto; }
+        .meta-form input { width: 100%; padding: 12px; font-size: 16px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 12px; box-sizing: border-box; }
+        .meta-form input:focus { border-color: #F9A825; outline: none; }
+        .meta-form label { display: block; text-align: left; font-size: 14px; color: #888; margin-bottom: 4px; }
+    </style>
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/metadata",
+          "url": "https://example.com/metadata",
+          "name": "PDF Metadata - PDF Toolkit Demo",
+          "description": "View and edit PDF metadata including title, author, and subject.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Edit PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"PDF Metadata","item":"https://example.com/metadata"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What metadata does a PDF contain?","acceptedAnswer":{"@type":"Answer","text":"Title, author, subject, keywords, the software that created it, and the creation and modification dates. Depending on how the file was produced it may also carry the original file path, the organisation name from the software licence, and traces of earlier revisions."}},
+            {"@type":"Question","name":"Why should I care about metadata?","acceptedAnswer":{"@type":"Answer","text":"Because it travels with the file and is trivially visible to anyone who opens the document properties. Author fields have exposed who really wrote an anonymous document, and file paths have revealed internal folder structures and staff names. It has caused genuine problems in published documents."}},
+            {"@type":"Question","name":"How do I see the metadata in a PDF?","acceptedAnswer":{"@type":"Answer","text":"Any PDF reader shows it under document properties or file information. In Acrobat and most browsers it is a menu option; on macOS Preview it is under Tools. It takes one click, which is exactly why leaving sensitive values in place is risky."}},
+            {"@type":"Question","name":"Can I clear the metadata entirely?","acceptedAnswer":{"@type":"Answer","text":"Yes. Fields can be emptied so the document carries no author, title, or software information. This is worth doing routinely for anything being published or sent outside your organisation."}},
+            {"@type":"Question","name":"Does editing metadata change the document content?","acceptedAnswer":{"@type":"Answer","text":"No. Metadata is stored separately from the page content. Every page, font, and image is completely untouched — only the descriptive information about the file changes."}},
+            {"@type":"Question","name":"Does clearing metadata make a document anonymous?","acceptedAnswer":{"@type":"Answer","text":"It removes one significant source of identifying information, but not all of them. The page content itself may identify the author through writing style, embedded images may carry their own EXIF data, and Redact PDF is needed for anything identifying in the visible text."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "PDF Metadata — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/metadata"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Edit PDF</a><span>›</span><strong>PDF Metadata</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">PDF Metadata</h1>
+    <p class="subtitle">View and edit PDF title, author, and more</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    {% if info %}
+    <h3 style="color:#2B2B2B;">📋 Current Metadata</h3>
+    <table class="meta-table">
+        {% for key, val in info.items() %}
+        <tr><td>{{ key }}</td><td>{{ val }}</td></tr>
+        {% endfor %}
+    </table>
+    <h3 style="color:#2B2B2B; margin-top:30px;">✏️ Edit Metadata</h3>
+    <form method="POST" enctype="multipart/form-data" class="meta-form">
+        <input type="file" name="pdf_file" accept=".pdf" required>
+        <input type="hidden" name="action" value="edit">
+        <label>Title</label>
+        <input type="text" name="title" placeholder="PDF Title" value="{{ info.get('Title','') }}">
+        <label>Author</label>
+        <input type="text" name="author" placeholder="Author Name" value="{{ info.get('Author','') }}">
+        <label>Subject</label>
+        <input type="text" name="subject" placeholder="Subject" value="{{ info.get('Subject','') }}">
+        <button type="submit" class="btn">💾 Save Metadata</button>
+    </form>
+    {% else %}
+
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">📋</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+        <input type="hidden" name="action" value="view">
+
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <button type="submit" class="btn">📋 View Metadata</button>
+        </div>
+
+    </form>
+    {% endif %}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput = document.getElementById("pdfInput");
+    if (pdfInput) {
+        const dropArea = document.getElementById("dropArea");
+        const fileCard = document.getElementById("fileCard");
+        const fileName = document.getElementById("fileName");
+        const optionsSection = document.getElementById("optionsSection");
+
+        function handleFile(file) {
+            window._pdfFile = file;
+            fileName.textContent = file.name;
+            dropArea.style.display = "none";
+            fileCard.style.display = "flex";
+            _tryLoadPdf(null);
+        }
+
+        function _tryLoadPdf(password) {
+            if (!window._pdfFile) return;
+            var r = new FileReader();
+            r.onload = function(e) {
+                var data = new Uint8Array(e.target.result);
+                var opts = password ? {data: data, password: password} : {data: data};
+                pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+                    if (password) document.getElementById("pdfPasswordHidden").value = password;
+                    document.getElementById("pdfPasswordPrompt").style.display = "none";
+                    document.getElementById("pdfPassError").style.display = "none";
+                    document.getElementById("optionsSection").style.display = "block";
+                    pdf.getPage(1).then(function(page) {
+                        var canvas = document.getElementById("firstPageThumb");
+                        var ctx = canvas.getContext("2d");
+                        var vp = page.getViewport({ scale: 0.5 });
+                        canvas.width = vp.width; canvas.height = vp.height;
+                        page.render({ canvasContext: ctx, viewport: vp });
+                    });
+                }).catch(function(err) {
+                    if (err.name === "PasswordException") {
+                        document.getElementById("pdfPasswordPrompt").style.display = "block";
+                        if (password) document.getElementById("pdfPassError").style.display = "block";
+                        setTimeout(function() { document.getElementById("pdfPassInput").focus(); }, 100);
+                    }
+                });
+            };
+            r.readAsArrayBuffer(window._pdfFile);
+        }
+
+        pdfInput.addEventListener("change", () => { if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+        dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
+        dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+        dropArea.addEventListener("drop", e => {
+            e.preventDefault(); dropArea.classList.remove("drag-over");
+            if (e.dataTransfer.files[0]) {
+                const dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+                pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+            }
+        });
+        dropArea.addEventListener("click", (e) => { if (!e.target.closest("label")) pdfInput.click(); });
+
+        function removeFile() {
+            pdfInput.value = "";
+            fileCard.style.display = "none";
+            optionsSection.style.display = "none";
+            dropArea.style.display = "";
+        }
+    }
+
+    function confirmPdfPassword() {
+        var pass = document.getElementById("pdfPassInput").value;
+        if (!pass) return;
+        document.getElementById("pdfPassError").style.display = "none";
+        _tryLoadPdf(pass);
+    }
+    function togglePdfPass(btn) {
+        var inp = document.getElementById("pdfPassInput");
+        var svg = btn.querySelector("svg");
+        inp.type = inp.type === "password" ? "text" : "password";
+        svg.setAttribute("stroke", inp.type === "text" ? "#F9A825" : "#888");
+    }
+
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What metadata does a PDF contain?</div>
+    <div class="faq-a">Title, author, subject, keywords, the software that created it, and the creation and modification dates. Depending on how the file was produced it may also carry the original file path, the organisation name from the software licence, and traces of earlier revisions.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why should I care about metadata?</div>
+    <div class="faq-a">Because it travels with the file and is trivially visible to anyone who opens the document properties. Author fields have exposed who really wrote an anonymous document, and file paths have revealed internal folder structures and staff names. It has caused genuine problems in published documents.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I see the metadata in a PDF?</div>
+    <div class="faq-a">Any PDF reader shows it under document properties or file information. In Acrobat and most browsers it is a menu option; on macOS Preview it is under Tools. It takes one click, which is exactly why leaving sensitive values in place is risky.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I clear the metadata entirely?</div>
+    <div class="faq-a">Yes. Fields can be emptied so the document carries no author, title, or software information. This is worth doing routinely for anything being published or sent outside your organisation.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does editing metadata change the document content?</div>
+    <div class="faq-a">No. Metadata is stored separately from the page content. Every page, font, and image is completely untouched — only the descriptive information about the file changes.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does clearing metadata make a document anonymous?</div>
+    <div class="faq-a">It removes one significant source of identifying information, but not all of them. The page content itself may identify the author through writing style, embedded images may carry their own EXIF data, and <a href='/redact'>Redact PDF</a> is needed for anything identifying in the visible text.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Edit PDF Metadata Online — Free Document Properties Editor</h2>
+<p>View and change the hidden information stored inside a PDF: title, author, subject, keywords, and creation details. Set them properly, or clear them entirely before sharing a document. Free, instant, and the page content is never touched.</p>
+
+<h3>What Metadata Is and Why It Matters</h3>
+<p>Every PDF carries a set of descriptive fields that are not visible on any page but travel with the file wherever it goes. Anyone can view them in a couple of clicks through their PDF reader's document properties panel.</p>
+<p>These fields routinely contain more than people realise. The <strong>author</strong> field is usually filled automatically from the licence name on whoever's copy of Word or Acrobat produced the file. The <strong>producer</strong> field records the exact software and version. Depending on how the document was created, the metadata may also include the full file path it was saved from — which can expose internal folder structures, project code names, and staff names.</p>
+<p>There is a long history of documents being published with author fields that contradicted their stated origin. It is a small detail that has caused disproportionate embarrassment.</p>
+
+<h3>Why Set Metadata Properly</h3>
+<p><strong>Findability.</strong> Document management systems, corporate search, and desktop search all index metadata. A file with a meaningful title and relevant keywords surfaces when someone searches for it; one with an empty title and an author field reading "Administrator" does not.</p>
+<p><strong>Presentation.</strong> The title field is what most PDF readers display in the window title bar and browser tab — not the file name. A document with no title shows the file name instead, which frequently looks like <code>final_v3_REVISED_2.pdf</code> and does not inspire confidence.</p>
+<p><strong>Consistency.</strong> Documents that will be archived or catalogued benefit enormously from consistent metadata, and retrofitting it later across hundreds of files is painful.</p>
+
+<h3>Why Clear Metadata</h3>
+<p><strong>Before publishing anything.</strong> A document going on a website or into a public filing carries whatever metadata it accumulated during production, including the name of everyone whose software touched it.</p>
+<p><strong>When anonymity matters.</strong> Anonymous submissions, blind peer review, and confidential reports are all undermined by an author field naming the writer.</p>
+<p><strong>When the origin should not be visible.</strong> A document produced for a client using an internal template may carry the internal project name in the subject field or the folder path in the producer information.</p>
+<p><strong>As routine hygiene.</strong> Clearing metadata before external distribution costs seconds and removes an entire category of accidental disclosure.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Publishers and web teams</strong> set proper titles and clear internal author names before documents go live. <strong>Researchers</strong> strip identifying fields before submitting for blind review. <strong>Legal teams</strong> clear metadata on documents being disclosed or filed. <strong>Agencies</strong> remove internal project references from client deliverables. <strong>Anyone archiving documents</strong> adds consistent titles and keywords so files can be found later.</p>
+
+<h3>How to Edit PDF Metadata</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. The current values are shown for you to review — this alone is often revealing, as most people have never looked. Edit the fields you want to change or clear the ones that should not travel with the document, then download the updated file.</p>
+
+<h3>The Page Content Is Untouched</h3>
+<p>Metadata is stored in a separate part of the file from the page content. Changing it does not affect a single page, font, or image. The document looks and behaves exactly as before, and the file size barely changes. This makes metadata editing completely safe to run on any document.</p>
+
+<h3>Clearing Metadata Is Not the Same as Anonymising</h3>
+<p>Worth being clear about, because it is easy to overestimate what this achieves. Removing the author field removes one identifier. It does not remove names, addresses, or other identifying information from the visible page content — for that you need <a href="/redact">Redact PDF</a>. It also does not remove EXIF data embedded inside photographs within the document, which can include camera details and sometimes GPS coordinates.</p>
+<p>For genuine anonymisation, treat metadata clearing as one necessary step among several rather than the whole job.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded the moment your download completes. Nothing is written to disk, nothing is logged, and no copy is retained.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/redact">Redact PDF</a> permanently removes identifying content from the pages themselves. <a href="/protect">Protect PDF</a> adds password encryption, and <a href="/watermark">Watermark PDF</a> marks a document's status visibly.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/redact">Redact PDF</a> &nbsp;·&nbsp; <a href="/protect">Protect PDF</a> &nbsp;·&nbsp; <a href="/watermark">Watermark PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

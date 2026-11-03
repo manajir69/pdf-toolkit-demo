@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlock PDF - Remove Password Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Unlock password protected PDF files online for free. Remove PDF password and restrictions. No installation required.">
+    <meta name="keywords" content="unlock PDF, remove PDF password, decrypt PDF, PDF unlocker, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/unlock">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Unlock PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/unlock">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Unlock PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/unlock",
+          "url": "https://example.com/unlock",
+          "name": "Unlock PDF - PDF Toolkit Demo",
+          "description": "Remove password protection from PDF files online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"PDF Security","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Unlock PDF","item":"https://example.com/unlock"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"Do I need to know the password to unlock a PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. This tool removes protection from documents you can already open — it does not break encryption or recover forgotten passwords. If the file will not open for you now, it will not open here either."}},
+            {"@type":"Question","name":"Can this crack a password I have forgotten?","acceptedAnswer":{"@type":"Answer","text":"No, and no legitimate tool can. Properly encrypted PDF content is unreadable without the password by design. Any service claiming to recover strong passwords is either relying on the file being weakly protected or is not being honest with you."}},
+            {"@type":"Question","name":"What is the difference between an open password and a permissions password?","acceptedAnswer":{"@type":"Answer","text":"An open password is required before the document will display at all. A permissions password leaves the file readable but marks printing or copying as restricted. Removing an open password requires knowing it; permission restrictions are advisory and much weaker."}},
+            {"@type":"Question","name":"Why remove a password at all?","acceptedAnswer":{"@type":"Answer","text":"Convenience, mostly. Retyping a password every time you open a frequently used file is tedious, and encrypted PDFs cannot be indexed by desktop search or processed by most automated workflows. Removing protection from a document stored somewhere already secure is often the sensible choice."}},
+            {"@type":"Question","name":"Will unlocking change the document?","acceptedAnswer":{"@type":"Answer","text":"No. Only the encryption layer is removed. Every page, font, image, and piece of formatting is untouched, and the file size is essentially unchanged. The document is identical apart from no longer asking for a password."}},
+            {"@type":"Question","name":"Is it legal to remove a password from a PDF?","acceptedAnswer":{"@type":"Answer","text":"Removing protection from your own documents, or from files you have been given legitimate access to, is entirely normal. Circumventing protection on material you have no right to access is not, and varies by jurisdiction. Use the tool on documents you are entitled to."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Unlock PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/unlock"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">PDF Security</a><span>›</span><strong>Unlock PDF</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Unlock PDF</h1>
+    <p class="subtitle">Remove password protection from your PDF</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🔓</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint">Enter the PDF password (leave blank if not encrypted):</p>
+            <div class="password-wrap">
+                <input type="password" name="password" id="passwordInput" class="range-input" placeholder="Enter password">
+                <button type="button" class="eye-btn" id="eyeBtn" onclick="togglePass('passwordInput', this)">
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+        <circle cx="12" cy="12" r="3"/>
+    </svg>
+</button>
+            </div>
+            <br>
+            <button type="submit" class="btn">🔓 Unlock PDF</button>
+        </div>
+
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput = document.getElementById("pdfInput");
+    const dropArea = document.getElementById("dropArea");
+    const fileCard = document.getElementById("fileCard");
+    const fileName = document.getElementById("fileName");
+    const optionsSection = document.getElementById("optionsSection");
+
+    function handleFile(file) {
+        fileName.textContent = file.name;
+        dropArea.style.display = "none";
+        fileCard.style.display = "flex";
+        optionsSection.style.display = "block";
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            pdfjsLib.getDocument({data: e.target.result}).promise.then(function(pdf) {
+                pdf.getPage(1).then(function(page) {
+                    const canvas = document.getElementById("firstPageThumb");
+                    const ctx = canvas.getContext("2d");
+                    const vp = page.getViewport({ scale: 0.5 });
+                    canvas.width = vp.width; canvas.height = vp.height;
+                    page.render({ canvasContext: ctx, viewport: vp });
+                });
+            }).catch(function() {
+                // Show lock icon for encrypted PDF
+                const canvas = document.getElementById("firstPageThumb");
+                const ctx = canvas.getContext("2d");
+                canvas.width = 100; canvas.height = 120;
+                ctx.fillStyle = "#f5f5f5";
+                ctx.fillRect(0, 0, 100, 120);
+                ctx.font = "48px serif";
+                ctx.textAlign = "center";
+                ctx.fillText("🔒", 50, 75);
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    pdfInput.addEventListener("change", () => { if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+    dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop", e => {
+        e.preventDefault(); dropArea.classList.remove("drag-over");
+        if (e.dataTransfer.files[0]) {
+            const dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+            pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+        }
+    });
+    dropArea.addEventListener("click", (e) => { if (!e.target.closest("label")) pdfInput.click(); });
+
+    function togglePass(id, btn) {
+        const input = document.getElementById(id);
+        const svg = btn.querySelector("svg");
+        if (input.type === "password") {
+            input.type = "text";
+            svg.setAttribute("stroke", "#F9A825");
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", "4"); line.setAttribute("y1", "4");
+            line.setAttribute("x2", "20"); line.setAttribute("y2", "20");
+            line.setAttribute("stroke-linecap", "round");
+            line.id = "eyeLine";
+            svg.appendChild(line);
+        } else {
+            input.type = "password";
+            svg.setAttribute("stroke", "#888");
+            const l = svg.querySelector("#eyeLine");
+            if (l) l.remove();
+        }
+    }
+
+    function removeFile() {
+        pdfInput.value = "";
+        fileCard.style.display = "none";
+        optionsSection.style.display = "none";
+        dropArea.style.display = "";
+    }
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Do I need to know the password to unlock a PDF?</div>
+    <div class="faq-a">Yes. This tool removes protection from documents you can already open — it does not break encryption or recover forgotten passwords. If the file will not open for you now, it will not open here either.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can this crack a password I have forgotten?</div>
+    <div class="faq-a">No, and no legitimate tool can. Properly encrypted PDF content is unreadable without the password by design. Any service claiming to recover strong passwords is either relying on the file being weakly protected or is not being honest with you.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What is the difference between an open password and a permissions password?</div>
+    <div class="faq-a">An open password is required before the document will display at all. A permissions password leaves the file readable but marks printing or copying as restricted. Removing an open password requires knowing it; permission restrictions are advisory and much weaker.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why remove a password at all?</div>
+    <div class="faq-a">Convenience, mostly. Retyping a password every time you open a frequently used file is tedious, and encrypted PDFs cannot be indexed by desktop search or processed by most automated workflows. Removing protection from a document stored somewhere already secure is often the sensible choice.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will unlocking change the document?</div>
+    <div class="faq-a">No. Only the encryption layer is removed. Every page, font, image, and piece of formatting is untouched, and the file size is essentially unchanged. The document is identical apart from no longer asking for a password.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Is it legal to remove a password from a PDF?</div>
+    <div class="faq-a">Removing protection from your own documents, or from files you have been given legitimate access to, is entirely normal. Circumventing protection on material you have no right to access is not, and varies by jurisdiction. Use the tool on documents you are entitled to.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Unlock PDF Online — Free PDF Password Remover</h2>
+<p>Remove password protection from a PDF you can already open. Upload the file, enter its password, and download an unprotected version that opens instantly from then on. Free, quick, and the document itself is left completely unchanged.</p>
+
+<h3>What This Tool Does — And What It Cannot Do</h3>
+<p>Being clear about this saves disappointment. This tool <strong>removes protection from documents you have the password for</strong>. It does not break encryption, and it cannot recover a password you have forgotten.</p>
+<p>That is not a shortcoming to be worked around. A properly encrypted PDF has its actual contents scrambled, and without the key there is nothing readable to work with. Any service promising to crack strong PDF passwords is either exploiting files that were barely protected in the first place, or is misleading you. If your document will not open for you today, no tool will change that.</p>
+
+<h3>The Two Kinds of PDF Password</h3>
+<p><strong>An open password</strong> — sometimes called a user password — is required before the document will display at all. This is real encryption. The file's contents are unreadable until the correct password is supplied. Removing one requires knowing it.</p>
+<p><strong>A permissions password</strong> — sometimes called an owner password — leaves the document fully readable but sets flags asking readers to disallow printing, copying, or editing. These are requests rather than enforcement. The content is not encrypted, and software that ignores the flags simply does. This is why "protected" PDFs so often turn out to be copyable anyway.</p>
+
+<h3>Why Remove a Password?</h3>
+<p><strong>Repetition.</strong> A document you open several times a day becomes genuinely tiresome when every opening requires a password. If the file already lives somewhere secure — an encrypted drive, a protected work account — the extra prompt adds friction without adding meaningful safety.</p>
+<p><strong>Searchability.</strong> Desktop search tools cannot index the contents of an encrypted PDF, so protected documents become invisible to the search you rely on to find things.</p>
+<p><strong>Processing.</strong> Most automated workflows, printing systems, and document tools cannot handle encrypted files. Removing the password is often a prerequisite for doing anything else with the document.</p>
+<p><strong>Archiving.</strong> A password known only to someone who has since left the organisation is a document that will eventually be lost. Storing archives unencrypted in a secure location is frequently the more durable choice.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Accountants</strong> unlock the password-protected statements banks issue so they can process them in bulk. <strong>Office administrators</strong> remove protection from documents being moved into a shared archive. <strong>Anyone receiving encrypted invoices or payslips</strong> that they need to file alongside everything else. <strong>Teams inheriting documents</strong> from a departing colleague who protected everything individually.</p>
+
+<h3>How to Unlock a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. If the file is encrypted, a password prompt appears — enter the password you use to open it normally. Download the unprotected version, which opens without any prompt from that point on.</p>
+
+<h3>The Document Itself Is Unchanged</h3>
+<p>Only the encryption layer is stripped away. Every page stays exactly as it was, embedded fonts remain embedded, text stays selectable and searchable, images keep their original resolution, and file size barely moves. The unlocked file is identical to the protected one in every respect except that it no longer asks for a password.</p>
+
+<h3>Think Before You Unlock</h3>
+<p>The password was presumably added for a reason. Before removing it, consider where the unprotected file will live and who can reach that location. Removing protection from a document that then sits in a shared folder or a synced cloud drive may expose it more widely than intended. If the document contains personal or financial information, keeping the protection — or storing the unlocked version somewhere genuinely secure — is the better call.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>The document is processed in memory and discarded the moment your download completes. The password you enter is used only for that single operation and is never stored or logged. Nothing is written to disk and no copy is retained.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/protect">Protect PDF</a> adds password encryption to a document. <a href="/redact">Redact PDF</a> permanently removes sensitive content, and <a href="/metadata">PDF Metadata</a> clears hidden author and revision details before sharing.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/protect">Protect PDF</a> &nbsp;·&nbsp; <a href="/redact">Redact PDF</a> &nbsp;·&nbsp; <a href="/metadata">PDF Metadata</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

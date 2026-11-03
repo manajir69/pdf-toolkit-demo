@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract PDF Pages Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Extract specific pages from your PDF and save as a new PDF file. Free online tool. No installation required.">
+    <meta name="keywords" content="extract PDF pages, PDF page extractor, save pages from PDF, online PDF editor, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/extract-pages">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Extract PDF Pages - PDF Toolkit Demo">
+    <meta property="og:description" content="Extract specific pages from your PDF online for free.">
+    <meta property="og:url" content="https://example.com/extract-pages">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Extract PDF Pages - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Extract specific pages from your PDF online for free.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/extract-pages",
+          "url": "https://example.com/extract-pages",
+          "name": "Extract Pages - PDF Toolkit Demo",
+          "description": "Extract specific pages from a PDF and save them as a new PDF file.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Organize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Extract Pages","item":"https://example.com/extract-pages"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How do I choose which pages to extract?","acceptedAnswer":{"@type":"Answer","text":"Enter the page numbers separated by commas, using a hyphen for a continuous run. 1, 3, 10-15 extracts page one, page three, and pages ten through fifteen. Everything you do not list is left out of the new file."}},
+            {"@type":"Question","name":"Do the extracted pages keep their original order?","acceptedAnswer":{"@type":"Answer","text":"Yes. Pages appear in the new document in ascending order regardless of the sequence you typed them in, so entering 10, 2, 5 produces a file with pages 2, 5, and 10 in that order. To control the sequence yourself, use Organize PDF after extracting."}},
+            {"@type":"Question","name":"What is the difference between extracting and splitting?","acceptedAnswer":{"@type":"Answer","text":"Extracting produces one new PDF containing only the pages you chose. Split PDF divides the document into several separate files. Extract when you want a single focused document; split when you need each section to exist as its own file."}},
+            {"@type":"Question","name":"Is the original document changed in any way?","acceptedAnswer":{"@type":"Answer","text":"No. Your uploaded file is never modified. Extraction reads from it and builds a completely new document, so the original on your computer stays exactly as it was and you can extract a different selection from it as many times as you like."}},
+            {"@type":"Question","name":"Will the extracted pages lose quality?","acceptedAnswer":{"@type":"Answer","text":"No. Each page is copied across exactly as it exists in the source. Embedded fonts stay embedded, text remains selectable and searchable, vector graphics stay sharp at any zoom, and images keep their original resolution with no recompression."}},
+            {"@type":"Question","name":"Can I extract from a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. A password prompt appears automatically after upload if the document is encrypted. Enter it once and extraction proceeds normally. Our Unlock PDF tool can also remove the password permanently beforehand."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Extract Pages — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/extract-pages"
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Organize PDF</a><span>›</span><strong>Extract Pages</strong>
+</nav>
+
+
+<div class="container">
+<h1 class="page-title">Extract Pages</h1>
+    <p class="subtitle">Extract specific pages from your PDF as a new file</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="splitForm">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">📤</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+        </div>
+
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="modeSection" style="display:none;">
+
+            <div class="mode-tabs">
+                <button type="button" class="mode-btn active" onclick="setMode('visual')">🖼️ Visual Editor</button>
+                <button type="button" class="mode-btn" onclick="setMode('range')">📄 Page Range</button>
+            </div>
+
+            <div id="visualSection">
+                <p class="mode-hint">Keep the pages you want • Click ✖ to remove others</p>
+                <div id="visualGrid" class="visual-grid"></div>
+                <input type="hidden" name="page_order" id="pageOrderInput">
+            </div>
+
+            <div id="rangeSection" style="display:none;">
+                <p class="mode-hint">Enter pages to extract. Example: <strong>1-3, 5, 7</strong></p>
+                <input type="text" name="ranges" id="rangesInput" class="range-input" placeholder="e.g. 1-3, 5, 7">
+            </div>
+
+            <input type="hidden" name="mode" id="modeInput" value="visual">
+
+            <button type="submit" id="splitBtn" class="btn">📤 Extract Pages</button>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script src="{{ url_for('static', filename='js/split.js') }}"></script>
+
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I choose which pages to extract?</div>
+    <div class="faq-a">Enter the page numbers separated by commas, using a hyphen for a continuous run. <code>1, 3, 10-15</code> extracts page one, page three, and pages ten through fifteen. Everything you do not list is left out of the new file.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Do the extracted pages keep their original order?</div>
+    <div class="faq-a">Yes. Pages appear in the new document in ascending order regardless of the sequence you typed them in, so entering <code>10, 2, 5</code> produces a file with pages 2, 5, and 10 in that order. To control the sequence yourself, use <a href='/organize-pdf'>Organize PDF</a> after extracting.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What is the difference between extracting and splitting?</div>
+    <div class="faq-a">Extracting produces one new PDF containing only the pages you chose. <a href='/split'>Split PDF</a> divides the document into several separate files. Extract when you want a single focused document; split when you need each section to exist as its own file.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Is the original document changed in any way?</div>
+    <div class="faq-a">No. Your uploaded file is never modified. Extraction reads from it and builds a completely new document, so the original on your computer stays exactly as it was and you can extract a different selection from it as many times as you like.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will the extracted pages lose quality?</div>
+    <div class="faq-a">No. Each page is copied across exactly as it exists in the source. Embedded fonts stay embedded, text remains selectable and searchable, vector graphics stay sharp at any zoom, and images keep their original resolution with no recompression.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I extract from a password-protected PDF?</div>
+    <div class="faq-a">Yes. A password prompt appears automatically after upload if the document is encrypted. Enter it once and extraction proceeds normally. Our <a href='/unlock'>Unlock PDF</a> tool can also remove the password permanently beforehand.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Extract Pages from PDF Online — Free PDF Page Extractor</h2>
+<p>You rarely need an entire document. You need the invoice on page fourteen, the chapter that runs from forty to sixty-two, or the three signed pages buried in a hundred-page contract. Extraction pulls exactly those pages into a new PDF and leaves everything else behind. It is free, instant, and does not touch your original file.</p>
+
+<h3>Why Extract Instead of Sending the Whole File?</h3>
+<p><strong>Focus.</strong> A recipient who opens a four-page extract reads it. The same person handed a four-hundred-page manual and told the relevant part is "somewhere in section nine" often does not. Sending only what matters is a courtesy that noticeably improves response rates.</p>
+<p><strong>Size.</strong> Extracting a handful of pages from a large scanned document produces a file a fraction of the original size — frequently the simplest way to get an attachment under an email limit.</p>
+<p><strong>Confidentiality.</strong> Sometimes the safest approach is not to remove the sensitive pages but to extract only the ones you are willing to share. Nothing else can be recovered from a file that never contained it.</p>
+
+<h3>Extract, Delete, or Split — Which Do You Need?</h3>
+<p><strong>Extract</strong> keeps only the pages you name and returns one new file. Best when you want a small piece of a large document.</p>
+<p><strong><a href="/delete-pages">Delete Pages</a></strong> keeps everything except the pages you name, also returning one file. Best when the document is nearly right and a few pages need removing.</p>
+<p><strong><a href="/split">Split PDF</a></strong> divides the document into several output files at once. Best when every section needs to exist independently.</p>
+<p>Extract and delete are mirror images, so choose the one that means typing fewer numbers. Wanting five pages out of three hundred is clearly an extraction; wanting to lose five out of three hundred is a deletion.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Accountants and bookkeepers</strong> pull a single invoice out of a combined monthly statement to send to one client. <strong>Students and researchers</strong> extract one chapter or one paper from a bound scan for reading and annotation. <strong>Legal and HR teams</strong> isolate the signature pages of a long agreement for filing. <strong>Estate agents and surveyors</strong> extract the relevant plan or certificate from a large property pack. <strong>Anyone completing a form</strong> pulls out just the pages that need filling in.</p>
+
+<h3>How to Extract Pages from a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Enter the pages you want, using commas for individual pages and hyphens for ranges — <code>2, 7, 20-25</code> is a valid entry. Confirm the numbers against your document, then process and your new PDF downloads immediately.</p>
+<p>Because the original is never modified, extraction is entirely non-destructive. If you got the range wrong, upload the same file again and enter different numbers. Nothing is at risk.</p>
+
+<h3>Page Order in the Result</h3>
+<p>Extracted pages appear in ascending numerical order regardless of the sequence you typed them in. Entering <code>15, 3, 8</code> produces a document with pages 3, 8, and 15 in that order rather than the order you listed. This is almost always what people want, since the pages then read in their original sequence. If you specifically need a different arrangement, run the extracted file through <a href="/organize-pdf">Organize PDF</a>, where you can drag pages into any order you like.</p>
+
+<h3>Quality Is Preserved Exactly</h3>
+<p>Pages are copied rather than rebuilt. Embedded fonts stay embedded, so text renders identically and remains fully selectable, searchable, and copyable. Vector graphics stay sharp at any zoom level. Photographs and scans keep the exact resolution they had in the source document. The extracted pages are indistinguishable from the originals.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded the moment your download completes. Nothing is written to disk, nothing is logged, and no copy is kept. The tool runs in any modern browser on Windows, macOS, Linux, Android, and iOS with nothing to install and no account required.</p>
+
+<h3>Related PDF Tools</h3>
+<p>To combine several extracts into one document, use <a href="/merge">Merge PDF</a>. To reorder the result, try <a href="/organize-pdf">Organize PDF</a>. <a href="/compress">Compress PDF</a> reduces the file size further, and <a href="/protect">Protect PDF</a> adds a password before you share it.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/delete-pages">Delete Pages</a> &nbsp;·&nbsp; <a href="/split">Split PDF</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a> &nbsp;·&nbsp; <a href="/organize-pdf">Organize PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

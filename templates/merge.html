@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary SEO -->
+    <title>Merge PDF Online Free - Combine PDF Files | PDF Toolkit Demo</title>
+    <meta name="description" content="Merge multiple PDF files into one online for free. Drag and drop to reorder pages before merging. No installation required. Fast and secure.">
+    <meta name="keywords" content="merge PDF, combine PDF, join PDF files, merge PDF online, free PDF merger, combine multiple PDFs, PDF joiner">
+    <meta name="author" content="PDF Toolkit Demo">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://example.com/merge">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Merge PDF Online Free - PDF Toolkit Demo">
+    <meta property="og:description" content="Combine multiple PDF files into one. Drag and drop to reorder. Free and easy to use.">
+    <meta property="og:url" content="https://example.com/merge">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Merge PDF Online Free - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Combine multiple PDF files into one online for free.">
+
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/merge",
+          "url": "https://example.com/merge",
+          "name": "Merge PDF - PDF Toolkit Demo",
+          "description": "Combine multiple PDF files into one document online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Organize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Merge PDF","item":"https://example.com/merge"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How many PDF files can I merge at once?","acceptedAnswer":{"@type":"Answer","text":"There is no fixed limit on the number of files. Most people combine somewhere between two and twenty documents, and the tool handles far more than that comfortably. The practical ceiling is your browser's memory rather than any rule we impose, so very large batches of very large files are the only case where you might want to merge in two stages."}},
+            {"@type":"Question","name":"Will merging reduce the quality of my PDFs?","acceptedAnswer":{"@type":"Answer","text":"No. Merging copies each page across exactly as it exists in the source file. Fonts stay embedded, images keep their original resolution, and vector graphics remain sharp at any zoom level. Nothing is re-compressed or re-rendered, so the merged document is visually identical to the originals."}},
+            {"@type":"Question","name":"Can I change the order of files before merging?","acceptedAnswer":{"@type":"Answer","text":"Yes, and you should always check it. After uploading, each file appears as a card that you can drag into position. The final document follows the order shown on screen from left to right, so arrange the cards until the sequence matches what you want, then merge."}},
+            {"@type":"Question","name":"Can I merge password-protected PDFs?","acceptedAnswer":{"@type":"Answer","text":"Yes. If any uploaded file is encrypted, a password prompt appears for that specific file. Enter it and the merge proceeds normally. If you would rather remove the protection permanently first, our Unlock PDF tool strips passwords in one step."}},
+            {"@type":"Question","name":"Does the merged file keep bookmarks and links?","acceptedAnswer":{"@type":"Answer","text":"Internal page links and the document structure are carried across during the merge. Bookmarks from the first document are generally preserved. If a complex table of contents matters to your workflow, open the merged file and verify the navigation before distributing it."}},
+            {"@type":"Question","name":"Are my uploaded files kept on your server?","acceptedAnswer":{"@type":"Answer","text":"No. Your files are processed in memory and the merged PDF is streamed straight back to your browser. Nothing is written to disk, nothing is logged, and no copy is retained once your download finishes."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Merge PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/merge"
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Organize PDF</a><span>›</span><strong>Merge PDF</strong>
+</nav>
+
+
+<div class="container">
+
+    <!-- Header -->
+<!-- Page Title -->
+    <h1 class="page-title">Merge PDF</h1>
+    <p class="subtitle">Combine multiple PDF files into one. Free & easy to use.</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <!-- Upload Form -->
+    <form method="POST" enctype="multipart/form-data">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">📄</div>
+            <h2>Drag & Drop PDF Files Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF Files</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_files" accept=".pdf" multiple hidden>
+
+        <p id="count"></p>
+        <div id="fileList"></div>
+
+        <button type="submit" id="mergeBtn" class="btn">Merge PDF</button>
+
+    </form>
+
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script src="{{ url_for('static', filename='js/merge.js') }}"></script>
+
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How many PDF files can I merge at once?</div>
+    <div class="faq-a">There is no fixed limit on the number of files. Most people combine somewhere between two and twenty documents, and the tool handles far more than that comfortably. The practical ceiling is your browser's memory rather than any rule we impose, so very large batches of very large files are the only case where you might want to merge in two stages.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will merging reduce the quality of my PDFs?</div>
+    <div class="faq-a">No. Merging copies each page across exactly as it exists in the source file. Fonts stay embedded, images keep their original resolution, and vector graphics remain sharp at any zoom level. Nothing is re-compressed or re-rendered, so the merged document is visually identical to the originals.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I change the order of files before merging?</div>
+    <div class="faq-a">Yes, and you should always check it. After uploading, each file appears as a card that you can drag into position. The final document follows the order shown on screen from left to right, so arrange the cards until the sequence matches what you want, then merge.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I merge password-protected PDFs?</div>
+    <div class="faq-a">Yes. If any uploaded file is encrypted, a password prompt appears for that specific file. Enter it and the merge proceeds normally. If you would rather remove the protection permanently first, our <a href='/unlock'>Unlock PDF</a> tool strips passwords in one step.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does the merged file keep bookmarks and links?</div>
+    <div class="faq-a">Internal page links and the document structure are carried across during the merge. Bookmarks from the first document are generally preserved. If a complex table of contents matters to your workflow, open the merged file and verify the navigation before distributing it.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my uploaded files kept on your server?</div>
+    <div class="faq-a">No. Your files are processed in memory and the merged PDF is streamed straight back to your browser. Nothing is written to disk, nothing is logged, and no copy is retained once your download finishes.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Merge PDF Files Online — Free PDF Combiner</h2>
+<p>Combining several PDFs into one document is one of the most common things anyone needs to do with a PDF, and it should not require installing software or creating an account. Upload your files, drag them into the order you want, and download a single merged document. There is no watermark, no page limit, and no charge.</p>
+
+<h3>Why Merge PDFs Instead of Sending Several Files?</h3>
+<p>A single attachment is simply easier for the person receiving it. They open one file instead of hunting through five, the pages are already in the right sequence, and nothing gets missed because it was buried further down the email. For anything that will be printed, one merged file also means one print job with correct page numbering rather than five separate runs that have to be collated by hand afterwards.</p>
+<p>There is a practical archiving benefit too. A contract stored as one complete PDF stays complete. The same contract stored as six separate files tends to lose a page or two over the years as folders get reorganised and copied between machines.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Businesses</strong> assemble proposals from a cover letter, capability statement, case studies, and pricing sheet that were all produced separately. <strong>Accountants and bookkeepers</strong> combine a month of individual invoices into one file per client. <strong>Students and researchers</strong> merge chapters, appendices, and reference lists into a single submission. <strong>Legal and administrative teams</strong> build case bundles where the page order has to match an index exactly. <strong>Anyone who scans paper</strong> joins the batches their scanner produced into one continuous document.</p>
+
+<h3>How to Merge PDF Files</h3>
+<p>Drag your PDFs onto the upload area or click to browse and select several at once. Each file appears as a card showing its name and a preview. Drag the cards left or right until the order matches what you want — the merged document follows exactly that sequence. Click Merge PDF and your combined file downloads immediately.</p>
+<p>Ordering is the step worth slowing down for. File names rarely sort the way you actually want the content to read, particularly when documents were created on different dates or by different people, so it is always worth a quick visual check before merging.</p>
+
+<h3>Nothing Is Re-Compressed</h3>
+<p>This matters more than it sounds. Some merging tools rebuild every page as an image, which flattens the text so it can no longer be selected or searched and often makes the file larger than the sum of its parts. Our tool copies the original page objects across intact. Text stays selectable, searchable, and copyable. Embedded fonts stay embedded. Photographs keep the exact resolution they started with.</p>
+
+<h3>Merging Scanned Documents</h3>
+<p>Scanners frequently split long documents into batches, either because of a page limit per pass or because the feeder was reloaded. Merging puts them back together as one file. If the individual batches came out in the wrong sequence, drag the cards until they read correctly. Once merged, <a href="/remove-blank-pages">Remove Blank Pages</a> can strip out the empty backs of double-sided scans, and <a href="/compress">Compress PDF</a> will reduce the size of the combined file for emailing.</p>
+
+<h3>Works on Every Device</h3>
+<p>The tool runs entirely in your browser, so it behaves identically on Windows, macOS, Linux, Android, and iOS. There is nothing to install, nothing to update, and no account to create. On a phone, tap to select files from your storage and use the same drag interface to reorder them.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Uploads are processed in memory and discarded the moment the merged file is delivered. Nothing is saved to disk, nothing is logged, and no copy is kept for any period. Because the merge happens per-request with no storage layer involved, there is simply nothing left behind afterwards.</p>
+
+<h3>Related PDF Tools</h3>
+<p>Need the opposite operation? <a href="/split">Split PDF</a> separates a document into smaller files. <a href="/organize-pdf">Organize PDF</a> lets you reorder, rotate, and delete pages in one visual editor after merging. <a href="/compress">Compress PDF</a> reduces the size of the result, and <a href="/protect">Protect PDF</a> adds a password before you share it.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/split">Split PDF</a> &nbsp;·&nbsp; <a href="/organize-pdf">Organize PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a> &nbsp;·&nbsp; <a href="/rotate">Rotate PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

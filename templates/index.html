@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary SEO -->
+    <title>PDF Toolkit Demo - Merge, Split, Convert PDF and more in Online Free</title>
+    <meta name="description" content="Free online PDF tools by PDF Toolkit Demo. Merge, Split, Compress, Convert, Protect and Edit PDF files easily. No installation required.">
+    <meta name="keywords" content="PDF tools, merge PDF, split PDF, compress PDF, convert PDF, PDF to image, image to PDF, protect PDF, online PDF editor, free PDF tools">
+    <meta name="author" content="PDF Toolkit Demo">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://example.com/">
+
+    <!-- Open Graph (Facebook, WhatsApp) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF Toolkit Demo - Free Online PDF Editor">
+    <meta property="og:description" content="Merge, Split, Compress, Convert PDF files online for free. Fast and easy to use.">
+    <meta property="og:url" content="https://example.com/">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools - Merge, Split, Convert and more.">
+
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* ── Search box ── */
+        .search-wrap {
+            max-width: 560px;
+            margin: 28px auto 4px;
+            position: relative;
+        }
+        #toolSearch {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 46px 14px 46px;
+            font-size: 16px;
+            border: 1.5px solid #ddd;
+            border-radius: 999px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fff;
+            color: #333;
+        }
+        #toolSearch::placeholder { color: #aaa; }
+        #toolSearch:focus {
+            border-color: #e5322d;
+            box-shadow: 0 0 0 4px rgba(229, 50, 45, 0.10);
+        }
+        .search-icon {
+            position: absolute;
+            left: 17px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            opacity: 0.45;
+        }
+        #searchClear {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 26px;
+            height: 26px;
+            border: none;
+            border-radius: 50%;
+            background: #eee;
+            color: #666;
+            font-size: 14px;
+            line-height: 1;
+            cursor: pointer;
+            display: none;
+        }
+        #searchClear:hover { background: #ddd; }
+        #searchClear.visible { display: block; }
+        #searchCount {
+            text-align: center;
+            font-size: 13px;
+            color: #999;
+            min-height: 18px;
+            margin: 10px 0 0;
+        }
+        #noResults {
+            display: none;
+            text-align: center;
+            padding: 44px 20px;
+            color: #888;
+        }
+        #noResults.visible { display: block; }
+        #noResults .nr-icon { font-size: 40px; margin-bottom: 10px; }
+        #noResults b { color: #444; }
+        .mark-hit { background: #ffe9a8; border-radius: 3px; padding: 0 1px; }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin: 16px 0 28px;
+        }
+        .filter-btn {
+            padding: 8px 18px;
+            border-radius: 999px;
+            border: 1.5px solid #ddd;
+            background: #fff;
+            color: #444;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover {
+            border-color: #e5322d;
+            color: #e5322d;
+        }
+        .filter-btn.active {
+            background: #b71c1c;
+            border-color: #b71c1c;
+            color: #fff;
+        }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .tool-card {
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .tool-card.hidden {
+            display: none;
+        }
+        .tool-card.animate-in {
+            animation: cardIn 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+            animation-delay: var(--d, 0ms);
+        }
+    </style>
+</head>
+<body>
+{% include '_navbar.html' %}
+
+    <main>
+    <div class="container">
+
+        <div class="hero">
+            <h1>All PDF Tools</h1>
+            <p>Fast, Free & Easy to Use — No Installation Required</p>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrap">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="toolSearch" placeholder="Search tools — try &ldquo;compress&rdquo;, &ldquo;jpg&rdquo;, or &ldquo;password&rdquo;" autocomplete="off" aria-label="Search PDF tools">
+            <button type="button" id="searchClear" aria-label="Clear search">&#10005;</button>
+        </div>
+        <p id="searchCount"></p>
+
+        <!-- Category Filter Bar -->
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="organize">Organize PDF</button>
+            <button class="filter-btn" data-filter="optimize">Optimize PDF</button>
+            <button class="filter-btn" data-filter="convert">Convert PDF</button>
+            <button class="filter-btn" data-filter="edit">Edit PDF</button>
+            <button class="filter-btn" data-filter="security">PDF Security</button>
+            <button class="filter-btn" data-filter="ai">AI Tools</button>
+        </div>
+
+        <!-- Tools Grid -->
+        <div class="tools-grid" id="toolsGrid">
+
+            <a href="/merge" class="tool-card" data-cat="organize">
+                <div class="tool-icon">🔀</div>
+                <h2>Merge PDF</h2>
+                <p>Combine multiple PDF files into one document in the order you want.</p>
+            </a>
+
+            <a href="/split" class="tool-card" data-cat="organize">
+                <div class="tool-icon">✂️</div>
+                <h2>Split PDF</h2>
+                <p>Separate one page or a whole set into independent PDF files.</p>
+            </a>
+
+            <a href="/crop" class="tool-card" data-cat="edit">
+                <div class="tool-icon">📐</div>
+                <h2>Crop PDF</h2>
+                <p>Remove unwanted margins and whitespace from PDF pages with custom crop values.</p>
+            </a>
+
+            <a href="/rotate" class="tool-card" data-cat="organize">
+                <div class="tool-icon">🔄</div>
+                <h2>Rotate PDF</h2>
+                <p>Rotate PDF pages individually or all at once — 90°, 180°, or 270°.</p>
+            </a>
+
+            <a href="/organize-pdf" class="tool-card" data-cat="organize">
+                <div class="tool-icon">🗂️</div>
+                <h2>Organize PDF</h2>
+                <p>Reorder, rotate, and delete pages in one visual editor — all on the same screen.</p>
+            </a>
+
+            <a href="/rearrange" class="tool-card" data-cat="organize">
+                <div class="tool-icon">↕️</div>
+                <h2>Rearrange Pages</h2>
+                <p>Drag and drop to reorder PDF pages in any sequence you need.</p>
+            </a>
+
+            <a href="/delete-pages" class="tool-card" data-cat="organize">
+                <div class="tool-icon">🗑️</div>
+                <h2>Delete Pages</h2>
+                <p>Remove unwanted pages from your PDF quickly and easily.</p>
+            </a>
+
+            <a href="/remove-blank-pages" class="tool-card" data-cat="organize">
+                <div class="tool-icon">📃</div>
+                <h2>Remove Blank Pages</h2>
+                <p>Automatically detect and delete empty pages from scanned documents.</p>
+            </a>
+
+            <a href="/extract-pages" class="tool-card" data-cat="organize">
+                <div class="tool-icon">📤</div>
+                <h2>Extract Pages</h2>
+                <p>Extract specific pages from your PDF and save them as a new file.</p>
+            </a>
+
+            <a href="/compress" class="tool-card" data-cat="optimize">
+                <div class="tool-icon">🗜️</div>
+                <h2>Compress PDF</h2>
+                <p>Reduce PDF file size while keeping the best possible quality.</p>
+            </a>
+
+            <a href="/repair" class="tool-card" data-cat="optimize">
+                <div class="tool-icon">🔧</div>
+                <h2>Repair PDF</h2>
+                <p>Fix corrupted or damaged PDF files and recover your document data.</p>
+            </a>
+
+            <a href="/ocr" class="tool-card" data-cat="optimize">
+                <div class="tool-icon">🔤</div>
+                <h2>Extract Text (OCR)</h2>
+                <p>Extract and copy text from scanned PDFs or image-based documents.</p>
+            </a>
+
+            <a href="/pdf-to-pdfa" class="tool-card" data-cat="optimize">
+                <div class="tool-icon">🏅</div>
+                <h2>PDF to PDF/A</h2>
+                <p>Convert your PDF to the archival PDF/A format for long-term storage.</p>
+            </a>
+
+            <a href="/image-to-pdf" class="tool-card" data-cat="convert">
+                <div class="tool-icon">🖼️</div>
+                <h2>Image to PDF</h2>
+                <p>Convert JPG, PNG, or WEBP images into a single PDF document.</p>
+            </a>
+
+            <a href="/pdf-to-image" class="tool-card" data-cat="convert">
+                <div class="tool-icon">📷</div>
+                <h2>PDF to Image</h2>
+                <p>Convert each PDF page into high-quality JPG or PNG image files.</p>
+            </a>
+
+            <a href="/extract-images" class="tool-card" data-cat="convert">
+                <div class="tool-icon">🏞️</div>
+                <h2>Extract Images</h2>
+                <p>Pull every embedded photo and graphic out of a PDF — download as a ZIP.</p>
+            </a>
+
+            <a href="/pdf-to-word" class="tool-card" data-cat="convert">
+                <div class="tool-icon">📝</div>
+                <h2>PDF to Word</h2>
+                <p>Convert PDF files to editable Word documents (.docx) in one click.</p>
+            </a>
+
+            <a href="/word-to-pdf" class="tool-card" data-cat="convert">
+                <div class="tool-icon">📄</div>
+                <h2>Word to PDF</h2>
+                <p>Convert Word documents (.docx) to PDF format with layout preserved.</p>
+            </a>
+
+            <a href="/word-to-image" class="tool-card" data-cat="convert">
+                <div class="tool-icon">🎨</div>
+                <h2>Word to Image</h2>
+                <p>Convert Word documents (.docx) to JPG or PNG images — one image per page.</p>
+            </a>
+
+            <a href="/pdf-to-powerpoint" class="tool-card" data-cat="convert">
+                <div class="tool-icon">📽️</div>
+                <h2>PDF to PowerPoint</h2>
+                <p>Turn PDF pages into PowerPoint slides ready to edit and present.</p>
+            </a>
+
+            <a href="/powerpoint-to-pdf" class="tool-card" data-cat="convert">
+                <div class="tool-icon">🎞️</div>
+                <h2>PowerPoint to PDF</h2>
+                <p>Convert PowerPoint presentations to PDF for easy sharing.</p>
+            </a>
+
+            <a href="/pdf-to-excel" class="tool-card" data-cat="convert">
+                <div class="tool-icon">📊</div>
+                <h2>PDF to Excel</h2>
+                <p>Extract tables and data from PDF files into editable Excel spreadsheets.</p>
+            </a>
+
+            <a href="/excel-to-pdf" class="tool-card" data-cat="convert">
+                <div class="tool-icon">📈</div>
+                <h2>Excel to PDF</h2>
+                <p>Convert Excel spreadsheets to PDF with tables and formatting intact.</p>
+            </a>
+
+            <a href="/html-to-pdf" class="tool-card" data-cat="convert">
+                <div class="tool-icon">🌐</div>
+                <h2>HTML to PDF</h2>
+                <p>Paste HTML code and convert it to a PDF document instantly.</p>
+            </a>
+
+            <a href="/webpage-to-pdf" class="tool-card" data-cat="convert">
+                <div class="tool-icon">🌍</div>
+                <h2>Webpage to PDF</h2>
+                <p>Enter any URL and convert the webpage to a PDF document instantly.</p>
+            </a>
+
+            <a href="/edit-pdf" class="tool-card" data-cat="edit">
+                <div class="tool-icon">✏️</div>
+                <h2>Edit PDF</h2>
+                <p>Add text annotations to your PDF files without any software.</p>
+            </a>
+
+            <a href="/watermark" class="tool-card" data-cat="edit">
+                <div class="tool-icon">💧</div>
+                <h2>Watermark PDF</h2>
+                <p>Stamp a custom text watermark on every page of your PDF document.</p>
+            </a>
+
+            <a href="/page-numbers" class="tool-card" data-cat="edit">
+                <div class="tool-icon">🔢</div>
+                <h2>Add Page Numbers</h2>
+                <p>Add page numbers to PDF at top or bottom — choose position and style.</p>
+            </a>
+
+            <a href="/redact" class="tool-card" data-cat="edit">
+                <div class="tool-icon">🖊️</div>
+                <h2>Redact PDF</h2>
+                <p>Permanently black out sensitive text and information from your PDF.</p>
+            </a>
+
+            <a href="/sign" class="tool-card" data-cat="edit">
+                <div class="tool-icon">✍️</div>
+                <h2>Sign PDF</h2>
+                <p>Add your signature image to any page of your PDF document instantly.</p>
+            </a>
+
+            <a href="/metadata" class="tool-card" data-cat="edit">
+                <div class="tool-icon">📋</div>
+                <h2>PDF Metadata</h2>
+                <p>View and edit PDF title, author, subject, and other document properties.</p>
+            </a>
+
+            <a href="/compare" class="tool-card" data-cat="edit">
+                <div class="tool-icon">🔍</div>
+                <h2>Compare PDF</h2>
+                <p>Compare two PDF files side by side and find the differences instantly.</p>
+            </a>
+
+            <a href="/protect" class="tool-card" data-cat="security">
+                <div class="tool-icon">🔒</div>
+                <h2>Protect PDF</h2>
+                <p>Add password encryption to your PDF to prevent unauthorized access.</p>
+            </a>
+
+            <a href="/unlock" class="tool-card" data-cat="security">
+                <div class="tool-icon">🔓</div>
+                <h2>Unlock PDF</h2>
+                <p>Remove password protection from PDF files and restore full access.</p>
+            </a>
+
+            <a href="/summarize" class="tool-card" data-cat="ai">
+                <div class="tool-icon">🤖</div>
+                <h2>Summarize PDF</h2>
+                <p>Get a quick AI-powered summary of any PDF document's key points.</p>
+            </a>
+
+            <a href="/translate" class="tool-card" data-cat="ai">
+                <div class="tool-icon">🈯</div>
+                <h2>Translate PDF</h2>
+                <p>Translate PDF documents to any language — Bengali, Arabic, Chinese, and more.</p>
+            </a>
+
+        </div>
+
+        <div id="noResults">
+            <div class="nr-icon">🔍</div>
+            <p>No tools match <b id="nrTerm"></b></p>
+            <p style="font-size:13px;margin-top:6px;">Try a different word, or <a href="#" id="nrReset" style="color:#e5322d;">show all tools</a>.</p>
+        </div>
+
+    </div>
+    </main>
+
+<script>
+    const btns   = document.querySelectorAll('.filter-btn');
+    const cards  = Array.from(document.querySelectorAll('.tool-card'));
+    const search = document.getElementById('toolSearch');
+    const clearBtn = document.getElementById('searchClear');
+    const countEl  = document.getElementById('searchCount');
+    const noRes    = document.getElementById('noResults');
+
+    // Extra search terms per tool — lets people find a tool by what they
+    // call it rather than by our exact wording.
+    const SYNONYMS = {
+        '/merge':              'combine join joiner concatenate append together one file',
+        '/split':              'divide separate break cut apart chunks',
+        '/crop':               'trim margins whitespace border cut edges resize area',
+        '/rotate':             'turn sideways upside down orientation flip landscape portrait 90 180',
+        '/organize-pdf':       'manage arrange sort reorder move pages thumbnails editor all in one',
+        '/rearrange':          'reorder sort move order sequence drag shuffle',
+        '/delete-pages':       'remove erase drop pages get rid',
+        '/remove-blank-pages': 'empty white blank scan duplex clean tidy',
+        '/extract-pages':      'pull take get pages select keep',
+        '/compress':           'reduce shrink smaller size optimize compact email limit mb',
+        '/repair':             'fix corrupt damaged broken recover restore wont open',
+        '/ocr':                'text recognize scanned searchable copy read characters',
+        '/pdf-to-pdfa':        'archive archival long term preserve iso standard compliance',
+        '/image-to-pdf':       'jpg jpeg png webp photo picture scanner phone camera convert',
+        '/pdf-to-image':       'jpg jpeg png picture photo render screenshot page image',
+        '/extract-images':     'get pull save pictures photos graphics embedded zip',
+        '/pdf-to-word':        'docx doc editable microsoft office convert edit text',
+        '/word-to-pdf':        'docx doc microsoft office convert document',
+        '/word-to-image':      'docx jpg png picture photo convert',
+        '/pdf-to-powerpoint':  'pptx ppt slides deck presentation convert',
+        '/powerpoint-to-pdf':  'pptx ppt slides deck presentation convert',
+        '/pdf-to-excel':       'xlsx xls spreadsheet table data csv convert',
+        '/excel-to-pdf':       'xlsx xls spreadsheet table sheet convert',
+        '/html-to-pdf':        'code markup web convert render',
+        '/webpage-to-pdf':     'url website link save archive internet online page',
+        '/edit-pdf':           'text add write annotate fill form type notes',
+        '/watermark':          'stamp draft confidential sample logo overlay mark',
+        '/page-numbers':       'numbering pagination number pages footer header',
+        '/redact':             'hide black out censor remove sensitive confidential private',
+        '/sign':               'signature esign electronic autograph signed',
+        '/metadata':           'properties author title info details document properties',
+        '/compare':            'diff difference changes versions check contrast',
+        '/protect':            'password encrypt lock secure security private',
+        '/unlock':             'password remove decrypt open unprotect',
+        '/summarize':          'summary ai brief overview short tldr key points',
+        '/translate':          'language bengali bangla arabic chinese hindi spanish french convert'
+    };
+
+    // Build a search index once
+    const index = cards.map(card => {
+        const href  = card.getAttribute('href');
+        const title = card.querySelector('h2');
+        const desc  = card.querySelector('p');
+        return {
+            card, title, desc,
+            titleText: title ? title.textContent : '',
+            descText:  desc ? desc.textContent : '',
+            haystack: [
+                title ? title.textContent : '',
+                desc ? desc.textContent : '',
+                href.replace(/[\/\-]/g, ' '),
+                SYNONYMS[href] || ''
+            ].join(' ').toLowerCase()
+        };
+    });
+
+    let activeCat = 'all';
+
+    function escapeHtml(s) {
+        return s.replace(/[&<>"']/g, c =>
+            ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function highlight(el, text, term) {
+        if (!el) return;
+        if (!term) { el.textContent = text; return; }
+        const i = text.toLowerCase().indexOf(term);
+        if (i === -1) { el.textContent = text; return; }
+        el.innerHTML = escapeHtml(text.slice(0, i)) +
+            '<span class="mark-hit">' + escapeHtml(text.slice(i, i + term.length)) + '</span>' +
+            escapeHtml(text.slice(i + term.length));
+    }
+
+    function apply() {
+        const term = search.value.trim().toLowerCase();
+        clearBtn.classList.toggle('visible', term.length > 0);
+
+        let shown = 0;
+        index.forEach(item => {
+            const matchCat  = activeCat === 'all' || item.card.dataset.cat === activeCat;
+            const matchTerm = !term || item.haystack.includes(term);
+            const visible   = matchCat && matchTerm;
+
+            item.card.classList.remove('animate-in');
+            if (visible) {
+                item.card.classList.remove('hidden');
+                item.card.style.setProperty('--d', (shown * 25) + 'ms');
+                requestAnimationFrame(() => item.card.classList.add('animate-in'));
+                shown++;
+            } else {
+                item.card.classList.add('hidden');
+            }
+
+            highlight(item.title, item.titleText, term);
+            highlight(item.desc,  item.descText,  term);
+        });
+
+        if (term) {
+            countEl.textContent = shown === 0
+                ? ''
+                : shown + (shown === 1 ? ' tool found' : ' tools found');
+        } else {
+            countEl.textContent = '';
+        }
+
+        noRes.classList.toggle('visible', shown === 0 && term.length > 0);
+        document.getElementById('nrTerm').textContent = '"' + search.value.trim() + '"';
+    }
+
+    // Category buttons
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeCat = btn.dataset.filter;
+            apply();
+        });
+    });
+
+    // Search input
+    search.addEventListener('input', apply);
+
+    search.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { search.value = ''; apply(); search.blur(); }
+        if (e.key === 'Enter') {
+            const first = index.find(i => !i.card.classList.contains('hidden'));
+            if (first) window.location.href = first.card.getAttribute('href');
+        }
+    });
+
+    clearBtn.addEventListener('click', () => { search.value = ''; apply(); search.focus(); });
+
+    document.getElementById('nrReset').addEventListener('click', e => {
+        e.preventDefault();
+        search.value = '';
+        btns.forEach(b => b.classList.toggle('active', b.dataset.filter === 'all'));
+        activeCat = 'all';
+        apply();
+        search.focus();
+    });
+
+    // Press "/" anywhere to jump into search
+    document.addEventListener('keydown', e => {
+        if (e.key === '/' && document.activeElement !== search
+            && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) {
+            e.preventDefault();
+            search.focus();
+        }
+    });
+</script>
+
+{% include '_footer.html' %}
+</body>
+
+</html>

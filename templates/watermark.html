@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Watermark to PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Add text watermark to your PDF online for free. Customize watermark text and opacity. No installation required.">
+    <meta name="keywords" content="watermark PDF, add watermark to PDF, PDF watermark, stamp PDF, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/watermark">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Watermark PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/watermark">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Watermark PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/watermark",
+          "url": "https://example.com/watermark",
+          "name": "Watermark PDF - PDF Toolkit Demo",
+          "description": "Add a custom text watermark to every page of your PDF online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Edit PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Watermark PDF","item":"https://example.com/watermark"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"Can I control where the watermark appears?","acceptedAnswer":{"@type":"Answer","text":"Yes. You can set the text, its position on the page, the size, and the transparency. Diagonal placement across the centre is the most common because it is hard to crop away, while a corner position is less intrusive when the document still needs to be read closely."}},
+            {"@type":"Question","name":"Will the watermark appear on every page?","acceptedAnswer":{"@type":"Answer","text":"Yes. The text is applied to all pages of the document, which is the point — a marking that only appears on the first page is trivially defeated by removing that page."}},
+            {"@type":"Question","name":"Does the watermark make the text underneath hard to read?","acceptedAnswer":{"@type":"Answer","text":"Not if the transparency is set sensibly. A light watermark is clearly visible as a marking while leaving the document comfortably readable. Increase the opacity when deterrence matters more than legibility, and reduce it when the document must be read closely."}},
+            {"@type":"Question","name":"Can someone remove the watermark?","acceptedAnswer":{"@type":"Answer","text":"A watermark is a deterrent, not a security control. Someone determined and technically capable can work around one. It signals status and discourages casual misuse — for genuine protection use Protect PDF, and to remove sensitive content entirely use Redact PDF."}},
+            {"@type":"Question","name":"What text should I use?","acceptedAnswer":{"@type":"Answer","text":"Whatever states the document's status unambiguously: DRAFT, CONFIDENTIAL, SAMPLE, COPY, NOT FOR DISTRIBUTION, or your organisation's name. Adding a date or recipient name is useful when you want to trace where a leaked copy originated."}},
+            {"@type":"Question","name":"Can I watermark a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. A password prompt appears automatically after upload if the file is encrypted. Enter it once and the watermark is applied normally. Our Unlock PDF tool can also remove the password first."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Watermark PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/watermark"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Edit PDF</a><span>›</span><strong>Watermark PDF</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Watermark PDF</h1>
+    <p class="subtitle">Add a text watermark to every page of your PDF</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">💧</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint">Watermark text:</p>
+            <input type="text" name="watermark_text" class="range-input" placeholder="e.g. CONFIDENTIAL" value="CONFIDENTIAL">
+            <br><br>
+            <p class="mode-hint">Opacity:</p>
+            <div class="mode-tabs">
+                <button type="button" class="mode-btn active" onclick="setOpacity(this, 0.2)">Light</button>
+                <button type="button" class="mode-btn" onclick="setOpacity(this, 0.4)">Medium</button>
+                <button type="button" class="mode-btn" onclick="setOpacity(this, 0.6)">Dark</button>
+            </div>
+            <input type="hidden" name="opacity" id="opacityInput" value="0.2">
+            <button type="submit" class="btn">💧 Add Watermark</button>
+        </div>
+
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput = document.getElementById("pdfInput");
+    const dropArea = document.getElementById("dropArea");
+    const fileCard = document.getElementById("fileCard");
+    const fileName = document.getElementById("fileName");
+    const optionsSection = document.getElementById("optionsSection");
+
+    function setOpacity(btn, val) {
+        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("opacityInput").value = val;
+    }
+
+    function handleFile(file) {
+        window._pdfFile = file;
+        fileName.textContent = file.name;
+        dropArea.style.display = "none";
+        fileCard.style.display = "flex";
+        _tryLoadPdf(null);
+    }
+
+    function _tryLoadPdf(password) {
+        if (!window._pdfFile) return;
+        var r = new FileReader();
+        r.onload = function(e) {
+            var data = new Uint8Array(e.target.result);
+            var opts = password ? {data: data, password: password} : {data: data};
+            pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+                if (password) document.getElementById("pdfPasswordHidden").value = password;
+                document.getElementById("pdfPasswordPrompt").style.display = "none";
+                document.getElementById("pdfPassError").style.display = "none";
+                document.getElementById("optionsSection").style.display = "block";
+                pdf.getPage(1).then(function(page) {
+                    var canvas = document.getElementById("firstPageThumb");
+                    var ctx = canvas.getContext("2d");
+                    var vp = page.getViewport({ scale: 0.5 });
+                    canvas.width = vp.width; canvas.height = vp.height;
+                    page.render({ canvasContext: ctx, viewport: vp });
+                });
+            }).catch(function(err) {
+                if (err.name === "PasswordException") {
+                    document.getElementById("pdfPasswordPrompt").style.display = "block";
+                    if (password) document.getElementById("pdfPassError").style.display = "block";
+                    setTimeout(function() { document.getElementById("pdfPassInput").focus(); }, 100);
+                }
+            });
+        };
+        r.readAsArrayBuffer(window._pdfFile);
+    }
+
+    pdfInput.addEventListener("change", () => { if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+    dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop", e => {
+        e.preventDefault(); dropArea.classList.remove("drag-over");
+        if (e.dataTransfer.files[0]) {
+            const dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+            pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+        }
+    });
+    dropArea.addEventListener("click", (e) => { if (!e.target.closest("label")) pdfInput.click(); });
+
+    function removeFile() {
+        pdfInput.value = "";
+        fileCard.style.display = "none";
+        optionsSection.style.display = "none";
+        dropArea.style.display = "";
+    }
+
+    function confirmPdfPassword() {
+        var pass = document.getElementById("pdfPassInput").value;
+        if (!pass) return;
+        document.getElementById("pdfPassError").style.display = "none";
+        _tryLoadPdf(pass);
+    }
+    function togglePdfPass(btn) {
+        var inp = document.getElementById("pdfPassInput");
+        var svg = btn.querySelector("svg");
+        inp.type = inp.type === "password" ? "text" : "password";
+        svg.setAttribute("stroke", inp.type === "text" ? "#F9A825" : "#888");
+    }
+
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I control where the watermark appears?</div>
+    <div class="faq-a">Yes. You can set the text, its position on the page, the size, and the transparency. Diagonal placement across the centre is the most common because it is hard to crop away, while a corner position is less intrusive when the document still needs to be read closely.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will the watermark appear on every page?</div>
+    <div class="faq-a">Yes. The text is applied to all pages of the document, which is the point — a marking that only appears on the first page is trivially defeated by removing that page.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does the watermark make the text underneath hard to read?</div>
+    <div class="faq-a">Not if the transparency is set sensibly. A light watermark is clearly visible as a marking while leaving the document comfortably readable. Increase the opacity when deterrence matters more than legibility, and reduce it when the document must be read closely.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can someone remove the watermark?</div>
+    <div class="faq-a">A watermark is a deterrent, not a security control. Someone determined and technically capable can work around one. It signals status and discourages casual misuse — for genuine protection use <a href='/protect'>Protect PDF</a>, and to remove sensitive content entirely use <a href='/redact'>Redact PDF</a>.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What text should I use?</div>
+    <div class="faq-a">Whatever states the document's status unambiguously: DRAFT, CONFIDENTIAL, SAMPLE, COPY, NOT FOR DISTRIBUTION, or your organisation's name. Adding a date or recipient name is useful when you want to trace where a leaked copy originated.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I watermark a password-protected PDF?</div>
+    <div class="faq-a">Yes. A password prompt appears automatically after upload if the file is encrypted. Enter it once and the watermark is applied normally. Our <a href='/unlock'>Unlock PDF</a> tool can also remove the password first.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Add Watermark to PDF Online — Free PDF Watermarking Tool</h2>
+<p>Stamp custom text across every page of a PDF — DRAFT, CONFIDENTIAL, your company name, or anything else. Set the position, size, and transparency, then download the marked document. Free, instant, and no watermark of ours added on top of yours.</p>
+
+<h3>Why Watermark a Document?</h3>
+<p><strong>To prevent a draft being mistaken for a final version.</strong> This is the most valuable use and the least dramatic. Documents circulate, get saved, and resurface months later with no memory of their status. A page stamped DRAFT cannot be mistaken for approved copy no matter how far it travels or how long it sits in someone's downloads folder.</p>
+<p><strong>To mark ownership.</strong> A company name across a proposal or portfolio makes the source clear wherever the file ends up.</p>
+<p><strong>To label samples and previews.</strong> Sharing a portion of paid work — a report extract, a design mockup, a course chapter — marked SAMPLE lets you demonstrate value while discouraging the preview being used as the product.</p>
+<p><strong>To discourage casual redistribution.</strong> A conspicuous CONFIDENTIAL stamp makes forwarding feel like a deliberate act rather than an oversight.</p>
+
+<h3>Choosing Position and Transparency</h3>
+<p>These two settings determine whether the watermark helps or gets in the way.</p>
+<p><strong>Diagonal across the centre</strong> is the classic arrangement for a reason. It covers the body of the page, cannot be cropped off without destroying the content, and is impossible to overlook. Use it when the marking matters more than comfortable reading — drafts, confidential material, and samples.</p>
+<p><strong>Corner or edge placement</strong> is far less intrusive and suits documents that need to be read carefully while still carrying an identifier. A company name in the footer of every page is a good example.</p>
+<p><strong>Transparency</strong> is the balance point. Too light and the marking is easy to ignore; too heavy and the document becomes tiring to read. A moderate setting where the watermark is unmistakably present but the text beneath is comfortably legible works for most purposes.</p>
+
+<h3>What Text Works Best</h3>
+<p>Short and unambiguous. <strong>DRAFT</strong> for anything unfinished. <strong>CONFIDENTIAL</strong> for restricted material. <strong>SAMPLE</strong> or <strong>PREVIEW</strong> for partial content. <strong>COPY</strong> for duplicates of a signed original. <strong>NOT FOR DISTRIBUTION</strong> when the boundary needs stating explicitly. Your <strong>organisation name</strong> for ownership.</p>
+<p>Adding a date or the recipient's name is worth considering when you are sending the same document to several parties — if a copy surfaces where it should not, the watermark tells you which distribution it came from.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Agencies and consultants</strong> mark proposals and creative work as drafts during review rounds. <strong>Legal and finance teams</strong> stamp confidential material before internal circulation. <strong>Photographers and designers</strong> watermark preview versions of paid work. <strong>Educators and course creators</strong> mark sample chapters and handouts. <strong>Anyone sharing an unfinished document</strong> who wants its status to travel with it.</p>
+
+<h3>How to Add a Watermark</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Enter your watermark text and set the position, size, and transparency. Apply and download the marked document. It is worth opening the result and checking a middle page rather than just the first — that is where you will see whether the balance between visibility and readability is right.</p>
+
+<h3>A Watermark Is a Deterrent, Not Security</h3>
+<p>Being honest about this matters. A watermark discourages casual misuse and makes document status unmistakable. It does not stop a determined and technically capable person from removing it, and it does nothing to prevent the content being read.</p>
+<p>For actual protection, use the right tool for the job. <a href="/protect">Protect PDF</a> encrypts the file so it cannot be opened without a password. <a href="/redact">Redact PDF</a> permanently removes sensitive content rather than marking the page around it. A watermark complements these; it does not replace them.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded the moment your download completes. Nothing is written to disk, nothing is logged, and no copy is retained. Works in any modern browser on Windows, macOS, Linux, Android, and iOS.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/page-numbers">Add Page Numbers</a> applies numbering across the document. <a href="/protect">Protect PDF</a> adds password encryption, <a href="/redact">Redact PDF</a> removes sensitive content, and <a href="/edit-pdf">Edit PDF</a> adds text at specific positions rather than across every page.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/page-numbers">Add Page Numbers</a> &nbsp;·&nbsp; <a href="/protect">Protect PDF</a> &nbsp;·&nbsp; <a href="/redact">Redact PDF</a> &nbsp;·&nbsp; <a href="/edit-pdf">Edit PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

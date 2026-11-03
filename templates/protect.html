@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protect PDF with Password Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Password protect your PDF online for free. Add encryption to secure your PDF files. No installation required.">
+    <meta name="keywords" content="protect PDF, password PDF, encrypt PDF, secure PDF, PDF password protection, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/protect">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Protect PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/protect">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Protect PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/protect",
+          "url": "https://example.com/protect",
+          "name": "Protect PDF - PDF Toolkit Demo",
+          "description": "Add password protection to your PDF files online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"PDF Security","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Protect PDF","item":"https://example.com/protect"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What kind of encryption is used?","acceptedAnswer":{"@type":"Answer","text":"The PDF is encrypted using the AES standard built into the PDF specification. Without the password the file contents cannot be read — this is genuine cryptographic protection, not a flag that a reader politely obeys."}},
+            {"@type":"Question","name":"What happens if I forget the password?","acceptedAnswer":{"@type":"Answer","text":"The document cannot be opened. There is no recovery mechanism and no back door, which is exactly what makes the encryption worth using. Store the password somewhere safe before you send the file, and never inside the same email as the attachment."}},
+            {"@type":"Question","name":"Should I send the password in the same email?","acceptedAnswer":{"@type":"Answer","text":"No. Putting the file and its password in one message defeats the entire purpose — anyone who intercepts the email gets both. Send the password through a different channel: a phone call, a text message, or a separate messaging app."}},
+            {"@type":"Question","name":"Can I remove the password later?","acceptedAnswer":{"@type":"Answer","text":"Yes, provided you know it. Our Unlock PDF tool strips the encryption from a document you can already open, returning an unprotected version."}},
+            {"@type":"Question","name":"Does protecting a PDF change how it looks?","acceptedAnswer":{"@type":"Answer","text":"No. Encryption operates on the file's data, not its appearance. Every page, font, and image is exactly as it was — the only difference is that a password is required before any of it can be displayed."}},
+            {"@type":"Question","name":"Are my files or passwords stored on your server?","acceptedAnswer":{"@type":"Answer","text":"No. The document is processed in memory and discarded the moment your download completes, and the password is used only for that single operation. Nothing is written to disk, nothing is logged, and no copy is kept."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Protect PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/protect"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">PDF Security</a><span>›</span><strong>Protect PDF</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Protect PDF</h1>
+    <p class="subtitle">Add a password to your PDF file</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🔒</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint">Enter a password to protect your PDF:</p>
+            <div class="password-wrap">
+                <input type="password" name="password" id="passwordInput" class="range-input" placeholder="Enter password" required>
+                <button type="button" class="eye-btn" id="eyeBtn" onclick="togglePass('passwordInput', this)">
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+        <circle cx="12" cy="12" r="3"/>
+    </svg>
+</button>
+            </div>
+            <br>
+            <button type="submit" class="btn">🔒 Protect PDF</button>
+        </div>
+
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput = document.getElementById("pdfInput");
+    const dropArea = document.getElementById("dropArea");
+    const fileCard = document.getElementById("fileCard");
+    const fileName = document.getElementById("fileName");
+    const optionsSection = document.getElementById("optionsSection");
+
+    function handleFile(file) {
+        window._pdfFile = file;
+        fileName.textContent = file.name;
+        dropArea.style.display = "none";
+        fileCard.style.display = "flex";
+        _tryLoadPdf(null);
+    }
+
+    function _tryLoadPdf(password) {
+        if (!window._pdfFile) return;
+        var r = new FileReader();
+        r.onload = function(e) {
+            var data = new Uint8Array(e.target.result);
+            var opts = password ? {data: data, password: password} : {data: data};
+            pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+                if (password) document.getElementById("pdfPasswordHidden").value = password;
+                document.getElementById("pdfPasswordPrompt").style.display = "none";
+                document.getElementById("pdfPassError").style.display = "none";
+                document.getElementById("optionsSection").style.display = "block";
+                pdf.getPage(1).then(function(page) {
+                    var canvas = document.getElementById("firstPageThumb");
+                    var ctx = canvas.getContext("2d");
+                    var vp = page.getViewport({ scale: 0.5 });
+                    canvas.width = vp.width; canvas.height = vp.height;
+                    page.render({ canvasContext: ctx, viewport: vp });
+                });
+            }).catch(function(err) {
+                if (err.name === "PasswordException") {
+                    document.getElementById("pdfPasswordPrompt").style.display = "block";
+                    if (password) document.getElementById("pdfPassError").style.display = "block";
+                    setTimeout(function() { document.getElementById("pdfPassInput").focus(); }, 100);
+                }
+            });
+        };
+        r.readAsArrayBuffer(window._pdfFile);
+    }
+
+    pdfInput.addEventListener("change", () => { if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+    dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop", e => {
+        e.preventDefault(); dropArea.classList.remove("drag-over");
+        if (e.dataTransfer.files[0]) {
+            const dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+            pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+        }
+    });
+    dropArea.addEventListener("click", (e) => { if (!e.target.closest("label")) pdfInput.click(); });
+
+    function togglePass(id, btn) {
+        const input = document.getElementById(id);
+        const svg = btn.querySelector("svg");
+        if (input.type === "password") {
+            input.type = "text";
+            svg.setAttribute("stroke", "#F9A825");
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", "4"); line.setAttribute("y1", "4");
+            line.setAttribute("x2", "20"); line.setAttribute("y2", "20");
+            line.setAttribute("stroke-linecap", "round");
+            line.id = "eyeLine";
+            svg.appendChild(line);
+        } else {
+            input.type = "password";
+            svg.setAttribute("stroke", "#888");
+            const l = svg.querySelector("#eyeLine");
+            if (l) l.remove();
+        }
+    }
+
+    function removeFile() {
+        pdfInput.value = "";
+        fileCard.style.display = "none";
+        optionsSection.style.display = "none";
+        dropArea.style.display = "";
+    }
+
+    function confirmPdfPassword() {
+        var pass = document.getElementById("pdfPassInput").value;
+        if (!pass) return;
+        document.getElementById("pdfPassError").style.display = "none";
+        _tryLoadPdf(pass);
+    }
+    function togglePdfPass(btn) {
+        var inp = document.getElementById("pdfPassInput");
+        var svg = btn.querySelector("svg");
+        inp.type = inp.type === "password" ? "text" : "password";
+        svg.setAttribute("stroke", inp.type === "text" ? "#F9A825" : "#888");
+    }
+
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What kind of encryption is used?</div>
+    <div class="faq-a">The PDF is encrypted using the AES standard built into the PDF specification. Without the password the file contents cannot be read — this is genuine cryptographic protection, not a flag that a reader politely obeys.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What happens if I forget the password?</div>
+    <div class="faq-a">The document cannot be opened. There is no recovery mechanism and no back door, which is exactly what makes the encryption worth using. Store the password somewhere safe before you send the file, and never inside the same email as the attachment.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Should I send the password in the same email?</div>
+    <div class="faq-a">No. Putting the file and its password in one message defeats the entire purpose — anyone who intercepts the email gets both. Send the password through a different channel: a phone call, a text message, or a separate messaging app.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I remove the password later?</div>
+    <div class="faq-a">Yes, provided you know it. Our <a href='/unlock'>Unlock PDF</a> tool strips the encryption from a document you can already open, returning an unprotected version.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does protecting a PDF change how it looks?</div>
+    <div class="faq-a">No. Encryption operates on the file's data, not its appearance. Every page, font, and image is exactly as it was — the only difference is that a password is required before any of it can be displayed.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my files or passwords stored on your server?</div>
+    <div class="faq-a">No. The document is processed in memory and discarded the moment your download completes, and the password is used only for that single operation. Nothing is written to disk, nothing is logged, and no copy is kept.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Protect PDF with Password Online — Free PDF Encryption</h2>
+<p>Add password protection to a PDF so only people who know the password can open it. Upload your document, choose a password, and download an encrypted version. Free, immediate, and the encryption is the genuine article rather than a token gesture.</p>
+
+<h3>Why Password-Protect a PDF?</h3>
+<p>Documents travel further than we intend. An email gets forwarded, a file lands in a shared folder that more people can reach than expected, a laptop is left on a train. Encryption means that in all of those cases the contents stay unreadable to anyone without the password.</p>
+<p>It also matters for compliance. Financial records, medical information, employee data, and client details all carry obligations about how they are handled, and encrypting a file before sending it is one of the simplest ways to meet the basic standard of care.</p>
+
+<h3>This Is Real Encryption</h3>
+<p>Worth being precise about, because PDFs support two very different things that both get called protection.</p>
+<p><strong>Permission flags</strong> tell a reader that printing or copying should be disallowed. They are requests. The file is not encrypted, the content is fully readable, and any tool that chooses to ignore the flag simply does.</p>
+<p><strong>Password encryption</strong> — what this tool applies — scrambles the file's actual contents. Without the password there is nothing to read, whatever software you point at it. The document is genuinely protected rather than politely marked.</p>
+
+<h3>Choosing a Password That Helps</h3>
+<p>The encryption is only as strong as the password guarding it, and short passwords fall quickly to automated guessing.</p>
+<p><strong>Length beats complexity.</strong> A passphrase of several unrelated words is both easier to remember and harder to break than a short string of substituted symbols. Aim for at least twelve characters.</p>
+<p><strong>Do not reuse a password</strong> you use elsewhere, particularly not one attached to an email or bank account.</p>
+<p><strong>Avoid anything guessable</strong> from context — the company name, the project name, the current year, or the recipient's surname are all poor choices precisely because they are the first things anyone would try.</p>
+
+<h3>Never Send the Password With the File</h3>
+<p>This is the most common mistake and it undoes everything. If the encrypted PDF and its password arrive in the same email, anyone who reads that email has both. Use a different channel entirely: phone the recipient, send a text message, or use a separate messaging app. The two pieces should never travel together.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Accountants and financial advisers</strong> encrypt statements and tax documents before emailing clients. <strong>HR departments</strong> protect contracts, payslips, and personnel records. <strong>Medical and legal practices</strong> secure documents containing personal information. <strong>Businesses</strong> restrict access to pricing, forecasts, and board material. <strong>Anyone sending identity documents</strong> — passport scans, bank details, certificates — over email.</p>
+
+<h3>How to Password-Protect a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Enter the password you want to set, taking a moment to choose something long and not reused. Download the encrypted document. Test it once by opening it and entering the password before you send it anywhere, so you know for certain the password works.</p>
+
+<h3>There Is No Password Recovery</h3>
+<p>If the password is lost, so is the document. This is not a limitation we could remove — a recoverable password would mean a back door, and a back door means the encryption protects nobody. Save the password in a password manager or write it somewhere secure before you close the tab. This is genuinely the most common way people lose access to their own files.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>The document is processed in memory and discarded the instant your download completes. The password is used for that single operation and never stored. Nothing is written to disk, nothing is logged, and no copy is retained anywhere.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/unlock">Unlock PDF</a> removes password protection from a file you can already open. <a href="/redact">Redact PDF</a> permanently deletes sensitive content rather than just restricting access to it. <a href="/watermark">Watermark PDF</a> marks a document as confidential, and <a href="/metadata">PDF Metadata</a> lets you clear hidden author and revision information before sharing.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/unlock">Unlock PDF</a> &nbsp;·&nbsp; <a href="/redact">Redact PDF</a> &nbsp;·&nbsp; <a href="/watermark">Watermark PDF</a> &nbsp;·&nbsp; <a href="/metadata">PDF Metadata</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

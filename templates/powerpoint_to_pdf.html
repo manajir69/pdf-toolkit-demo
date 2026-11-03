@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerPoint to PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Convert PowerPoint presentations to PDF online for free. Turn PPTX files into PDF instantly.">
+    <meta name="keywords" content="PowerPoint to PDF, PPTX to PDF, convert presentation PDF, slides to PDF">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/powerpoint-to-pdf">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PowerPoint to PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/powerpoint-to-pdf">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="PowerPoint to PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/powerpoint-to-pdf",
+          "url": "https://example.com/powerpoint-to-pdf",
+          "name": "PowerPoint to PDF - PDF Toolkit Demo",
+          "description": "Convert PowerPoint presentations to PDF format online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Convert PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"PowerPoint to PDF","item":"https://example.com/powerpoint-to-pdf"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"Why convert a presentation to PDF?","acceptedAnswer":{"@type":"Answer","text":"Because a .pptx file changes depending on the machine that opens it. Fonts get substituted, text boxes shift, and layouts drift. A PDF is fixed, opens on any device, and cannot be accidentally edited by whoever you send it to."}},
+            {"@type":"Question","name":"Does each slide become one page?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every slide becomes a page in the same order, so the PDF matches your deck exactly."}},
+            {"@type":"Question","name":"Do animations and transitions survive?","acceptedAnswer":{"@type":"Answer","text":"No — a PDF is a static format with no concept of timed motion. Each slide appears in its final state, showing all the elements that would have been revealed by animation. Build your deck so each slide reads sensibly in its complete form if you plan to distribute it as a PDF."}},
+            {"@type":"Question","name":"Are speaker notes included?","acceptedAnswer":{"@type":"Answer","text":"Not in a standard conversion. The PDF contains what appears on the slides themselves. This is usually what you want when sharing — notes are for the presenter rather than the audience."}},
+            {"@type":"Question","name":"Will fonts and images look the same?","acceptedAnswer":{"@type":"Answer","text":"Yes. Fonts are embedded into the PDF so the deck renders correctly even on a computer that does not have them installed. Images, charts, and shapes keep their appearance and resolution."}},
+            {"@type":"Question","name":"Can I combine several presentations into one PDF?","acceptedAnswer":{"@type":"Answer","text":"Convert each deck separately, then join the results with Merge PDF. This gives you control over the order of the sections rather than relying on a bulk conversion to guess."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "PowerPoint to PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/powerpoint-to-pdf"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Convert PDF</a><span>›</span><strong>PowerPoint to PDF</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">PowerPoint to PDF</h1>
+    <p class="subtitle">Convert PowerPoint presentations to PDF</p>
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">📊</div>
+            <h2>Drag &amp; Drop File Here</h2><p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pptx,.ppt" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <span style="font-size:40px;">📊</span>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint" style="color:#888;">Converts your PowerPoint (.pptx) presentation to a PDF document.</p>
+            <button type="submit" class="btn">📊 Convert to PDF</button>
+        </div>
+    </form>
+</div>
+<script>
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function handleFile(file){fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";optionsSection.style.display="block";}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+</script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function handleFile(file){window._pdfFile=file;fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";_tryLoadPdf(null);}
+    function _tryLoadPdf(password){if(!window._pdfFile)return;var r=new FileReader();r.onload=function(e){var data=new Uint8Array(e.target.result);var opts=password?{data:data,password:password}:{data:data};pdfjsLib.getDocument(opts).promise.then(function(pdf){if(password)document.getElementById("pdfPasswordHidden").value=password;document.getElementById("pdfPasswordPrompt").style.display="none";document.getElementById("pdfPassError").style.display="none";optionsSection.style.display="block";pdf.getPage(1).then(function(page){var canvas=document.getElementById("firstPageThumb");var ctx=canvas.getContext("2d");var vp=page.getViewport({scale:0.5});canvas.width=vp.width;canvas.height=vp.height;page.render({canvasContext:ctx,viewport:vp});});}).catch(function(err){if(err.name==="PasswordException"){document.getElementById("pdfPasswordPrompt").style.display="block";if(password)document.getElementById("pdfPassError").style.display="block";setTimeout(function(){document.getElementById("pdfPassInput").focus();},100);}});};r.readAsArrayBuffer(window._pdfFile);}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";document.getElementById("pdfPasswordPrompt").style.display="none";}
+    function confirmPdfPassword(){var pass=document.getElementById("pdfPassInput").value;if(!pass)return;document.getElementById("pdfPassError").style.display="none";_tryLoadPdf(pass);}
+    function togglePdfPass(btn){var inp=document.getElementById("pdfPassInput");inp.type=inp.type==="password"?"text":"password";btn.querySelector("svg").setAttribute("stroke",inp.type==="text"?"#F9A825":"#888");}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+
+</script>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why convert a presentation to PDF?</div>
+    <div class="faq-a">Because a .pptx file changes depending on the machine that opens it. Fonts get substituted, text boxes shift, and layouts drift. A PDF is fixed, opens on any device, and cannot be accidentally edited by whoever you send it to.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does each slide become one page?</div>
+    <div class="faq-a">Yes. Every slide becomes a page in the same order, so the PDF matches your deck exactly.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Do animations and transitions survive?</div>
+    <div class="faq-a">No — a PDF is a static format with no concept of timed motion. Each slide appears in its final state, showing all the elements that would have been revealed by animation. Build your deck so each slide reads sensibly in its complete form if you plan to distribute it as a PDF.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are speaker notes included?</div>
+    <div class="faq-a">Not in a standard conversion. The PDF contains what appears on the slides themselves. This is usually what you want when sharing — notes are for the presenter rather than the audience.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will fonts and images look the same?</div>
+    <div class="faq-a">Yes. Fonts are embedded into the PDF so the deck renders correctly even on a computer that does not have them installed. Images, charts, and shapes keep their appearance and resolution.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I combine several presentations into one PDF?</div>
+    <div class="faq-a">Convert each deck separately, then join the results with <a href='/merge'>Merge PDF</a>. This gives you control over the order of the sections rather than relying on a bulk conversion to guess.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>PowerPoint to PDF Converter Online — Free PPTX to PDF</h2>
+<p>Convert presentations to PDF with fonts, images, and layout preserved exactly. Upload your .pptx, download a PDF, and share a deck that looks identical on every device that opens it. Free, instant, and no watermark.</p>
+
+<h3>Why Convert a Presentation to PDF?</h3>
+<p><strong>Because .pptx files do not travel reliably.</strong> A PowerPoint file describes a presentation; it does not fix its appearance. Open the same deck on a different computer and the fonts may be substituted, text boxes may resize, bullet spacing may shift, and a slide that was perfectly balanced may arrive with a heading wrapping onto three lines.</p>
+<p>This is not a rare edge case. It happens routinely whenever a deck moves between machines with different font sets or PowerPoint versions, and it is why presenters so often arrive to find their slides subtly wrong on the venue's laptop.</p>
+<p>A PDF embeds everything. What you see is what every recipient sees, on every device, permanently.</p>
+
+<h3>The Other Reasons</h3>
+<p><strong>Universal access.</strong> Not everyone has PowerPoint, and mobile devices handle .pptx inconsistently. Every phone, tablet, and computer opens a PDF without hesitation.</p>
+<p><strong>No accidental editing.</strong> A .pptx invites changes. Send one to a client and they may edit it, forward the edited version, and create confusion about which deck is current. A PDF cannot be casually altered.</p>
+<p><strong>Smaller and simpler.</strong> A PDF of a deck is typically much smaller than the .pptx, particularly for image-heavy presentations, which makes it easier to email.</p>
+<p><strong>Reliable printing.</strong> Handouts print predictably from a PDF, without the layout surprises that come from printing a presentation file on an unfamiliar machine.</p>
+
+<h3>Design for the Static Version</h3>
+<p>A PDF has no animation, so every element that would have appeared in sequence is visible at once. This matters more than it first appears.</p>
+<p>A slide built around a progressive reveal — where each bullet arrives as you talk about it — becomes a slide with everything shown simultaneously. If the animation was carrying the meaning, the static version can be confusing or even give away a punchline you meant to build to.</p>
+<p>If you know a deck will be distributed as a PDF, design for that. Slides that read clearly in their complete state work in both contexts; slides that depend on timing only work live.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Anyone presenting on someone else's computer</strong>, where a PDF removes all risk of the deck rendering wrong. <strong>Sales and consulting teams</strong> sending decks to clients who should not be editing them. <strong>Trainers and educators</strong> distributing slides as handouts. <strong>Conference speakers</strong> submitting decks to organisers. <strong>Anyone emailing a large presentation</strong> that needs to be smaller.</p>
+
+<h3>How to Convert PowerPoint to PDF</h3>
+<p>Upload your .pptx by dragging it onto the box or clicking to browse. The conversion runs automatically and the PDF downloads when ready. Open it and page through the slides to confirm everything landed as intended — this takes a minute and is worth doing before anything important goes out.</p>
+
+<h3>What Carries Across</h3>
+<p><strong>Fonts are embedded</strong>, so the deck renders correctly even where those typefaces are not installed. This alone solves the most common cause of presentations looking wrong when shared. <strong>Images and charts</strong> keep their appearance and resolution. <strong>Shapes, colours, and gradients</strong> are preserved. <strong>Slide dimensions</strong> — whether 16:9 widescreen or 4:3 — are maintained.</p>
+<p>What does not carry across are the elements a static page cannot represent: animations, transitions, embedded video and audio, and speaker notes.</p>
+
+<h3>Combining Multiple Decks</h3>
+<p>To build one PDF from several presentations, convert each separately and join the results with <a href="/merge">Merge PDF</a>. Doing it in two steps lets you arrange the sections in exactly the order you want.</p>
+
+<h3>After Converting</h3>
+<p>If the PDF is still too large to email, <a href="/compress">Compress PDF</a> reduces it substantially — image-heavy decks compress very well. To mark a deck as a draft during review rounds, <a href="/watermark">Watermark PDF</a> stamps text across every page. For decks going to external parties, <a href="/protect">Protect PDF</a> adds password encryption.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your presentation is processed in memory and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy is retained.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/pdf-to-powerpoint">PDF to PowerPoint</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a> &nbsp;·&nbsp; <a href="/watermark">Watermark PDF</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

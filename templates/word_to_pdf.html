@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word to PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Convert Word documents to PDF online for free. Turn DOCX files into PDF instantly with no quality loss.">
+    <meta name="keywords" content="Word to PDF, DOCX to PDF, convert Word PDF, Word PDF converter">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/word-to-pdf">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Word to PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/word-to-pdf">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Word to PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/word-to-pdf",
+          "url": "https://example.com/word-to-pdf",
+          "name": "Word to PDF - PDF Toolkit Demo",
+          "description": "Convert Word documents (.docx) to PDF format online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Convert PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Word to PDF","item":"https://example.com/word-to-pdf"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"Why should I send a PDF instead of a Word file?","acceptedAnswer":{"@type":"Answer","text":"Because a PDF looks the same everywhere. A .docx re-flows according to the fonts and page settings on the recipient's machine, so your carefully aligned document can arrive with broken pagination and substituted typefaces. A PDF is fixed — what you see is exactly what they see."}},
+            {"@type":"Question","name":"Will my fonts and images be preserved?","acceptedAnswer":{"@type":"Answer","text":"Yes. Fonts are embedded into the PDF so the document renders correctly even on a computer that does not have them installed. Images are carried across at their original resolution, and page size, margins, and orientation are all maintained."}},
+            {"@type":"Question","name":"What Word formats are supported?","acceptedAnswer":{"@type":"Answer","text":"Modern .docx files convert reliably. The older .doc format from pre-2007 Word is far less consistent — if you have one, opening it in Word or LibreOffice and re-saving as .docx first will give a noticeably better result."}},
+            {"@type":"Question","name":"Do headers, footers, and page numbers convert correctly?","acceptedAnswer":{"@type":"Answer","text":"Yes. Headers, footers, page numbering, and section breaks all carry across as they appear in Word. Tables of contents convert as text, though the clickable navigation may need rebuilding depending on how it was created."}},
+            {"@type":"Question","name":"Can I convert several Word files into one PDF?","acceptedAnswer":{"@type":"Answer","text":"Convert each document individually, then combine the results with Merge PDF. This gives you full control over the order of the sections, which is usually better than a bulk conversion that guesses at sequence."}},
+            {"@type":"Question","name":"Are my files stored on your server?","acceptedAnswer":{"@type":"Answer","text":"No. Your document is processed in memory and the PDF is streamed straight back to your browser. Nothing is written to disk, nothing is logged, and no copy is retained after your download completes."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Word to PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/word-to-pdf"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Convert PDF</a><span>›</span><strong>Word to PDF</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">Word to PDF</h1>
+    <p class="subtitle">Convert Word documents to PDF instantly</p>
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">📄</div>
+            <h2>Drag &amp; Drop File Here</h2><p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".docx,.doc" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <span style="font-size:40px;">📄</span>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint" style="color:#888;">Converts your Word (.docx) file to a PDF document.</p>
+            <button type="submit" class="btn">📄 Convert to PDF</button>
+        </div>
+    </form>
+</div>
+<script>
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function handleFile(file){fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";optionsSection.style.display="block";}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+</script>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why should I send a PDF instead of a Word file?</div>
+    <div class="faq-a">Because a PDF looks the same everywhere. A .docx re-flows according to the fonts and page settings on the recipient's machine, so your carefully aligned document can arrive with broken pagination and substituted typefaces. A PDF is fixed — what you see is exactly what they see.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will my fonts and images be preserved?</div>
+    <div class="faq-a">Yes. Fonts are embedded into the PDF so the document renders correctly even on a computer that does not have them installed. Images are carried across at their original resolution, and page size, margins, and orientation are all maintained.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What Word formats are supported?</div>
+    <div class="faq-a">Modern .docx files convert reliably. The older .doc format from pre-2007 Word is far less consistent — if you have one, opening it in Word or LibreOffice and re-saving as .docx first will give a noticeably better result.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Do headers, footers, and page numbers convert correctly?</div>
+    <div class="faq-a">Yes. Headers, footers, page numbering, and section breaks all carry across as they appear in Word. Tables of contents convert as text, though the clickable navigation may need rebuilding depending on how it was created.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I convert several Word files into one PDF?</div>
+    <div class="faq-a">Convert each document individually, then combine the results with <a href='/merge'>Merge PDF</a>. This gives you full control over the order of the sections, which is usually better than a bulk conversion that guesses at sequence.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my files stored on your server?</div>
+    <div class="faq-a">No. Your document is processed in memory and the PDF is streamed straight back to your browser. Nothing is written to disk, nothing is logged, and no copy is retained after your download completes.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Word to PDF Converter Online — Free DOCX to PDF</h2>
+<p>Convert Word documents to PDF while keeping the layout, fonts, images, and page structure exactly as you designed them. Upload your .docx, download a PDF, and send it knowing it will look identical on every device that opens it. Free, instant, and no watermark.</p>
+
+<h3>Why Convert Word to PDF?</h3>
+<p><strong>Layout stability</strong> is the main reason. A Word document does not carry its appearance with it — it re-flows based on the fonts installed and the default page settings on whichever computer opens it. Send a carefully formatted proposal as .docx and it can arrive with different line breaks, a table split across two pages, and a substituted typeface that ruins the design. A PDF has all of that baked in and cannot shift.</p>
+<p><strong>Universal access</strong> is the second. Not everyone has Word, and mobile devices in particular handle .docx inconsistently. Every phone, tablet, and computer opens a PDF without hesitation.</p>
+<p><strong>Professionalism</strong> is the third. Sending a PDF signals a finished document. Sending an editable .docx implies a draft, and invites the recipient to change it — sometimes without telling you.</p>
+
+<h3>What Carries Across</h3>
+<p>Nearly everything, and reliably so. <strong>Fonts are embedded</strong> into the PDF, which means the document renders correctly even on a system that has never had those typefaces installed — this alone solves the most common cause of documents "looking wrong" when shared. <strong>Images</strong> are preserved at their original resolution. <strong>Tables, lists, and indentation</strong> retain their structure. <strong>Headers, footers, page numbers, and section breaks</strong> all appear as they do in Word. <strong>Page size, margins, and orientation</strong> — including mixed portrait and landscape sections — are maintained.</p>
+<p>Hyperlinks generally remain clickable. Automatically generated tables of contents convert visually, though the internal navigation depends on how the original was built.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Job applicants</strong> send CVs as PDFs so the formatting survives applicant tracking systems that mangle .docx files. <strong>Businesses</strong> distribute proposals, quotations, and contracts in a form that cannot be quietly altered. <strong>Students</strong> submit assignments to systems that require PDF specifically. <strong>Anyone printing at a shop</strong> avoids the layout shifting on the printer's machine. <strong>Freelancers</strong> send invoices that arrive looking exactly as intended.</p>
+
+<h3>How to Convert Word to PDF</h3>
+<p>Upload your .docx by dragging it onto the box or clicking to browse. The conversion runs automatically and the PDF downloads when ready. Open it and check the pagination — this takes ten seconds and catches the occasional table or image that landed differently than expected.</p>
+
+<h3>A Note on Old .doc Files</h3>
+<p>The modern .docx format is an open, well-documented standard and converts predictably. The older binary .doc format from Word 2003 and earlier is far messier, and conversions from it are correspondingly less reliable. If you have a .doc file, open it in Word or LibreOffice and save it as .docx first. The extra step takes a moment and produces a markedly better PDF.</p>
+
+<h3>Converting Several Documents</h3>
+<p>To combine multiple Word files into one PDF, convert each separately and then join the results with <a href="/merge">Merge PDF</a>. Doing it in two steps lets you drag the sections into exactly the order you want, which is more reliable than any tool guessing the sequence from file names.</p>
+
+<h3>After Converting</h3>
+<p>If the PDF is larger than you need for emailing, <a href="/compress">Compress PDF</a> reduces it. To restrict who can open the document, <a href="/protect">Protect PDF</a> adds password encryption. To mark a document as a draft or confidential, <a href="/watermark">Watermark PDF</a> stamps text across every page.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded the moment your download completes. Nothing is written to disk, nothing is logged, and no copy is kept. The tool works in any modern browser on Windows, macOS, Linux, Android, and iOS with nothing to install.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/pdf-to-word">PDF to Word</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a> &nbsp;·&nbsp; <a href="/protect">Protect PDF</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

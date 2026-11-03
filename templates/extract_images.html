@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract Images from PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Extract all images from a PDF online for free. Download every embedded photo, logo, and graphic as JPG or PNG in one ZIP file. No installation required.">
+    <meta name="keywords" content="extract images from PDF, PDF image extractor, save PDF images, get pictures from PDF, PDF to JPG images, download PDF images, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/extract-images">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Extract Images from PDF - PDF Toolkit Demo">
+    <meta property="og:description" content="Pull every embedded image out of a PDF and download them as JPG or PNG in a single ZIP.">
+    <meta property="og:url" content="https://example.com/extract-images">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Extract Images from PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Extract all embedded images from any PDF for free.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+
+    .opt-panel { display: none; max-width: 560px; margin: 22px auto 0; background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .opt-panel.visible { display: block; }
+    .opt-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+    .opt-row:last-of-type { margin-bottom: 20px; }
+    .opt-label { font-size: 14px; font-weight: 600; color: #444; }
+    .opt-hint { font-size: 12px; color: #999; font-weight: 400; display: block; margin-top: 2px; }
+    .fmt-group { display: flex; gap: 8px; }
+    .fmt-btn { padding: 8px 20px; border: 2px solid #ddd; border-radius: 8px; background: #fff; font-size: 14px; font-weight: 600; color: #555; cursor: pointer; transition: 0.15s; }
+    .fmt-btn.active { border-color: #E53935; color: #E53935; background: #fff5f5; }
+    .fmt-btn:hover:not(.active) { border-color: #bbb; }
+    #minSize { width: 90px; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; text-align: center; }
+
+    .file-preview { display: none; max-width: 560px; margin: 20px auto 0; background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 16px; align-items: center; gap: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); position: relative; }
+    .file-preview.visible { display: flex; }
+    .file-preview canvas { width: 62px; height: 82px; object-fit: contain; border: 1px solid #eee; border-radius: 5px; }
+    .file-preview .fname { font-size: 14px; font-weight: 600; color: #333; word-break: break-all; }
+    .file-preview .fmeta { font-size: 12px; color: #999; margin-top: 3px; }
+    .file-remove { position: absolute; top: -10px; right: -10px; width: 26px; height: 26px; background: #E53935; color: #fff; border: none; border-radius: 50%; font-size: 13px; cursor: pointer; line-height: 1; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/extract-images",
+          "url": "https://example.com/extract-images",
+          "name": "Extract Images from PDF - PDF Toolkit Demo",
+          "description": "Extract every embedded image from a PDF and download them as JPG or PNG in one ZIP file.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Convert PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Extract Images","item":"https://example.com/extract-images"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What is the difference between Extract Images and PDF to Image?","acceptedAnswer":{"@type":"Answer","text":"Extract Images pulls out the original embedded photos and graphics at their true resolution, exactly as they were inserted into the document. PDF to Image renders each whole page as a picture, including the text and layout. Use Extract Images when you want the pictures themselves, and PDF to Image when you want a snapshot of the page."}},
+            {"@type":"Question","name":"Will the extracted images lose quality?","acceptedAnswer":{"@type":"Answer","text":"No. Images are pulled straight from the PDF at the resolution they were embedded, so nothing is re-compressed or downscaled. If you choose PNG the result is lossless; JPG is saved at 92% quality for a smaller file size."}},
+            {"@type":"Question","name":"Why did the tool skip some images?","acceptedAnswer":{"@type":"Answer","text":"By default images smaller than 50 pixels are skipped, because those are usually bullets, dividers, or icons rather than real pictures. Lower the minimum size setting to 1 if you want absolutely every image including the tiny ones."}},
+            {"@type":"Question","name":"Can I extract images from a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. If your PDF is encrypted, a password box appears automatically after upload. Enter the password and the extraction continues normally. You can also remove the password permanently with our Unlock PDF tool."}},
+            {"@type":"Question","name":"How are the images named inside the ZIP?","acceptedAnswer":{"@type":"Answer","text":"Each file is named by its source page and position, like page3_img1.png. This makes it easy to trace every picture back to where it appeared in the original document."}},
+            {"@type":"Question","name":"Are my files stored on your server?","acceptedAnswer":{"@type":"Answer","text":"No. Your PDF is processed in memory and the ZIP is streamed straight back to your browser. Nothing is written to disk or retained after your download completes."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Extract Images from PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/extract-images"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Convert PDF</a><span>›</span><strong>Extract Images</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Extract Images from PDF</h1>
+<p class="subtitle">Pull every embedded photo and graphic out of your PDF — download as a ZIP</p>
+
+{% if error %}
+<p class="error-msg">⚠️ {{ error }}</p>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data" id="extractForm">
+
+    <div id="dropArea" class="drop-area">
+        <div class="drop-icon">🏞</div>
+        <h2>Drag &amp; Drop PDF File Here</h2>
+        <p>OR</p>
+        <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+    </div>
+
+    <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+    <div class="file-preview" id="filePreview">
+        <button type="button" class="file-remove" onclick="resetTool()">✕</button>
+        <canvas id="thumbCanvas"></canvas>
+        <div>
+            <div class="fname" id="fileName"></div>
+            <div class="fmeta" id="fileMeta"></div>
+        </div>
+    </div>
+
+    <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+        <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+        <div class="password-wrap" style="margin:0 auto 12px;">
+            <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+            <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+        </div>
+        <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock &amp; Continue</button>
+        <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+    </div>
+    <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+
+    <div class="opt-panel" id="optPanel">
+        <div class="opt-row">
+            <div class="opt-label">Image format
+                <span class="opt-hint">PNG keeps full quality · JPG makes smaller files</span>
+            </div>
+            <div class="fmt-group">
+                <button type="button" class="fmt-btn active" id="fmtPng" onclick="setFormat('png')">PNG</button>
+                <button type="button" class="fmt-btn" id="fmtJpg" onclick="setFormat('jpg')">JPG</button>
+            </div>
+        </div>
+        <input type="hidden" name="img_format" id="imgFormat" value="png">
+
+        <div class="opt-row">
+            <div class="opt-label">Minimum size
+                <span class="opt-hint">Skip images smaller than this (removes icons &amp; bullets)</span>
+            </div>
+            <input type="number" id="minSize" name="min_size" value="50" min="1" max="2000"> px
+        </div>
+
+        <button type="submit" class="btn" style="width:100%;">📦 Extract Images &amp; Download ZIP</button>
+    </div>
+
+</form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+var pdfInput  = document.getElementById("pdfInput");
+var dropArea  = document.getElementById("dropArea");
+var optPanel  = document.getElementById("optPanel");
+var preview   = document.getElementById("filePreview");
+var _file     = null;
+
+function setFormat(f) {
+    document.getElementById("imgFormat").value = f;
+    document.getElementById("fmtPng").classList.toggle("active", f === "png");
+    document.getElementById("fmtJpg").classList.toggle("active", f === "jpg");
+}
+
+function handleFile(file) {
+    _file = file;
+    document.getElementById("fileName").textContent = file.name;
+    tryLoad(null);
+}
+
+function tryLoad(password) {
+    if (!_file) return;
+    var r = new FileReader();
+    r.onload = function(e) {
+        var opts = password ? {data: new Uint8Array(e.target.result), password: password}
+                            : {data: new Uint8Array(e.target.result)};
+        pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+            document.getElementById("pdfPasswordPrompt").style.display = "none";
+            document.getElementById("fileMeta").textContent =
+                pdf.numPages + (pdf.numPages === 1 ? " page" : " pages") +
+                " · " + (_file.size / 1024 / 1024).toFixed(2) + " MB";
+            return pdf.getPage(1);
+        }).then(function(page) {
+            var vp = page.getViewport({scale: 0.35});
+            var c = document.getElementById("thumbCanvas");
+            c.width = vp.width; c.height = vp.height;
+            page.render({canvasContext: c.getContext("2d"), viewport: vp});
+            dropArea.style.display = "none";
+            preview.classList.add("visible");
+            optPanel.classList.add("visible");
+        }).catch(function(err) {
+            if (err.name === "PasswordException") {
+                document.getElementById("pdfPasswordPrompt").style.display = "block";
+                if (password) document.getElementById("pdfPassError").style.display = "block";
+                setTimeout(function(){ document.getElementById("pdfPassInput").focus(); }, 100);
+            }
+        });
+    };
+    r.readAsArrayBuffer(_file);
+}
+
+function confirmPdfPassword() {
+    var p = document.getElementById("pdfPassInput").value;
+    if (!p) return;
+    document.getElementById("pdfPassError").style.display = "none";
+    document.getElementById("pdfPasswordHidden").value = p;
+    tryLoad(p);
+}
+
+function togglePdfPass(btn) {
+    var i = document.getElementById("pdfPassInput");
+    i.type = i.type === "password" ? "text" : "password";
+    btn.querySelector("svg").setAttribute("stroke", i.type === "text" ? "#F9A825" : "#888");
+}
+
+function resetTool() {
+    pdfInput.value = ""; _file = null;
+    preview.classList.remove("visible");
+    optPanel.classList.remove("visible");
+    dropArea.style.display = "";
+    document.getElementById("pdfPasswordPrompt").style.display = "none";
+    document.getElementById("pdfPasswordHidden").value = "";
+}
+
+pdfInput.addEventListener("change", function(){ if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+dropArea.addEventListener("dragover", function(e){ e.preventDefault(); dropArea.classList.add("drag-over"); });
+dropArea.addEventListener("dragleave", function(){ dropArea.classList.remove("drag-over"); });
+dropArea.addEventListener("drop", function(e) {
+    e.preventDefault(); dropArea.classList.remove("drag-over");
+    if (e.dataTransfer.files[0]) {
+        var dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+        pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+    }
+});
+dropArea.addEventListener("click", function(e){ if (!e.target.closest("label")) pdfInput.click(); });
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What is the difference between Extract Images and PDF to Image?</div>
+    <div class="faq-a">Extract Images pulls out the original embedded photos and graphics at their true resolution, exactly as they were inserted into the document. <a href="/pdf-to-image">PDF to Image</a> renders each whole page as a picture, including the text and layout. Use Extract Images when you want the pictures themselves, and PDF to Image when you want a snapshot of the page.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will the extracted images lose quality?</div>
+    <div class="faq-a">No. Images are pulled straight from the PDF at the resolution they were embedded, so nothing is re-compressed or downscaled. If you choose PNG the result is lossless; JPG is saved at 92% quality for a smaller file size.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why did the tool skip some images?</div>
+    <div class="faq-a">By default images smaller than 50 pixels are skipped, because those are usually bullets, dividers, or decorative icons rather than real pictures. Lower the minimum size setting to 1 if you want absolutely every image including the tiny ones.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I extract images from a password-protected PDF?</div>
+    <div class="faq-a">Yes. If your PDF is encrypted, a password box appears automatically after upload. Enter the password and extraction continues normally. You can also remove the password permanently first with our <a href="/unlock">Unlock PDF</a> tool.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How are the images named inside the ZIP?</div>
+    <div class="faq-a">Each file is named by its source page and position, like <code>page3_img1.png</code>. This makes it easy to trace every picture back to where it appeared in the original document.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my files stored on your server?</div>
+    <div class="faq-a">No. Your PDF is processed entirely in memory and the ZIP is streamed straight back to your browser. Nothing is written to disk or retained after your download completes.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Extract Images from PDF Online — Free PDF Image Extractor</h2>
+<p>Every PDF that contains a photograph, chart, scanned page, logo, or diagram has those pictures stored inside it as separate image objects. Our free PDF image extractor reaches into the file, finds each one, and hands them back to you as ordinary JPG or PNG files in a single ZIP download — no software to install, no account to create, and no watermark on anything you get back.</p>
+
+<h3>Extracted Images Keep Their Original Quality</h3>
+<p>This is the part that matters most. A screenshot of a PDF page gives you a flattened picture at whatever resolution your screen happens to be. Extraction is different: it recovers the image data exactly as the author embedded it. If a magazine layout contains a 4000-pixel-wide photograph, you get that full 4000-pixel photograph back — not a blurry approximation of it. Nothing is re-encoded, resampled, or squeezed on the way out.</p>
+
+<h3>Extract Images vs. PDF to Image — Which One Do You Need?</h3>
+<p>These two tools sound alike but do genuinely different jobs, and picking the wrong one is the most common mistake people make.</p>
+<p><strong>Extract Images</strong> gives you the pictures on their own. Text, headings, page borders, and background colour are all left behind. This is what you want when you need to reuse a photograph from a brochure, recover the figures from a research paper, or pull product shots out of a supplier catalogue.</p>
+<p><strong><a href="/pdf-to-image">PDF to Image</a></strong> takes a photograph of the entire page — text, layout, images, everything — and saves it as one flat picture per page. Reach for that when you need a visual preview, a thumbnail, or a page you can post somewhere that does not accept PDFs.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Designers and marketers</strong> recover original artwork from an approved brochure when the source files have gone missing. <strong>Researchers and students</strong> pull charts and figures out of academic papers to cite in their own presentations. <strong>E-commerce sellers</strong> lift product photography out of supplier catalogues that only ship as PDFs. <strong>Archivists and librarians</strong> separate scanned photographs from digitised documents so the images can be catalogued on their own. <strong>Print shops</strong> check the true resolution of embedded artwork before committing a job to press.</p>
+
+<h3>How to Extract Images from a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Choose PNG if you want the maximum possible quality with no compression at all, or JPG if you would rather have smaller files. Set the minimum size to filter out decorative clutter — the default of 50 pixels removes bullets, rules, and tiny icons while keeping every real photograph. Click extract and your ZIP downloads within seconds.</p>
+
+<h3>Understanding the Minimum Size Filter</h3>
+<p>Most PDFs are full of images you do not actually want. A bullet point, a hairline divider, a corner ornament, a one-pixel spacer — technically these are all embedded images, and a naive extractor would dump hundreds of them into your ZIP alongside the three photographs you were actually after. The minimum size filter solves this by ignoring anything below a chosen pixel dimension. Leave it at 50 for normal documents. Raise it to 300 or more if you only want large, print-quality photographs. Drop it to 1 if you are auditing a file and genuinely need to see every single image object it contains.</p>
+
+<h3>Choosing Between PNG and JPG</h3>
+<p>PNG is lossless. Nothing is thrown away, transparency is preserved, and screenshots, logos, line art, and diagrams stay perfectly crisp. Choose it whenever quality matters more than file size, or when the image has a transparent background you need to keep. JPG uses compression that discards a small amount of detail invisible to the eye, producing files that are often several times smaller. Choose it for photographs, or when you are extracting a large number of images and want a ZIP that is quick to download and share.</p>
+
+<h3>Password-Protected and Encrypted PDFs</h3>
+<p>Encrypted files are handled without any extra steps. Upload as normal and a password prompt appears automatically if the document needs one. Enter it and extraction proceeds exactly as it would for an unprotected file. If you would rather strip the password permanently first, our <a href="/unlock">Unlock PDF</a> tool does that in a single click.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Uploads are processed in memory and discarded the moment your ZIP is delivered. Nothing is saved to disk, nothing is logged, and no copy of your document is retained. Because everything runs in your browser session, the tool works identically on Windows, macOS, Linux, Android, and iOS with no app to install.</p>
+
+<h3>Related PDF Tools</h3>
+<p>Once you have your images, <a href="/image-to-pdf">Image to PDF</a> can rebuild them into a new document, <a href="/compress">Compress PDF</a> reduces the size of the original file, and <a href="/pdf-to-word">PDF to Word</a> converts the text into an editable document.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/pdf-to-image">PDF to Image</a> &nbsp;·&nbsp; <a href="/image-to-pdf">Image to PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a> &nbsp;·&nbsp; <a href="/unlock">Unlock PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

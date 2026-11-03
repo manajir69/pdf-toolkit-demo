@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split PDF - PDF Toolkit Demo</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/split",
+          "url": "https://example.com/split",
+          "name": "Split PDF - PDF Toolkit Demo",
+          "description": "Split a PDF into multiple files or extract specific pages online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Organize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Split PDF","item":"https://example.com/split"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What is the difference between splitting and extracting pages?","acceptedAnswer":{"@type":"Answer","text":"Splitting divides a document into multiple output files — you get several PDFs back. Extract Pages pulls a chosen selection into one new PDF and leaves the rest behind. Split when you want a document broken into parts; extract when you only want a specific section."}},
+            {"@type":"Question","name":"Can I split at specific page numbers?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enter the page numbers where you want the document divided and each range becomes its own file. You can also split into fixed-size chunks, which is useful when a long report needs to be broken into evenly sized parts for distribution."}},
+            {"@type":"Question","name":"How are the resulting files delivered?","acceptedAnswer":{"@type":"Answer","text":"When splitting produces more than one file, everything is packaged into a single ZIP download so you get all the parts in one click. Each file inside is named with its page range, making it obvious which part is which without opening them."}},
+            {"@type":"Question","name":"Will splitting reduce the quality of my pages?","acceptedAnswer":{"@type":"Answer","text":"No. Pages are copied into the new files exactly as they exist in the source document. Fonts stay embedded, images keep their original resolution, and text remains selectable and searchable. Nothing is re-rendered or re-compressed."}},
+            {"@type":"Question","name":"Can I split a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. A password prompt appears automatically after upload if the file is encrypted. Enter it once and splitting proceeds normally. To remove the password permanently instead, use our Unlock PDF tool first."}},
+            {"@type":"Question","name":"Is there a limit on file size or page count?","acceptedAnswer":{"@type":"Answer","text":"There is no imposed limit. Very large documents take a little longer to process because every page has to be read and rewritten, but files with several hundred pages split without difficulty."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Split PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/split"
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Organize PDF</a><span>›</span><strong>Split PDF</strong>
+</nav>
+
+
+<div class="container">
+
+    <!-- Header -->
+<h1 class="page-title">{{ title }}</h1>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="splitForm">
+
+        <!-- Drop Area -->
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">✂️</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+        <!-- File Card -->
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+        </div>
+
+        <!-- Mode Selection -->
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="modeSection" style="display:none;">
+
+            <div class="mode-tabs">
+                <button type="button" class="mode-btn active" onclick="setMode('visual')">🖼️ Visual Editor</button>
+                <button type="button" class="mode-btn" onclick="setMode('range')">📄 Page Range</button>
+                <button type="button" class="mode-btn" onclick="setMode('all')">📑 Split All Pages</button>
+            </div>
+
+            <!-- Visual Editor -->
+            <div id="visualSection">
+                <p class="mode-hint">Drag to reorder • Click ✖ to remove page</p>
+                <div id="visualGrid" class="visual-grid"></div>
+                <input type="hidden" name="page_order" id="pageOrderInput">
+            </div>
+
+            <!-- Range Input -->
+            <div id="rangeSection" style="display:none;">
+                <p class="mode-hint">Enter page numbers or ranges separated by commas<br>Example: <strong>1-3, 5, 7-9</strong></p>
+                <input type="text" name="ranges" id="rangesInput" class="range-input" placeholder="e.g. 1-3, 5, 7-9">
+            </div>
+
+            <input type="hidden" name="mode" id="modeInput" value="visual">
+
+            <button type="submit" id="splitBtn" class="btn">💾 Save PDF</button>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script src="{{ url_for('static', filename='js/split.js') }}"></script>
+
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What is the difference between splitting and extracting pages?</div>
+    <div class="faq-a">Splitting divides a document into multiple output files — you get several PDFs back. <a href='/extract-pages'>Extract Pages</a> pulls a chosen selection into one new PDF and leaves the rest behind. Split when you want a document broken into parts; extract when you only want a specific section.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I split at specific page numbers?</div>
+    <div class="faq-a">Yes. Enter the page numbers where you want the document divided and each range becomes its own file. You can also split into fixed-size chunks, which is useful when a long report needs to be broken into evenly sized parts for distribution.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How are the resulting files delivered?</div>
+    <div class="faq-a">When splitting produces more than one file, everything is packaged into a single ZIP download so you get all the parts in one click. Each file inside is named with its page range, making it obvious which part is which without opening them.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will splitting reduce the quality of my pages?</div>
+    <div class="faq-a">No. Pages are copied into the new files exactly as they exist in the source document. Fonts stay embedded, images keep their original resolution, and text remains selectable and searchable. Nothing is re-rendered or re-compressed.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I split a password-protected PDF?</div>
+    <div class="faq-a">Yes. A password prompt appears automatically after upload if the file is encrypted. Enter it once and splitting proceeds normally. To remove the password permanently instead, use our <a href='/unlock'>Unlock PDF</a> tool first.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Is there a limit on file size or page count?</div>
+    <div class="faq-a">There is no imposed limit. Very large documents take a little longer to process because every page has to be read and rewritten, but files with several hundred pages split without difficulty.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Split PDF Online — Free PDF Splitter and Page Divider</h2>
+<p>Large PDFs are awkward. They are slow to open, too big to email, and force the reader to scroll through material that has nothing to do with them. Splitting solves all three problems at once by dividing a single document into smaller, self-contained files. Upload your PDF, choose where the divisions should fall, and download the parts — free, instant, and with no software to install.</p>
+
+<h3>Why Split a PDF?</h3>
+<p>The most common reason is <strong>relevance</strong>. A hundred-page annual report might contain one section the finance team needs and another for operations. Sending each team only their part respects their time and avoids the risk of them reading something not meant for them.</p>
+<p><strong>File size</strong> is the second reason. Email systems commonly reject attachments over ten or twenty-five megabytes, and a heavily illustrated document passes that easily. Splitting into parts that individually fit under the limit is often simpler than compressing the whole thing.</p>
+<p><strong>Structure</strong> is the third. Scanned archives, bound reports, and multi-chapter manuals are frequently digitised as one enormous file. Breaking them into logical units makes the material navigable and much easier to catalogue.</p>
+
+<h3>Split, Extract, or Delete — Which Do You Need?</h3>
+<p>These three operations overlap enough that people often reach for the wrong one.</p>
+<p><strong>Split</strong> divides a document into several output files. Use it when you want each part to exist separately — chapters as individual PDFs, for instance.</p>
+<p><strong><a href="/extract-pages">Extract Pages</a></strong> pulls a chosen selection into one new file and discards the rest. Use it when you only care about a specific section and have no interest in the remainder.</p>
+<p><strong><a href="/delete-pages">Delete Pages</a></strong> keeps everything except the pages you name, returning a single file. Use it when the document is nearly right and just contains a few pages that need removing.</p>
+
+<h3>How to Split a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Choose your split method: divide at specific page numbers to control exactly where each break falls, or split into fixed-size chunks when you simply need evenly sized parts. Confirm the ranges look right, then download. If the operation produced more than one file, they arrive together in a ZIP.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Teachers</strong> separate a textbook scan into per-chapter readings for each week of a course. <strong>Accountants</strong> break a combined statement file into one document per client or per month. <strong>Legal teams</strong> divide bundled exhibits so each can be filed and referenced independently. <strong>Publishers and print shops</strong> separate a manuscript into sections for different reviewers. <strong>Anyone digitising an archive</strong> splits a long continuous scan into individually catalogued records.</p>
+
+<h3>Quality Is Preserved Exactly</h3>
+<p>Every page in the output is copied from the source rather than rebuilt. Embedded fonts remain embedded, so text renders identically and stays fully selectable and searchable. Vector graphics stay sharp at any zoom level. Photographs keep their original resolution with no additional compression. The split files together contain exactly what the original did, just distributed across several documents.</p>
+
+<h3>Password-Protected PDFs</h3>
+<p>Encrypted documents are supported directly. If your file needs a password, a prompt appears automatically after upload — enter it once and the split proceeds as normal. To strip the password permanently instead, run the file through <a href="/unlock">Unlock PDF</a> first.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded as soon as your download completes. Nothing is written to disk, nothing is logged, and no copy is retained. The tool runs in any modern browser on Windows, macOS, Linux, Android, and iOS with nothing to install.</p>
+
+<h3>Related PDF Tools</h3>
+<p>To rejoin files later, use <a href="/merge">Merge PDF</a>. For visual control over which pages go where, <a href="/organize-pdf">Organize PDF</a> shows every page as a thumbnail you can reorder and remove. <a href="/compress">Compress PDF</a> shrinks the parts further if they still need to be smaller.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/merge">Merge PDF</a> &nbsp;·&nbsp; <a href="/extract-pages">Extract Pages</a> &nbsp;·&nbsp; <a href="/delete-pages">Delete Pages</a> &nbsp;·&nbsp; <a href="/organize-pdf">Organize PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

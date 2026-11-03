@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PDF Converter Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Convert images to PDF online for free. JPG, PNG, WEBP to PDF. No installation required.">
+    <meta name="keywords" content="image to PDF, JPG to PDF, PNG to PDF, convert image to PDF, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/image-to-pdf">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Image to PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/image-to-pdf">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Image to PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .img-list { margin-top: 20px; }
+        .img-item {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            margin: 10px auto;
+            padding: 12px 16px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: grab;
+            font-size: 18px;
+        }
+        .img-item img {
+            width: 55px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #eee;
+            flex-shrink: 0;
+        }
+        .img-item span { flex: 1; text-align: left; font-size: 15px; color: #444; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .img-remove {
+            background: #e53935;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .img-remove:hover { background: #b71c1c; }
+        #addMoreBtn {
+            display: none;
+            background: white;
+            border: 2px dashed #F9A825;
+            color: #F9A825;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px auto;
+            font-weight: bold;
+        }
+        #addMoreBtn:hover { background: #FFF8EE; }
+        #convertBtn { display: none; }
+        #imgCount { font-size: 16px; color: #888; margin: 8px 0; }
+        .sortable-ghost { opacity: 0.4; }
+    </style>
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/image-to-pdf",
+          "url": "https://example.com/image-to-pdf",
+          "name": "Image to PDF - PDF Toolkit Demo",
+          "description": "Convert JPG, PNG, or WEBP images to PDF online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Convert PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Image to PDF","item":"https://example.com/image-to-pdf"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"Which image formats can I convert?","acceptedAnswer":{"@type":"Answer","text":"JPG, PNG, and WEBP are all supported, and you can mix formats within a single conversion. Photographs from a phone, screenshots, and scanned pages can all go into the same document together."}},
+            {"@type":"Question","name":"Can I control the order the images appear in?","acceptedAnswer":{"@type":"Answer","text":"Yes, and you should always check it. After uploading, each image appears as a card you can drag into position. The PDF follows the order shown on screen — file names rarely sort the way you actually want the pages to read, so a quick visual check is worth the few seconds."}},
+            {"@type":"Question","name":"Does each image become its own page?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every image becomes one page in the resulting document, sized to fit the image. This is what makes the tool useful for turning a set of photographed pages back into a readable multi-page document."}},
+            {"@type":"Question","name":"Will my images lose quality?","acceptedAnswer":{"@type":"Answer","text":"No. Images are embedded at their original resolution with no additional compression applied. A photograph that was sharp before conversion is equally sharp in the PDF. If the resulting file is larger than you need, run it through Compress PDF afterwards."}},
+            {"@type":"Question","name":"Can I turn phone photos of documents into a PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes — this is one of the most common uses. Photograph each page, upload them all, drag them into the right order, and download a single PDF. It turns a phone into a serviceable document scanner without any additional software."}},
+            {"@type":"Question","name":"Is there a limit on how many images I can add?","acceptedAnswer":{"@type":"Answer","text":"There is no fixed limit. Very large batches of very high-resolution photographs will take longer to process and produce a correspondingly large file, but ordinary document-sized batches convert quickly."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Image to PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/image-to-pdf"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Convert PDF</a><span>›</span><strong>Image to PDF</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Image to PDF</h1>
+    <p class="subtitle">Convert JPG, PNG, or WEBP images into a single PDF</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="imgForm">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🖼️</div>
+            <h2>Drag & Drop Images Here</h2>
+            <p>OR</p>
+            <label for="imgInput" class="upload-btn">🖼️ Select Images</label>
+        </div>
+
+        <!-- Hidden file input — images stored here via DataTransfer -->
+        <input id="imgInput" type="file" name="image_files" accept="image/*" multiple hidden>
+
+        <p id="imgCount"></p>
+        <div class="img-list" id="imgList"></div>
+
+        <button type="button" id="addMoreBtn" onclick="document.getElementById('addMoreInput').click()">➕ Add More Images</button>
+        <input id="addMoreInput" type="file" accept="image/*" multiple hidden>
+
+        <button type="submit" id="convertBtn" class="btn">🖼️ Convert to PDF</button>
+
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script>
+    const imgInput = document.getElementById("imgInput");
+    const addMoreInput = document.getElementById("addMoreInput");
+    const dropArea = document.getElementById("dropArea");
+    const imgList = document.getElementById("imgList");
+    const imgCount = document.getElementById("imgCount");
+    const convertBtn = document.getElementById("convertBtn");
+    const addMoreBtn = document.getElementById("addMoreBtn");
+    const imgForm = document.getElementById("imgForm");
+
+    let fileList = []; // Array of File objects
+
+    function refreshList() {
+        imgList.innerHTML = "";
+        imgCount.textContent = fileList.length > 0 ? `${fileList.length} image(s) selected` : "";
+        convertBtn.style.display = fileList.length > 0 ? "inline-block" : "none";
+        addMoreBtn.style.display = fileList.length > 0 ? "block" : "none";
+
+        fileList.forEach((file, index) => {
+            const item = document.createElement("div");
+            item.className = "img-item";
+            item.dataset.index = index;
+
+            const thumb = document.createElement("img");
+            thumb.src = URL.createObjectURL(file);
+
+            const name = document.createElement("span");
+            name.textContent = file.name;
+
+            const removeBtn = document.createElement("button");
+            removeBtn.type = "button";
+            removeBtn.className = "img-remove";
+            removeBtn.textContent = "✕";
+            removeBtn.onclick = () => {
+                fileList.splice(index, 1);
+                refreshList();
+            };
+
+            item.appendChild(thumb);
+            item.appendChild(name);
+            item.appendChild(removeBtn);
+            imgList.appendChild(item);
+        });
+
+        // Update the actual file input via DataTransfer
+        const dt = new DataTransfer();
+        fileList.forEach(f => dt.items.add(f));
+        imgInput.files = dt.files;
+
+        if (fileList.length > 0) dropArea.style.display = "none";
+        else dropArea.style.display = "block";
+    }
+
+    function addFiles(newFiles) {
+        Array.from(newFiles).forEach(f => {
+            if (f.type.startsWith("image/")) fileList.push(f);
+        });
+        refreshList();
+    }
+
+    // Sortable drag to reorder
+    new Sortable(imgList, {
+        animation: 150,
+        ghostClass: "sortable-ghost",
+        onEnd: (evt) => {
+            const moved = fileList.splice(evt.oldIndex, 1)[0];
+            fileList.splice(evt.newIndex, 0, moved);
+            refreshList();
+        }
+    });
+
+    imgInput.addEventListener("change", () => addFiles(imgInput.files));
+    addMoreInput.addEventListener("change", () => addFiles(addMoreInput.files));
+
+    dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop", e => {
+        e.preventDefault(); dropArea.classList.remove("drag-over");
+        addFiles(e.dataTransfer.files);
+    });
+    dropArea.addEventListener("click", (e) => { if (!e.target.closest("label")) imgInput.click(); });
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Which image formats can I convert?</div>
+    <div class="faq-a">JPG, PNG, and WEBP are all supported, and you can mix formats within a single conversion. Photographs from a phone, screenshots, and scanned pages can all go into the same document together.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I control the order the images appear in?</div>
+    <div class="faq-a">Yes, and you should always check it. After uploading, each image appears as a card you can drag into position. The PDF follows the order shown on screen — file names rarely sort the way you actually want the pages to read, so a quick visual check is worth the few seconds.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does each image become its own page?</div>
+    <div class="faq-a">Yes. Every image becomes one page in the resulting document, sized to fit the image. This is what makes the tool useful for turning a set of photographed pages back into a readable multi-page document.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will my images lose quality?</div>
+    <div class="faq-a">No. Images are embedded at their original resolution with no additional compression applied. A photograph that was sharp before conversion is equally sharp in the PDF. If the resulting file is larger than you need, run it through <a href='/compress'>Compress PDF</a> afterwards.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I turn phone photos of documents into a PDF?</div>
+    <div class="faq-a">Yes — this is one of the most common uses. Photograph each page, upload them all, drag them into the right order, and download a single PDF. It turns a phone into a serviceable document scanner without any additional software.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Is there a limit on how many images I can add?</div>
+    <div class="faq-a">There is no fixed limit. Very large batches of very high-resolution photographs will take longer to process and produce a correspondingly large file, but ordinary document-sized batches convert quickly.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Image to PDF Converter Online — Free JPG and PNG to PDF</h2>
+<p>Combine photographs, screenshots, and scans into a single PDF document. Upload your images, drag them into the order you want, and download one clean file with each picture as its own page. Free, no watermark, and nothing to install.</p>
+
+<h3>Why Convert Images to PDF?</h3>
+<p><strong>One file instead of many.</strong> Twenty separate photographs of a contract is an awkward thing to send and an easy thing to lose pages from. One twenty-page PDF is a document — it stays together, prints in order, and files cleanly.</p>
+<p><strong>Order is preserved permanently.</strong> Images in a folder sort by file name, which frequently has nothing to do with the sequence the content should read in. Once they are pages in a PDF, the order is fixed and cannot be scrambled by whatever system opens them next.</p>
+<p><strong>Documents should look like documents.</strong> Sending a landlord, a school, or a government office a folder of JPGs looks improvised. Sending a single PDF looks like you knew what you were doing.</p>
+
+<h3>Turning Your Phone Into a Scanner</h3>
+<p>This is the most common use of the tool by a wide margin. Photograph each page of a document with your phone, upload the pictures here, drag them into the right sequence, and download a proper multi-page PDF. No scanner needed and no app to install.</p>
+<p>A few things noticeably improve the result. Shoot in even, indirect light — a window works better than a ceiling lamp directly overhead, which casts your own shadow across the page. Hold the camera parallel to the paper rather than at an angle, so the page edges stay rectangular. Fill the frame with the page. And check each shot before moving on; retaking a photo takes five seconds, while discovering page seven is unreadable after you have posted the document is a much larger problem.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Anyone submitting documents online</strong> to a portal that requires a single PDF rather than loose images. <strong>Students</strong> photograph handwritten notes and lecture whiteboards to compile into study documents. <strong>Freelancers and small businesses</strong> turn photographed receipts into one expense claim. <strong>Tenants and applicants</strong> combine photographed identity documents, payslips, and certificates into one submission. <strong>Anyone archiving paper</strong> without access to a scanner.</p>
+
+<h3>How to Convert Images to PDF</h3>
+<p>Upload your images by dragging them onto the box or clicking to browse — you can select many at once, and mix JPG, PNG, and WEBP freely. Each appears as a card you can drag into position. Arrange them until the order matches how the document should read, then convert and download.</p>
+<p>Getting the order right is the step worth attention. Phone cameras name files sequentially by capture time, which usually works, but any photo you retook will be out of position. The visual arrangement lets you catch that immediately.</p>
+
+<h3>Quality Is Preserved</h3>
+<p>Images are embedded at their original resolution with no additional compression. A sharp photograph goes into the PDF equally sharp, and a high-resolution scan stays high-resolution. The consequence is that a document built from twenty phone photographs can be quite large — modern phone cameras produce several megabytes per shot. If the file needs to be smaller for emailing, <a href="/compress">Compress PDF</a> reduces it substantially, since photographic data compresses very well.</p>
+
+<h3>After Converting</h3>
+<p>If some photographs came out rotated, <a href="/rotate">Rotate PDF</a> corrects them. If the pages have distracting backgrounds around the edges — a desk surface visible around the paper — <a href="/crop">Crop PDF</a> trims them away. To combine your new PDF with existing documents, use <a href="/merge">Merge PDF</a>.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your images are processed in memory and discarded the moment your download completes. Nothing is written to disk, nothing is logged, and no copy is retained — which matters when the pictures are of identity documents, bank statements, or medical records.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/pdf-to-image">PDF to Image</a> converts in the opposite direction. <a href="/extract-images">Extract Images</a> pulls embedded pictures out of an existing PDF, and <a href="/protect">Protect PDF</a> adds a password before you share sensitive documents.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/pdf-to-image">PDF to Image</a> &nbsp;·&nbsp; <a href="/rotate">Rotate PDF</a> &nbsp;·&nbsp; <a href="/crop">Crop PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

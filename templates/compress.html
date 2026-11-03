@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compress PDF Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Compress PDF files online for free. Reduce PDF file size without losing quality. No installation required.">
+    <meta name="keywords" content="compress PDF, reduce PDF size, PDF compressor, optimize PDF, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/compress">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Compress PDF - PDF Toolkit Demo">
+    <meta property="og:description" content="Reduce PDF file size online for free. No installation required.">
+    <meta property="og:url" content="https://example.com/compress">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Compress PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Reduce PDF file size online for free. No installation required.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .file-size-tag {
+            display: inline-block;
+            background: #f5f5f5;
+            color: #666;
+            font-size: 13px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+        .compress-loading {
+            display: none;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .spinner {
+            width: 44px; height: 44px;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #F9A825;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 14px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .result-card {
+            max-width: 520px;
+            margin: 24px auto 0;
+            background: white;
+            border-radius: 16px;
+            padding: 28px 32px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+            text-align: left;
+        }
+        .result-card h3 {
+            text-align: center;
+            margin: 0 0 24px;
+            color: #2B2B2B;
+            font-size: 20px;
+        }
+        .bar-row {
+            margin-bottom: 18px;
+        }
+        .bar-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 7px;
+            color: #555;
+        }
+        .bar-meta .bar-name { font-weight: 600; color: #333; }
+        .bar-meta .bar-size { color: #888; }
+        .bar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+            height: 26px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.9s cubic-bezier(.4,0,.2,1);
+            min-width: 4px;
+        }
+        .bar-before { background: linear-gradient(90deg, #bdbdbd, #9e9e9e); }
+        .bar-after  { background: linear-gradient(90deg, #43A047, #2e7d32); }
+        .bar-after-worse { background: linear-gradient(90deg, #F9A825, #EF6C00); }
+        .saved-badge {
+            text-align: center;
+            margin-top: 22px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .saved-green { background: #e8f5e9; color: #2e7d32; }
+        .saved-orange { background: #fff8e1; color: #F57F17; }
+        .result-actions {
+            text-align: center;
+            margin-top: 22px;
+        }
+        .btn-download {
+            display: inline-block;
+            background: #E53935;
+            color: white;
+            padding: 13px 34px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-download:hover { background: #c62828; }
+        .btn-reset {
+            display: block;
+            margin: 14px auto 0;
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .btn-reset:hover { color: #555; }
+    </style>
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/compress",
+          "url": "https://example.com/compress",
+          "name": "Compress PDF - PDF Toolkit Demo",
+          "description": "Reduce PDF file size online for free without losing quality.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Optimize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Compress PDF","item":"https://example.com/compress"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How much smaller will my PDF get?","acceptedAnswer":{"@type":"Answer","text":"It depends almost entirely on what the file contains. Scanned documents and image-heavy brochures often drop by 50–90% because photographs compress well. A text-only PDF may barely change, since text is already stored very efficiently and there is little redundancy left to remove."}},
+            {"@type":"Question","name":"Will compression make my document look worse?","acceptedAnswer":{"@type":"Answer","text":"Text and vector graphics are unaffected — they stay perfectly sharp at any zoom level because they are not bitmap data. Only embedded images are recompressed, and at normal settings the difference is invisible on screen. If you are preparing a file for professional printing, keep the original as your master copy."}},
+            {"@type":"Question","name":"Why did my file barely shrink?","acceptedAnswer":{"@type":"Answer","text":"The PDF was probably already optimised, or it contains mostly text. Compression works by removing redundancy in image data and stripping unused objects, so a file that has already been through that process has little left to give. Files exported by modern software are often optimised by default."}},
+            {"@type":"Question","name":"Is compressing the same as reducing page size?","acceptedAnswer":{"@type":"Answer","text":"No. Compression reduces the file's byte size while keeping the page dimensions exactly the same. Your A4 pages stay A4. Nothing is cropped, scaled, or removed — the document looks the same, it just occupies less storage."}},
+            {"@type":"Question","name":"Can I compress a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. A password prompt appears automatically after upload if the document is encrypted. Enter it and compression proceeds normally. You can also remove the password first with our Unlock PDF tool."}},
+            {"@type":"Question","name":"Are my files stored on your server?","acceptedAnswer":{"@type":"Answer","text":"No. Your PDF is processed in memory and the compressed result is streamed straight back to your browser. Nothing is written to disk, nothing is logged, and no copy is retained after your download completes."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Compress PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/compress"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Optimize PDF</a><span>›</span><strong>Compress PDF</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Compress PDF</h1>
+    <p class="subtitle">Reduce your PDF file size online for free</p>
+
+    <div id="dropArea" class="drop-area">
+        <div class="drop-icon">🗜️</div>
+        <h2>Drag & Drop PDF File Here</h2>
+        <p>OR</p>
+        <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+    </div>
+
+    <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+    <div id="fileCard" style="display:none;" class="pdf-item">
+        <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+        <span id="fileName"></span>
+        <span class="file-size-tag" id="fileSizeTag"></span>
+        <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+    </div>
+
+    <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+        <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+        <div class="password-wrap" style="margin:0 auto 12px;">
+            <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+            <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+        </div>
+        <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+        <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+    </div>
+    <input type="hidden" id="pdfPasswordHidden">
+
+    <div id="optionsSection" style="display:none;">
+        <button type="button" class="btn" onclick="doCompress()">🗜️ Compress PDF</button>
+    </div>
+
+    <!-- Loading -->
+    <div class="compress-loading" id="compressLoading">
+        <div class="spinner"></div>
+        <p style="color:#888; margin:0;">Compressing your PDF...</p>
+    </div>
+
+    <!-- Result -->
+    <div id="resultSection" style="display:none;">
+        <div class="result-card">
+            <h3>🗜️ Compression Result</h3>
+            <div class="bar-row">
+                <div class="bar-meta">
+                    <span class="bar-name">Before</span>
+                    <span class="bar-size" id="beforeLabel"></span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-before" id="barBefore" style="width:100%"></div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-meta">
+                    <span class="bar-name">After</span>
+                    <span class="bar-size" id="afterLabel"></span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-after" id="barAfter" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="saved-badge" id="savedBadge"></div>
+        </div>
+        <div class="result-actions">
+            <a id="downloadBtn" href="#" class="btn-download">⬇️ Download Compressed PDF</a>
+            <button class="btn-reset" onclick="removeFile()">↩ Compress another file</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+    const pdfInput = document.getElementById("pdfInput");
+    const dropArea = document.getElementById("dropArea");
+    const fileCard = document.getElementById("fileCard");
+    const fileName = document.getElementById("fileName");
+    const optionsSection = document.getElementById("optionsSection");
+
+    function formatSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+    }
+
+    function handleFile(file) {
+        window._pdfFile = file;
+        fileName.textContent = file.name;
+        document.getElementById("fileSizeTag").textContent = formatSize(file.size);
+        dropArea.style.display = "none";
+        fileCard.style.display = "flex";
+        document.getElementById("resultSection").style.display = "none";
+        _tryLoadPdf(null);
+    }
+
+    function _tryLoadPdf(password) {
+        if (!window._pdfFile) return;
+        var r = new FileReader();
+        r.onload = function(e) {
+            var data = new Uint8Array(e.target.result);
+            var opts = password ? {data: data, password: password} : {data: data};
+            pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+                if (password) document.getElementById("pdfPasswordHidden").value = password;
+                document.getElementById("pdfPasswordPrompt").style.display = "none";
+                document.getElementById("pdfPassError").style.display = "none";
+                document.getElementById("optionsSection").style.display = "block";
+                pdf.getPage(1).then(function(page) {
+                    var canvas = document.getElementById("firstPageThumb");
+                    var ctx = canvas.getContext("2d");
+                    var vp = page.getViewport({ scale: 0.5 });
+                    canvas.width = vp.width; canvas.height = vp.height;
+                    page.render({ canvasContext: ctx, viewport: vp });
+                });
+            }).catch(function(err) {
+                if (err.name === "PasswordException") {
+                    document.getElementById("pdfPasswordPrompt").style.display = "block";
+                    if (password) document.getElementById("pdfPassError").style.display = "block";
+                    setTimeout(function() { document.getElementById("pdfPassInput").focus(); }, 100);
+                }
+            });
+        };
+        r.readAsArrayBuffer(window._pdfFile);
+    }
+
+    async function doCompress() {
+        if (!window._pdfFile) return;
+        optionsSection.style.display = "none";
+        document.getElementById("compressLoading").style.display = "block";
+
+        var formData = new FormData();
+        formData.append("pdf_file", window._pdfFile);
+        formData.append("pdf_password", document.getElementById("pdfPasswordHidden").value || "");
+
+        try {
+            var resp = await fetch("/compress", { method: "POST", body: formData });
+            var data = await resp.json();
+            document.getElementById("compressLoading").style.display = "none";
+
+            if (data.error) {
+                optionsSection.style.display = "block";
+                alert("⚠️ " + data.error);
+                return;
+            }
+            showResult(data.original_size, data.compressed_size, data.file_id);
+        } catch(e) {
+            document.getElementById("compressLoading").style.display = "none";
+            optionsSection.style.display = "block";
+            alert("Compression failed. Please try again.");
+        }
+    }
+
+    function showResult(origSize, compSize, fileId) {
+        var pct = Math.round((1 - compSize / origSize) * 100);
+        var ratio = Math.min(compSize / origSize, 1);
+
+        document.getElementById("beforeLabel").textContent = formatSize(origSize);
+        document.getElementById("afterLabel").textContent = formatSize(compSize);
+        document.getElementById("barBefore").style.width = "100%";
+
+        // Animate after bar
+        setTimeout(function() {
+            document.getElementById("barAfter").style.width = (ratio * 100) + "%";
+        }, 80);
+
+        var badge = document.getElementById("savedBadge");
+        if (pct > 0) {
+            badge.textContent = "✅ " + pct + "% smaller!";
+            badge.className = "saved-badge saved-green";
+            document.getElementById("barAfter").className = "bar-fill bar-after";
+        } else {
+            badge.textContent = "ℹ️ PDF is already well optimized";
+            badge.className = "saved-badge saved-orange";
+            document.getElementById("barAfter").className = "bar-fill bar-after-worse";
+        }
+
+        document.getElementById("downloadBtn").href = "/compress/download/" + fileId;
+        document.getElementById("resultSection").style.display = "block";
+    }
+
+    function removeFile() {
+        pdfInput.value = "";
+        window._pdfFile = null;
+        fileCard.style.display = "none";
+        optionsSection.style.display = "none";
+        document.getElementById("pdfPasswordPrompt").style.display = "none";
+        document.getElementById("resultSection").style.display = "none";
+        document.getElementById("compressLoading").style.display = "none";
+        document.getElementById("pdfPasswordHidden").value = "";
+        dropArea.style.display = "";
+    }
+
+    function confirmPdfPassword() {
+        var pass = document.getElementById("pdfPassInput").value;
+        if (!pass) return;
+        document.getElementById("pdfPassError").style.display = "none";
+        _tryLoadPdf(pass);
+    }
+    function togglePdfPass(btn) {
+        var inp = document.getElementById("pdfPassInput");
+        var svg = btn.querySelector("svg");
+        inp.type = inp.type === "password" ? "text" : "password";
+        svg.setAttribute("stroke", inp.type === "text" ? "#F9A825" : "#888");
+    }
+
+    pdfInput.addEventListener("change", () => { if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+    dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop", e => {
+        e.preventDefault(); dropArea.classList.remove("drag-over");
+        if (e.dataTransfer.files[0]) {
+            const dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+            pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+        }
+    });
+    dropArea.addEventListener("click", (e) => { if (!e.target.closest("label")) pdfInput.click(); });
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How much smaller will my PDF get?</div>
+    <div class="faq-a">It depends almost entirely on what the file contains. Scanned documents and image-heavy brochures often drop by 50–90% because photographs compress well. A text-only PDF may barely change, since text is already stored very efficiently and there is little redundancy left to remove.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will compression make my document look worse?</div>
+    <div class="faq-a">Text and vector graphics are unaffected — they stay perfectly sharp at any zoom level because they are not bitmap data. Only embedded images are recompressed, and at normal settings the difference is invisible on screen. If you are preparing a file for professional printing, keep the original as your master copy.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why did my file barely shrink?</div>
+    <div class="faq-a">The PDF was probably already optimised, or it contains mostly text. Compression works by removing redundancy in image data and stripping unused objects, so a file that has already been through that process has little left to give. Files exported by modern software are often optimised by default.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Is compressing the same as reducing page size?</div>
+    <div class="faq-a">No. Compression reduces the file's byte size while keeping the page dimensions exactly the same. Your A4 pages stay A4. Nothing is cropped, scaled, or removed — the document looks the same, it just occupies less storage.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I compress a password-protected PDF?</div>
+    <div class="faq-a">Yes. A password prompt appears automatically after upload if the document is encrypted. Enter it and compression proceeds normally. You can also remove the password first with our <a href='/unlock'>Unlock PDF</a> tool.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my files stored on your server?</div>
+    <div class="faq-a">No. Your PDF is processed in memory and the compressed result is streamed straight back to your browser. Nothing is written to disk, nothing is logged, and no copy is retained after your download completes.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Compress PDF Online — Free PDF Size Reducer</h2>
+<p>A PDF that will not send is a genuinely frustrating problem. Compression reduces the file size while keeping the document readable and the pages exactly the same dimensions they always were. Upload your file, let the tool optimise it, and download a smaller version — free, instant, and with no watermark added.</p>
+
+<h3>Why PDFs Get So Large</h3>
+<p>Understanding the cause makes the result predictable. In almost every case the size comes from <strong>images</strong>. A scanned page is a photograph of paper, and at 300 dots per inch a single A4 sheet can occupy several megabytes before compression. Multiply that by forty pages and the file is enormous even though it contains nothing but text you could have typed in a minute.</p>
+<p>The other contributors are smaller but add up. <strong>Embedded fonts</strong> carry every character in a typeface even when the document uses a handful. <strong>Metadata and revision history</strong> accumulate quietly each time a file is edited and re-saved. <strong>Duplicate objects</strong> appear when the same logo is inserted on every page as a separate copy rather than a shared reference.</p>
+
+<h3>What Compression Actually Does</h3>
+<p>Several optimisations run together. Embedded images are recompressed at a more efficient ratio, which is where the bulk of the saving comes from. Duplicate objects are detected and collapsed into a single shared reference. Unused resources left over from earlier edits are discarded. The internal cross-reference structure is rebuilt in a more compact form.</p>
+<p>Crucially, <strong>text and vector graphics are never touched</strong>. They are stored as instructions rather than pixels, so they occupy very little space to begin with and remain perfectly sharp at any zoom level after compression.</p>
+
+<h3>What Results to Expect</h3>
+<p><strong>Scanned documents</strong> compress the most dramatically, often shrinking by 70–90%, because photographic data has enormous redundancy. <strong>Image-heavy brochures and presentations</strong> typically drop by half or more. <strong>Text-only reports</strong> may only shrink by 5–15%, since there was never much to remove. <strong>Files already optimised</strong> by their originating software may barely change at all — that is not a failure, it means the work was already done.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Anyone hitting an email attachment limit</strong> — the single most common reason people compress. <strong>Job applicants</strong> whose portfolio PDF exceeds an upload cap on an application form. <strong>Students</strong> submitting to systems with strict size restrictions. <strong>Offices archiving scanned paper</strong>, where a 90% reduction across thousands of files transforms the storage requirement. <strong>Anyone publishing PDFs online</strong>, since smaller files load faster and improve the visitor's experience.</p>
+
+<h3>How to Compress a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. The tool analyses the contents and applies the appropriate optimisations automatically. Download the result and compare — if the saving is not enough for your purpose, see the suggestions below for reducing size further.</p>
+
+<h3>If Compression Alone Is Not Enough</h3>
+<p>When the file is still too large, the answer is usually to remove content rather than compress harder. <a href="/remove-blank-pages">Remove Blank Pages</a> strips the empty backs of double-sided scans, which in a duplex-scanned document can halve the page count immediately. <a href="/split">Split PDF</a> divides the document into parts that individually fit under your limit. <a href="/delete-pages">Delete Pages</a> removes sections the recipient does not need. Between them these usually solve what compression alone cannot.</p>
+
+<h3>Keep Your Original</h3>
+<p>Compression is not reversible — discarded image data cannot be recovered from the smaller file. Always keep the original as your master copy, especially for anything heading to professional print, and use the compressed version only for sharing and distribution.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your file is processed in memory and discarded the instant your download completes. Nothing is saved to disk, nothing is logged, and no copy is retained. The tool works in any modern browser on Windows, macOS, Linux, Android, and iOS with nothing to install.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/split">Split PDF</a> &nbsp;·&nbsp; <a href="/remove-blank-pages">Remove Blank Pages</a> &nbsp;·&nbsp; <a href="/pdf-to-image">PDF to Image</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organize PDF Pages Online Free - Reorder, Rotate & Delete | PDF Toolkit Demo</title>
+    <meta name="description" content="Organize PDF pages in one visual editor. Drag to reorder, rotate, and delete pages all on the same screen, then download. Free, no installation required.">
+    <meta name="keywords" content="organize PDF, reorder PDF pages, PDF page organizer, rearrange rotate delete PDF, PDF page manager, sort PDF pages, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/organize-pdf">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Organize PDF Pages - PDF Toolkit Demo">
+    <meta property="og:description" content="Drag to reorder, rotate, and delete PDF pages in one visual editor. Free and instant.">
+    <meta property="og:url" content="https://example.com/organize-pdf">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Organize PDF Pages - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Reorder, rotate, and delete PDF pages in one place.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+
+    /* toolbar */
+    #orgBar { display: none; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
+              background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 12px 16px;
+              margin: 22px auto 6px; max-width: 860px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); position: sticky; top: 8px; z-index: 50; }
+    #orgBar.visible { display: flex; }
+    .ob-btn { padding: 8px 16px; border: 1px solid #ddd; border-radius: 8px; background: #fff;
+              font-size: 13px; font-weight: 600; color: #555; cursor: pointer; transition: 0.15s; }
+    .ob-btn:hover { background: #f5f5f5; border-color: #bbb; }
+    .ob-btn.danger { color: #c62828; border-color: #ffcdd2; background: #fff5f5; }
+    .ob-btn.danger:hover { background: #ffebee; }
+    .ob-sep { width: 1px; height: 22px; background: #e5e5e5; margin: 0 3px; }
+    #orgCount { font-size: 13px; color: #888; font-weight: 600; margin-left: 4px; }
+
+    /* page grid */
+    #orgGrid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin: 20px auto 10px; max-width: 980px; }
+    .pg-card { position: relative; width: 148px; background: #fff; border: 2px solid #eee; border-radius: 10px;
+               padding: 10px 8px 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); cursor: grab;
+               transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s; }
+    .pg-card:hover { border-color: #ccc; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+    .pg-card.selected { border-color: #E53935; background: #fff8f8; }
+    .pg-card.dragging { opacity: 0.4; cursor: grabbing; }
+    .pg-card.drop-target { border-color: #F9A825; transform: scale(1.04); }
+    .pg-card canvas { display: block; width: 100%; height: 158px; object-fit: contain;
+                      border: 1px solid #f0f0f0; border-radius: 5px; background: #fafafa;
+                      transition: transform 0.3s ease; }
+    .pg-num { text-align: center; font-size: 12px; color: #888; margin-top: 7px; font-weight: 600; }
+    .pg-rot { text-align: center; font-size: 11px; color: #E53935; font-weight: 700; height: 14px; }
+    .pg-tools { display: flex; gap: 5px; margin-top: 6px; }
+    .pg-tools button { flex: 1; border: 1px solid #e5e5e5; background: #fafafa; border-radius: 6px;
+                       padding: 5px 0; font-size: 13px; cursor: pointer; transition: 0.12s; }
+    .pg-tools button:hover { background: #efefef; }
+    .pg-tools .del:hover { background: #ffebee; border-color: #ffcdd2; }
+    .pg-check { position: absolute; top: -8px; left: -8px; width: 22px; height: 22px; border-radius: 50%;
+                border: 2px solid #ddd; background: #fff; cursor: pointer; font-size: 12px; line-height: 1;
+                display: flex; align-items: center; justify-content: center; color: transparent; }
+    .pg-card.selected .pg-check { background: #E53935; border-color: #E53935; color: #fff; }
+
+    #orgHint { text-align: center; font-size: 13px; color: #999; margin: 4px 0 0; }
+    #orgSave { display: none; justify-content: center; margin: 24px 0 10px; }
+    #orgSave.visible { display: flex; }
+    #orgSave .btn { min-width: 280px; }
+    #emptyWarn { display: none; text-align: center; color: #c62828; font-size: 14px; margin-top: 14px; }
+    #emptyWarn.visible { display: block; }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/organize-pdf",
+          "url": "https://example.com/organize-pdf",
+          "name": "Organize PDF - PDF Toolkit Demo",
+          "description": "Reorder, rotate, and delete PDF pages in a single visual editor, then download the result.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Organize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Organize PDF Pages","item":"https://example.com/organize-pdf"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How is this different from the Rearrange, Rotate, and Delete Pages tools?","acceptedAnswer":{"@type":"Answer","text":"Those three tools each do one job and each require a separate upload and download. Organize PDF combines all of them into a single visual editor, so you can drag a page into a new position, turn it the right way up, and delete the one after it without ever leaving the screen. One upload, one download, all your changes applied at once."}},
+            {"@type":"Question","name":"How do I move a page to a different position?","acceptedAnswer":{"@type":"Answer","text":"Drag any page thumbnail and drop it where you want it. The surrounding pages shift to make room and the numbering updates immediately. On a phone or tablet, use the arrow buttons on each card to nudge a page left or right one step at a time."}},
+            {"@type":"Question","name":"Can I rotate several pages at once?","acceptedAnswer":{"@type":"Answer","text":"Yes. Click the circle on the corner of each page you want to affect, or use Select All, then press the rotate button in the toolbar. Every selected page turns together. The same works for deleting a batch of pages in one action."}},
+            {"@type":"Question","name":"Can I undo a mistake?","acceptedAnswer":{"@type":"Answer","text":"Nothing is applied to your actual file until you click Save, so you can experiment freely. The Reset button in the toolbar restores every page to its original position and rotation instantly. Your uploaded document is never modified in place."}},
+            {"@type":"Question","name":"Does reordering or rotating reduce quality?","acceptedAnswer":{"@type":"Answer","text":"No. Pages are copied across at their original resolution with fonts, vector graphics, and embedded images fully intact. Rotation is stored as a page property rather than by re-rendering the content, so text stays sharp and selectable."}},
+            {"@type":"Question","name":"How many pages can I organize at once?","acceptedAnswer":{"@type":"Answer","text":"There is no hard limit, though very large documents take longer to render thumbnails in the browser. Files up to a few hundred pages work comfortably on a normal computer. For very long documents, consider splitting first and organizing each part separately."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Organize PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/organize-pdf"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Organize PDF</a><span>›</span><strong>Organize PDF Pages</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Organize PDF</h1>
+<p class="subtitle">Reorder, rotate, and delete pages — all in one place</p>
+
+{% if error %}
+<p class="error-msg">⚠️ {{ error }}</p>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data" id="orgForm">
+    <input type="hidden" name="page_data" id="pageData">
+
+    <div id="dropArea" class="drop-area">
+        <div class="drop-icon">🗂</div>
+        <h2>Drag &amp; Drop PDF File Here</h2>
+        <p>OR</p>
+        <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+    </div>
+
+    <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+    <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+        <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+        <div class="password-wrap" style="margin:0 auto 12px;">
+            <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+            <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+        </div>
+        <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock &amp; Continue</button>
+        <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+    </div>
+    <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+
+    <div id="orgBar">
+        <button type="button" class="ob-btn" onclick="selectAll()">☑ Select All</button>
+        <button type="button" class="ob-btn" onclick="selectNone()">☐ Clear</button>
+        <div class="ob-sep"></div>
+        <button type="button" class="ob-btn" onclick="rotateSelected(-90)">↺ Left</button>
+        <button type="button" class="ob-btn" onclick="rotateSelected(90)">↻ Right</button>
+        <div class="ob-sep"></div>
+        <button type="button" class="ob-btn danger" onclick="deleteSelected()">🗑 Delete</button>
+        <button type="button" class="ob-btn" onclick="resetAll()">⟲ Reset</button>
+        <span id="orgCount"></span>
+    </div>
+
+    <p id="orgHint">Drag a page to move it &nbsp;·&nbsp; click the circle to select &nbsp;·&nbsp; use the buttons on each card</p>
+
+    <div id="orgGrid"></div>
+    <p id="emptyWarn">⚠️ All pages removed. Click Reset to start over.</p>
+
+    <div id="orgSave">
+        <button type="submit" class="btn">💾 Save &amp; Download PDF</button>
+    </div>
+</form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+var pdfInput = document.getElementById("pdfInput");
+var dropArea = document.getElementById("dropArea");
+var grid     = document.getElementById("orgGrid");
+var orgBar   = document.getElementById("orgBar");
+var orgSave  = document.getElementById("orgSave");
+
+var _file = null;
+var pages = [];          // [{orig, rot, sel, canvas}]
+var _totalPages = 0;
+var _dragIdx = null;
+
+function handleFile(file) { _file = file; tryLoad(null); }
+
+function tryLoad(password) {
+    if (!_file) return;
+    var r = new FileReader();
+    r.onload = function(e) {
+        var opts = password ? {data: new Uint8Array(e.target.result), password: password}
+                            : {data: new Uint8Array(e.target.result)};
+        pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+            document.getElementById("pdfPasswordPrompt").style.display = "none";
+            _totalPages = pdf.numPages;
+            pages = [];
+            grid.innerHTML = "";
+
+            var jobs = [];
+            for (var i = 1; i <= _totalPages; i++) jobs.push(renderThumb(pdf, i));
+            Promise.all(jobs).then(function() {
+                pages.sort(function(a, b) { return a.orig - b.orig; });
+                dropArea.style.display = "none";
+                orgBar.classList.add("visible");
+                orgSave.classList.add("visible");
+                repaint();
+            });
+        }).catch(function(err) {
+            if (err.name === "PasswordException") {
+                document.getElementById("pdfPasswordPrompt").style.display = "block";
+                if (password) document.getElementById("pdfPassError").style.display = "block";
+                setTimeout(function(){ document.getElementById("pdfPassInput").focus(); }, 100);
+            }
+        });
+    };
+    r.readAsArrayBuffer(_file);
+}
+
+function renderThumb(pdf, num) {
+    return pdf.getPage(num).then(function(page) {
+        var vp = page.getViewport({scale: 0.5});
+        var c = document.createElement("canvas");
+        c.width = vp.width; c.height = vp.height;
+        return page.render({canvasContext: c.getContext("2d"), viewport: vp}).promise.then(function() {
+            pages.push({orig: num, rot: 0, sel: false, canvas: c});
+        });
+    });
+}
+
+function repaint() {
+    grid.innerHTML = "";
+    pages.forEach(function(p, idx) {
+        var card = document.createElement("div");
+        card.className = "pg-card" + (p.sel ? " selected" : "");
+        card.draggable = true;
+        card.dataset.idx = idx;
+
+        var chk = document.createElement("div");
+        chk.className = "pg-check";
+        chk.textContent = "✓";
+        chk.onclick = function(e) { e.stopPropagation(); p.sel = !p.sel; repaint(); };
+
+        p.canvas.style.transform = "rotate(" + p.rot + "deg)";
+        var holder = document.createElement("div");
+        holder.appendChild(p.canvas);
+
+        var rotLbl = document.createElement("div");
+        rotLbl.className = "pg-rot";
+        rotLbl.textContent = p.rot ? p.rot + "°" : "";
+
+        var num = document.createElement("div");
+        num.className = "pg-num";
+        num.textContent = (idx + 1) + "  (was " + p.orig + ")";
+
+        var tools = document.createElement("div");
+        tools.className = "pg-tools";
+        tools.innerHTML =
+            '<button type="button" title="Move left">←</button>' +
+            '<button type="button" title="Rotate">↻</button>' +
+            '<button type="button" class="del" title="Delete">🗑</button>' +
+            '<button type="button" title="Move right">→</button>';
+        var tb = tools.querySelectorAll("button");
+        tb[0].onclick = function(e){ e.stopPropagation(); move(idx, -1); };
+        tb[1].onclick = function(e){ e.stopPropagation(); p.rot = (p.rot + 90) % 360; repaint(); };
+        tb[2].onclick = function(e){ e.stopPropagation(); pages.splice(idx, 1); repaint(); };
+        tb[3].onclick = function(e){ e.stopPropagation(); move(idx, 1); };
+
+        card.appendChild(chk);
+        card.appendChild(holder);
+        card.appendChild(rotLbl);
+        card.appendChild(num);
+        card.appendChild(tools);
+
+        card.addEventListener("dragstart", function(e) {
+            _dragIdx = idx; card.classList.add("dragging");
+            e.dataTransfer.effectAllowed = "move";
+        });
+        card.addEventListener("dragend", function() {
+            card.classList.remove("dragging");
+            document.querySelectorAll(".pg-card").forEach(function(c){ c.classList.remove("drop-target"); });
+        });
+        card.addEventListener("dragover", function(e) {
+            e.preventDefault(); card.classList.add("drop-target");
+        });
+        card.addEventListener("dragleave", function() { card.classList.remove("drop-target"); });
+        card.addEventListener("drop", function(e) {
+            e.preventDefault();
+            card.classList.remove("drop-target");
+            if (_dragIdx === null || _dragIdx === idx) return;
+            var moved = pages.splice(_dragIdx, 1)[0];
+            pages.splice(idx, 0, moved);
+            _dragIdx = null;
+            repaint();
+        });
+
+        grid.appendChild(card);
+    });
+
+    var selCount = pages.filter(function(p){ return p.sel; }).length;
+    document.getElementById("orgCount").textContent =
+        pages.length + " page" + (pages.length === 1 ? "" : "s") +
+        (selCount ? "  ·  " + selCount + " selected" : "");
+    document.getElementById("emptyWarn").classList.toggle("visible", pages.length === 0);
+    syncField();
+}
+
+function move(idx, dir) {
+    var t = idx + dir;
+    if (t < 0 || t >= pages.length) return;
+    var tmp = pages[idx]; pages[idx] = pages[t]; pages[t] = tmp;
+    repaint();
+}
+
+function selectAll()  { pages.forEach(function(p){ p.sel = true;  }); repaint(); }
+function selectNone() { pages.forEach(function(p){ p.sel = false; }); repaint(); }
+
+function rotateSelected(deg) {
+    var target = pages.filter(function(p){ return p.sel; });
+    if (target.length === 0) target = pages;
+    target.forEach(function(p){ p.rot = (p.rot + deg + 360) % 360; });
+    repaint();
+}
+
+function deleteSelected() {
+    var keep = pages.filter(function(p){ return !p.sel; });
+    if (keep.length === pages.length) { alert("Select at least one page to delete."); return; }
+    pages = keep;
+    repaint();
+}
+
+function resetAll() {
+    if (!_file) return;
+    tryLoad(document.getElementById("pdfPasswordHidden").value || null);
+}
+
+function syncField() {
+    document.getElementById("pageData").value =
+        pages.map(function(p){ return p.orig + ":" + p.rot; }).join(",");
+}
+
+document.getElementById("orgForm").addEventListener("submit", function(e) {
+    if (_file && pages.length === 0) { e.preventDefault(); alert("Keep at least one page."); }
+});
+
+function confirmPdfPassword() {
+    var p = document.getElementById("pdfPassInput").value;
+    if (!p) return;
+    document.getElementById("pdfPassError").style.display = "none";
+    document.getElementById("pdfPasswordHidden").value = p;
+    tryLoad(p);
+}
+
+function togglePdfPass(btn) {
+    var i = document.getElementById("pdfPassInput");
+    i.type = i.type === "password" ? "text" : "password";
+    btn.querySelector("svg").setAttribute("stroke", i.type === "text" ? "#F9A825" : "#888");
+}
+
+pdfInput.addEventListener("change", function(){ if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+dropArea.addEventListener("dragover", function(e){ e.preventDefault(); dropArea.classList.add("drag-over"); });
+dropArea.addEventListener("dragleave", function(){ dropArea.classList.remove("drag-over"); });
+dropArea.addEventListener("drop", function(e) {
+    e.preventDefault(); dropArea.classList.remove("drag-over");
+    if (e.dataTransfer.files[0]) {
+        var dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+        pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+    }
+});
+dropArea.addEventListener("click", function(e){ if (!e.target.closest("label")) pdfInput.click(); });
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How is this different from the Rearrange, Rotate, and Delete Pages tools?</div>
+    <div class="faq-a">Those three tools each do one job, and each requires its own upload and download. Organize PDF combines all of them into a single visual editor, so you can drag a page into a new position, turn it the right way up, and delete the one after it without ever leaving the screen. One upload, one download, all your changes applied together.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I move a page to a different position?</div>
+    <div class="faq-a">Drag any page thumbnail and drop it where you want it — the surrounding pages shift to make room and the numbering updates immediately. On a phone or tablet, use the ← and → buttons on each card to nudge a page one step at a time.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I rotate several pages at once?</div>
+    <div class="faq-a">Yes. Click the circle on the corner of each page you want to affect, or press Select All, then use the rotate buttons in the toolbar. Every selected page turns together. Batch deleting works the same way.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I undo a mistake?</div>
+    <div class="faq-a">Nothing is applied to your actual file until you click Save, so you can experiment freely. The Reset button restores every page to its original position and rotation instantly, and your uploaded document is never modified in place.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does reordering or rotating reduce quality?</div>
+    <div class="faq-a">No. Pages are copied across at their original resolution with fonts, vector graphics, and embedded images fully intact. Rotation is stored as a page property rather than by re-rendering the content, so text stays sharp and fully selectable.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How many pages can I organize at once?</div>
+    <div class="faq-a">There is no hard limit, though very large documents take longer to render thumbnails in the browser. Files up to a few hundred pages work comfortably on a normal computer. For very long documents, consider using <a href="/split">Split PDF</a> first and organizing each part separately.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Organize PDF Pages Online — Free Visual PDF Page Manager</h2>
+<p>Most PDF editors make you fix one thing at a time. You upload a file to reorder the pages, download it, upload it again to rotate the sideways scan, download it again, then upload a third time to delete the pages you did not want. Organize PDF does all three at once in a single visual editor: every page appears as a thumbnail you can drag, turn, and remove, and the whole set is saved in one download.</p>
+
+<h3>Everything You Can Do on One Screen</h3>
+<p><strong>Reorder by dragging.</strong> Pick up any page and drop it wherever it belongs. The rest of the document shifts to make room and the numbering updates live, so you always see the final sequence as you build it.</p>
+<p><strong>Rotate individual pages or batches.</strong> Every card has its own rotate button for one-off fixes. When a whole run of scans came out sideways, tick the ones you want and rotate them together from the toolbar.</p>
+<p><strong>Delete what you do not need.</strong> Remove a single page with the bin icon on its card, or select several and clear them in one action. Blank separators, duplicate scans, and cover sheets disappear without renumbering anything by hand.</p>
+<p><strong>Select in bulk.</strong> The circle on the corner of each thumbnail toggles selection, and Select All grabs the entire document at once — useful when every page needs the same rotation.</p>
+<p><strong>Reset at any time.</strong> Nothing touches your file until you save, so the Reset button returns everything to its original state whenever an experiment goes wrong.</p>
+
+<h3>Why Doing It All Together Matters</h3>
+<p>Beyond simply being faster, combining the operations avoids a real problem: every save-and-reupload cycle is a chance for something to go wrong. Compression settings can shift, bookmarks can be dropped, and it becomes easy to lose track of which version is current. Applying every change in one pass means the document is written exactly once, from the original source, with everything intact.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Anyone working with scans</strong> fixes pages that fed in upside down, removes the blank backs of double-sided sheets, and puts everything in the right order in one sitting. <strong>Students</strong> assemble readings and lecture notes into a coherent study document. <strong>Office teams</strong> tidy contracts and reports before circulating them — dropping internal notes, reordering appendices, straightening scanned signature pages. <strong>Legal and administrative staff</strong> build case bundles where page order has to match an index exactly. <strong>Anyone preparing something for print</strong> checks the sequence and orientation visually before committing paper to it.</p>
+
+<h3>How to Organize a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Every page renders as a thumbnail within a few seconds. Drag pages into the order you want, click the rotate button on any that need turning, and use the bin icon or bulk selection to remove what does not belong. When the layout on screen matches what you want, click Save and your reorganized PDF downloads immediately.</p>
+
+<h3>Working on a Phone or Tablet</h3>
+<p>Drag and drop is awkward on touchscreens, so every card also carries ← and → buttons that move a page one position at a time. Combined with the per-card rotate and delete buttons, the full feature set is usable on mobile without any dragging at all.</p>
+
+<h3>Quality Is Preserved Exactly</h3>
+<p>Pages are copied from the source document rather than re-rendered. Fonts stay embedded and text stays selectable and searchable. Vector graphics remain sharp at any zoom level. Photographs keep their original resolution with no additional compression. Rotation is written as a page attribute the PDF reader applies at display time, which is why a rotated page looks identical in quality to the original.</p>
+
+<h3>Password-Protected PDFs</h3>
+<p>Encrypted documents are supported directly. If your PDF needs a password, a prompt appears automatically after upload — enter it once and the thumbnails render as normal. To remove the password permanently instead, use our <a href="/unlock">Unlock PDF</a> tool first.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Thumbnails are rendered locally in your browser, so the visual editing happens entirely on your own machine. When you save, the file is processed in memory on our server and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy is retained.</p>
+
+<h3>Related PDF Tools</h3>
+<p>If you only need one specific operation, the focused tools are still there: <a href="/rearrange">Rearrange Pages</a> for reordering alone, <a href="/rotate">Rotate PDF</a> for orientation alone, and <a href="/delete-pages">Delete Pages</a> for removal alone. To strip out empty pages automatically, try <a href="/remove-blank-pages">Remove Blank Pages</a>, and to combine several documents first, use <a href="/merge">Merge PDF</a>.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/rearrange">Rearrange Pages</a> &nbsp;·&nbsp; <a href="/rotate">Rotate PDF</a> &nbsp;·&nbsp; <a href="/delete-pages">Delete Pages</a> &nbsp;·&nbsp; <a href="/remove-blank-pages">Remove Blank Pages</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

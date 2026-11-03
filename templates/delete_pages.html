@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete PDF Pages Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Delete or remove unwanted pages from your PDF online for free. No installation required. Fast and easy to use.">
+    <meta name="keywords" content="delete PDF pages, remove pages from PDF, PDF page remover, online PDF editor, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/delete-pages">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Delete PDF Pages - PDF Toolkit Demo">
+    <meta property="og:description" content="Remove unwanted pages from your PDF online for free.">
+    <meta property="og:url" content="https://example.com/delete-pages">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Delete PDF Pages - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Remove unwanted pages from your PDF online for free.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/delete-pages",
+          "url": "https://example.com/delete-pages",
+          "name": "Delete Pages - PDF Toolkit Demo",
+          "description": "Remove unwanted pages from your PDF file online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Organize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Delete Pages","item":"https://example.com/delete-pages"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How do I specify which pages to delete?","acceptedAnswer":{"@type":"Answer","text":"Enter the page numbers separated by commas, and use a hyphen for a continuous run. For example 2, 5, 9-12 removes page two, page five, and pages nine through twelve. Everything you do not list is kept."}},
+            {"@type":"Question","name":"Do the page numbers shift as pages are deleted?","acceptedAnswer":{"@type":"Answer","text":"No, and this is the detail that trips people up elsewhere. All your numbers refer to the original document as it stands right now. Deleting page three does not renumber page four to three mid-operation — the whole selection is evaluated against the original before anything is removed."}},
+            {"@type":"Question","name":"What is the difference between deleting and extracting pages?","acceptedAnswer":{"@type":"Answer","text":"Deleting keeps everything except the pages you name. Extract Pages does the opposite: it keeps only the pages you name and discards the rest. Choose whichever means typing fewer numbers — if you want 3 pages out of 200, extract; if you want to lose 3 out of 200, delete."}},
+            {"@type":"Question","name":"Can I automatically delete all the blank pages?","acceptedAnswer":{"@type":"Answer","text":"Not from this page — here you specify page numbers by hand. For automatic detection use Remove Blank Pages, which scans the document, finds every empty page itself, and removes them all in one pass."}},
+            {"@type":"Question","name":"Will deleting pages affect the quality of the remaining ones?","acceptedAnswer":{"@type":"Answer","text":"No. The pages you keep are copied across untouched with their original resolution, embedded fonts, and images fully intact. Only the page objects you removed are dropped, so file size goes down while quality stays exactly the same."}},
+            {"@type":"Question","name":"Can I delete pages from a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. If your file is encrypted, a password prompt appears automatically after upload. Enter it once and the operation proceeds normally. To remove the password permanently instead, run the file through our Unlock PDF tool first."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Delete Pages — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/delete-pages"
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Organize PDF</a><span>›</span><strong>Delete Pages</strong>
+</nav>
+
+
+<div class="container">
+<h1 class="page-title">Delete Pages</h1>
+    <p class="subtitle">Remove unwanted pages from your PDF</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" id="splitForm">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🗑️</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+        </div>
+
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="modeSection" style="display:none;">
+
+            <div class="mode-tabs">
+                <button type="button" class="mode-btn active" onclick="setMode('visual')">🖼️ Visual Editor</button>
+                <button type="button" class="mode-btn" onclick="setMode('range')">📄 Page Range</button>
+            </div>
+
+            <div id="visualSection">
+                <p class="mode-hint">Click ✖ to remove pages • Drag to reorder</p>
+                <div id="visualGrid" class="visual-grid"></div>
+                <input type="hidden" name="page_order" id="pageOrderInput">
+            </div>
+
+            <div id="rangeSection" style="display:none;">
+                <p class="mode-hint">Enter pages to delete. Example: <strong>1-3, 5, 7</strong></p>
+                <input type="text" name="ranges" id="rangesInput" class="range-input" placeholder="e.g. 1-3, 5, 7">
+            </div>
+
+            <input type="hidden" name="mode" id="modeInput" value="visual">
+
+            <button type="submit" id="splitBtn" class="btn">🗑️ Delete Pages</button>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script src="{{ url_for('static', filename='js/split.js') }}"></script>
+
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I specify which pages to delete?</div>
+    <div class="faq-a">Enter the page numbers separated by commas, and use a hyphen for a continuous run. For example <code>2, 5, 9-12</code> removes page two, page five, and pages nine through twelve. Everything you do not list is kept.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Do the page numbers shift as pages are deleted?</div>
+    <div class="faq-a">No, and this is the detail that trips people up elsewhere. All your numbers refer to the original document as it stands right now. Deleting page three does not renumber page four to three mid-operation — the whole selection is evaluated against the original before anything is removed.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What is the difference between deleting and extracting pages?</div>
+    <div class="faq-a">Deleting keeps everything except the pages you name. <a href='/extract-pages'>Extract Pages</a> does the opposite: it keeps only the pages you name and discards the rest. Choose whichever means typing fewer numbers — if you want 3 pages out of 200, extract; if you want to lose 3 out of 200, delete.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I automatically delete all the blank pages?</div>
+    <div class="faq-a">Not from this page — here you specify page numbers by hand. For automatic detection use <a href='/remove-blank-pages'>Remove Blank Pages</a>, which scans the document, finds every empty page itself, and removes them all in one pass.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will deleting pages affect the quality of the remaining ones?</div>
+    <div class="faq-a">No. The pages you keep are copied across untouched with their original resolution, embedded fonts, and images fully intact. Only the page objects you removed are dropped, so file size goes down while quality stays exactly the same.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I delete pages from a password-protected PDF?</div>
+    <div class="faq-a">Yes. If your file is encrypted, a password prompt appears automatically after upload. Enter it once and the operation proceeds normally. To remove the password permanently instead, run the file through our <a href='/unlock'>Unlock PDF</a> tool first.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Delete Pages from PDF Online — Free PDF Page Remover</h2>
+<p>Almost every real document contains pages nobody needs. A cover sheet that served its purpose, a blank separator between sections, a duplicate that got scanned twice, an internal note that should not go to the client. This tool removes them: enter the page numbers, download the trimmed file, done. It is free, needs no software, and leaves the remaining pages completely untouched.</p>
+
+<h3>Why Remove Pages?</h3>
+<p><strong>Confidentiality</strong> is the most important reason. Internal comments, pricing breakdowns, and draft notes frequently sit inside documents that later go to an outside party. Removing those pages before sending is a basic precaution and takes seconds.</p>
+<p><strong>Relevance</strong> comes next. Sending a two-hundred-page manual when the recipient needs one chapter wastes their time and buries the part that matters.</p>
+<p><strong>Cleanliness</strong> is the third. Fax cover sheets, scanner test pages, blank duplex backs, and duplicate scans all accumulate in documents that pass through several hands. Removing them makes the file look deliberate rather than assembled by accident.</p>
+
+<h3>How Page Numbering Works Here</h3>
+<p>This is worth being explicit about, because it is the single most common source of mistakes. <strong>Every number you enter refers to the original document exactly as it is now.</strong> If you ask to remove pages 3, 7, and 12, the tool looks at the document as a whole, marks those three pages, and removes them together. It does not delete page 3 first and then renumber everything so that what was page 4 becomes page 3.</p>
+<p>The practical consequence is that you can read the page numbers straight off your PDF reader and type them in without doing any arithmetic. Some tools require you to compensate for shifting numbers; this one does not.</p>
+
+<h3>Delete, Extract, or Split — Which One?</h3>
+<p><strong>Delete</strong> keeps everything except what you name, returning a single file. Best when the document is nearly right and only a few pages need to go.</p>
+<p><strong><a href="/extract-pages">Extract Pages</a></strong> keeps only what you name and discards the rest, also returning a single file. Best when you want a small section from a long document.</p>
+<p><strong><a href="/split">Split PDF</a></strong> divides the document into several output files. Best when you need each part to exist separately.</p>
+<p>Delete and extract are mirror images of each other, so pick whichever requires typing fewer numbers. Removing three pages from a two-hundred-page report is a deletion; keeping three pages out of two hundred is an extraction.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Sales and account teams</strong> strip internal margin notes from proposals before they go to the client. <strong>HR departments</strong> remove personal details from documents being circulated more widely. <strong>Students</strong> cut appendices and blank pages from scanned readings. <strong>Offices digitising paper</strong> delete scanner test sheets and separator pages. <strong>Legal teams</strong> remove privileged material from bundles being disclosed.</p>
+
+<h3>How to Delete Pages from a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. Type the pages you want removed, using commas for individual pages and hyphens for ranges — <code>1, 4, 8-11</code> is a valid entry. Check the numbers against your document, then click to process and your trimmed PDF downloads immediately.</p>
+<p>It is worth opening the result once to confirm the right pages went. The original file on your computer is never modified, so if the selection was wrong you can simply upload it again and try different numbers.</p>
+
+<h3>Smaller Files, Faster Sharing</h3>
+<p>Every page removed takes its content with it, which in a scanned document means a full-page image of several hundred kilobytes each time. Deleting twenty blank or unwanted pages from a scan can cut the file size dramatically — often enough on its own to get under an email attachment limit. If you need to go further, <a href="/compress">Compress PDF</a> reduces the size of the remaining pages too.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy is kept — which matters particularly here, since removing confidential pages is one of the main reasons people use this tool.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/extract-pages">Extract Pages</a> &nbsp;·&nbsp; <a href="/remove-blank-pages">Remove Blank Pages</a> &nbsp;·&nbsp; <a href="/split">Split PDF</a> &nbsp;·&nbsp; <a href="/organize-pdf">Organize PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

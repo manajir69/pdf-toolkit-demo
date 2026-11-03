@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI PDF Summarizer Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Summarize PDF documents online for free using AI. Extract key points and get a concise summary of any PDF.">
+    <meta name="keywords" content="PDF summarizer, summarize PDF, AI PDF summary, PDF key points extractor">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/summarize">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="AI PDF Summarizer - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/summarize">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="AI PDF Summarizer - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/summarize",
+          "url": "https://example.com/summarize",
+          "name": "Summarize PDF - PDF Toolkit Demo",
+          "description": "Get an AI-powered summary of your PDF document's key points.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"AI Tools","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Summarize PDF","item":"https://example.com/summarize"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How does the summary work?","acceptedAnswer":{"@type":"Answer","text":"The document's text is analysed to identify the most significant passages, which are drawn together into a shorter overview. It gives you the substance of a long document quickly, which is usually enough to decide whether the full text is worth your time."}},
+            {"@type":"Question","name":"Can it summarise a scanned PDF?","acceptedAnswer":{"@type":"Answer","text":"Not directly — a scan has no text to analyse, only images of pages. Run it through Extract Text (OCR) first to produce a text layer, then summarise the result."}},
+            {"@type":"Question","name":"How accurate is the summary?","acceptedAnswer":{"@type":"Answer","text":"It reliably identifies what a document is about and what its main points are. It is not a substitute for reading anything you intend to rely on, and should never replace reading a contract, a legal document, or anything with consequences attached."}},
+            {"@type":"Question","name":"What length of document works best?","acceptedAnswer":{"@type":"Answer","text":"Documents with a clear structure and sustained argument — reports, articles, papers, and proposals — summarise well. Very short documents have little to condense, and highly fragmented content such as tables of figures does not summarise meaningfully."}},
+            {"@type":"Question","name":"Does it work with any language?","acceptedAnswer":{"@type":"Answer","text":"Results are strongest for English. For documents in other languages, consider Translate PDF first, then summarise the translated text."}},
+            {"@type":"Question","name":"Are my documents stored on your server?","acceptedAnswer":{"@type":"Answer","text":"No. Your file is processed in memory and discarded once the summary is produced. Nothing is written to disk, nothing is logged, and no copy is retained."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Summarize PDF — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/summarize"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">AI Tools</a><span>›</span><strong>Summarize PDF</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">AI PDF Summarizer</h1>
+    <p class="subtitle">Get a smart summary of any PDF document</p>
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🤖</div>
+            <h2>Drag &amp; Drop File Here</h2><p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock &amp; Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint">Number of sentences in summary:</p>
+            <input type="number" name="num_sentences" class="range-input" value="10" min="3" max="30" style="width:120px;">
+            <br><br>
+            <button type="submit" class="btn">🤖 Summarize PDF</button>
+        </div>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function handleFile(file){window._pdfFile=file;fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";_tryLoadPdf(null);}
+    function _tryLoadPdf(password){if(!window._pdfFile)return;var r=new FileReader();r.onload=function(e){var data=new Uint8Array(e.target.result);var opts=password?{data:data,password:password}:{data:data};pdfjsLib.getDocument(opts).promise.then(function(pdf){if(password)document.getElementById("pdfPasswordHidden").value=password;document.getElementById("pdfPasswordPrompt").style.display="none";document.getElementById("pdfPassError").style.display="none";optionsSection.style.display="block";pdf.getPage(1).then(function(page){var canvas=document.getElementById("firstPageThumb");var ctx=canvas.getContext("2d");var vp=page.getViewport({scale:0.5});canvas.width=vp.width;canvas.height=vp.height;page.render({canvasContext:ctx,viewport:vp});});}).catch(function(err){if(err.name==="PasswordException"){document.getElementById("pdfPasswordPrompt").style.display="block";if(password)document.getElementById("pdfPassError").style.display="block";setTimeout(function(){document.getElementById("pdfPassInput").focus();},100);}});};r.readAsArrayBuffer(window._pdfFile);}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";document.getElementById("pdfPasswordPrompt").style.display="none";}
+    function confirmPdfPassword(){var pass=document.getElementById("pdfPassInput").value;if(!pass)return;document.getElementById("pdfPassError").style.display="none";_tryLoadPdf(pass);}
+    function togglePdfPass(btn){var inp=document.getElementById("pdfPassInput");inp.type=inp.type==="password"?"text":"password";btn.querySelector("svg").setAttribute("stroke",inp.type==="text"?"#F9A825":"#888");}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+
+</script>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How does the summary work?</div>
+    <div class="faq-a">The document's text is analysed to identify the most significant passages, which are drawn together into a shorter overview. It gives you the substance of a long document quickly, which is usually enough to decide whether the full text is worth your time.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can it summarise a scanned PDF?</div>
+    <div class="faq-a">Not directly — a scan has no text to analyse, only images of pages. Run it through <a href='/ocr'>Extract Text (OCR)</a> first to produce a text layer, then summarise the result.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How accurate is the summary?</div>
+    <div class="faq-a">It reliably identifies what a document is about and what its main points are. It is not a substitute for reading anything you intend to rely on, and should never replace reading a contract, a legal document, or anything with consequences attached.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What length of document works best?</div>
+    <div class="faq-a">Documents with a clear structure and sustained argument — reports, articles, papers, and proposals — summarise well. Very short documents have little to condense, and highly fragmented content such as tables of figures does not summarise meaningfully.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does it work with any language?</div>
+    <div class="faq-a">Results are strongest for English. For documents in other languages, consider <a href='/translate'>Translate PDF</a> first, then summarise the translated text.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my documents stored on your server?</div>
+    <div class="faq-a">No. Your file is processed in memory and discarded once the summary is produced. Nothing is written to disk, nothing is logged, and no copy is retained.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Summarize PDF Online — Free AI-Powered Document Summary</h2>
+<p>Get a concise overview of a long PDF in seconds. Upload the document and receive a summary of its main points — enough to know what it says and whether it warrants reading in full. Free, immediate, no software required.</p>
+
+<h3>The Problem With Long Documents</h3>
+<p>Most documents that land on you are not ones you chose. A supplier sends a sixty-page specification, a committee circulates a report, a colleague forwards a paper "worth a look". Each represents an hour you had not planned for, and often the useful conclusion is that it was not relevant to you at all.</p>
+<p>The genuinely wasteful part is not reading things carefully — it is reading things carefully to discover they did not need reading. A summary answers that question in seconds rather than an hour, and lets you spend your attention on the documents that actually deserve it.</p>
+
+<h3>What a Summary Is Good For</h3>
+<p><strong>Triage.</strong> The primary use. Is this relevant? Does it affect my work? Do I need to read it properly? A summary answers all three quickly.</p>
+<p><strong>Recall.</strong> Coming back to a document you read months ago, a summary reminds you what it contained faster than skimming it again.</p>
+<p><strong>Briefing.</strong> Explaining to a colleague what a document says without either of you reading the whole thing.</p>
+<p><strong>Screening a set.</strong> Faced with twenty candidate papers or reports, summarising each identifies the three that matter before you commit real time to any of them.</p>
+
+<h3>What a Summary Is Not Good For</h3>
+<p>This deserves stating plainly. <strong>Never rely on a summary for anything with consequences attached.</strong></p>
+<p>Contracts, legal documents, medical information, regulatory requirements, financial commitments, and safety instructions all need reading in full. The significant content in those documents frequently sits in exactly the places a summary compresses — a conditional clause, a specific figure, an exception that applies only in certain circumstances.</p>
+<p>A summary tells you what a document is broadly about. It does not tell you what you are agreeing to. Use it to decide what to read, not as a replacement for reading.</p>
+
+<h3>What Summarises Well</h3>
+<p><strong>Reports, articles, and research papers</strong> summarise well because they have a clear structure and a sustained argument with identifiable main points.</p>
+<p><strong>Proposals and business documents</strong> summarise well for the same reason.</p>
+<p><strong>Meeting minutes and correspondence</strong> summarise reasonably, though action items are worth checking directly.</p>
+<p><strong>Tables, figures, and reference material</strong> do not summarise meaningfully — there is no argument to condense, just data that either matters to you or does not.</p>
+<p><strong>Contracts and legal text</strong> can be summarised for orientation but must never be relied upon in that form.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Researchers and students</strong> screening papers to decide which to read properly. <strong>Managers</strong> processing reports and proposals arriving faster than they can be read. <strong>Consultants</strong> getting up to speed on unfamiliar material at the start of an engagement. <strong>Journalists</strong> assessing whether a lengthy release or filing contains anything of interest. <strong>Anyone facing a backlog</strong> of documents they are expected to have read.</p>
+
+<h3>How to Summarize a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. The text is analysed and a summary is produced. Read it, decide whether the full document is worth your time, and read properly if the answer is yes.</p>
+
+<h3>Scanned Documents Need OCR First</h3>
+<p>If your PDF came from a scanner, it contains images rather than text and there is nothing to analyse. <a href="/ocr">Extract Text (OCR)</a> recognises the characters and produces a text layer, after which summarisation works normally.</p>
+
+<h3>Documents in Other Languages</h3>
+<p>Summarisation works best on English text. For documents in other languages, running them through <a href="/translate">Translate PDF</a> first and then summarising the translation generally produces better results than summarising the original directly.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded once the summary is produced. Nothing is written to disk, nothing is logged, and no copy is retained.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/ocr">Extract Text (OCR)</a> &nbsp;·&nbsp; <a href="/translate">Translate PDF</a> &nbsp;·&nbsp; <a href="/pdf-to-word">PDF to Word</a> &nbsp;·&nbsp; <a href="/extract-pages">Extract Pages</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

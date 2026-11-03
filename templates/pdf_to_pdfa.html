@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to PDF/A Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Convert PDF to PDF/A for long-term archiving online for free. Create ISO-compliant PDF/A files instantly.">
+    <meta name="keywords" content="PDF to PDF/A, PDF archiving, PDF/A converter, ISO PDF, long term PDF archiving">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/pdf-to-pdfa">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF to PDF/A - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/pdf-to-pdfa">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="PDF to PDF/A - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/pdf-to-pdfa",
+          "url": "https://example.com/pdf-to-pdfa",
+          "name": "PDF to PDF/A - PDF Toolkit Demo",
+          "description": "Convert PDF to PDF/A format for long-term archiving and compliance.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Optimize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"PDF to PDF/A","item":"https://example.com/pdf-to-pdfa"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What is PDF/A and how is it different?","acceptedAnswer":{"@type":"Answer","text":"PDF/A is a restricted version of PDF designed for long-term archiving. It requires everything needed to display the document to be contained inside the file itself, and forbids features that depend on external resources or that may not be supported decades from now."}},
+            {"@type":"Question","name":"Why does archiving need a special format?","acceptedAnswer":{"@type":"Answer","text":"Because an ordinary PDF can reference fonts installed on the computer opening it. That works today and fails in twenty years when the font no longer exists, causing substitution and layout shifts. PDF/A embeds everything so the document renders identically regardless of what is installed."}},
+            {"@type":"Question","name":"What is not allowed in PDF/A?","acceptedAnswer":{"@type":"Answer","text":"JavaScript, embedded audio and video, encryption, external content references, and non-embedded fonts. Each is excluded because it either depends on something outside the file or cannot be guaranteed to work in the distant future."}},
+            {"@type":"Question","name":"Will my document look different after conversion?","acceptedAnswer":{"@type":"Answer","text":"It should look the same. Conversion embeds what was previously referenced and removes features that were not part of the visible content anyway. Check the result, particularly if the original used unusual fonts."}},
+            {"@type":"Question","name":"Who needs PDF/A?","acceptedAnswer":{"@type":"Answer","text":"Anyone with a retention obligation — courts, government bodies, universities, libraries, medical records departments, and regulated industries. Many require PDF/A specifically for submissions, and it is a sensible default for anything that must remain readable for decades."}},
+            {"@type":"Question","name":"Can PDF/A files be password-protected?","acceptedAnswer":{"@type":"Answer","text":"No. Encryption is prohibited by the standard, because a password protecting an archive is a password that will eventually be lost. Store PDF/A files in a secure location rather than encrypting them individually."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "PDF to PDF/A — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/pdf-to-pdfa"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Optimize PDF</a><span>›</span><strong>PDF to PDF/A</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">PDF to PDF/A</h1>
+    <p class="subtitle">Convert PDF to PDF/A for long-term archiving</p>
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🗄️</div>
+            <h2>Drag & Drop PDF File Here</h2><p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint">PDF/A Version:</p>
+            <div class="mode-tabs">
+                <button type="button" class="mode-btn active" onclick="setVer(this,'1b')">PDF/A-1b</button>
+                <button type="button" class="mode-btn" onclick="setVer(this,'2b')">PDF/A-2b</button>
+            </div>
+            <input type="hidden" name="pdfa_version" id="pdfaVersionInput" value="1b">
+            <br>
+            <button type="submit" class="btn">🗄️ Convert to PDF/A</button>
+        </div>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function setVer(btn,val){document.querySelectorAll(".mode-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("pdfaVersionInput").value=val;}
+    function handleFile(file){window._pdfFile=file;fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";_tryLoadPdf(null);}
+    function _tryLoadPdf(password){if(!window._pdfFile)return;var r=new FileReader();r.onload=function(e){var data=new Uint8Array(e.target.result);var opts=password?{data:data,password:password}:{data:data};pdfjsLib.getDocument(opts).promise.then(function(pdf){if(password)document.getElementById("pdfPasswordHidden").value=password;document.getElementById("pdfPasswordPrompt").style.display="none";document.getElementById("pdfPassError").style.display="none";optionsSection.style.display="block";pdf.getPage(1).then(function(page){var canvas=document.getElementById("firstPageThumb");var ctx=canvas.getContext("2d");var vp=page.getViewport({scale:0.5});canvas.width=vp.width;canvas.height=vp.height;page.render({canvasContext:ctx,viewport:vp});});}).catch(function(err){if(err.name==="PasswordException"){document.getElementById("pdfPasswordPrompt").style.display="block";if(password)document.getElementById("pdfPassError").style.display="block";setTimeout(function(){document.getElementById("pdfPassInput").focus();},100);}});};r.readAsArrayBuffer(window._pdfFile);}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";document.getElementById("pdfPasswordPrompt").style.display="none";}
+    function confirmPdfPassword(){var pass=document.getElementById("pdfPassInput").value;if(!pass)return;document.getElementById("pdfPassError").style.display="none";_tryLoadPdf(pass);}
+    function togglePdfPass(btn){var inp=document.getElementById("pdfPassInput");inp.type=inp.type==="password"?"text":"password";btn.querySelector("svg").setAttribute("stroke",inp.type==="text"?"#F9A825":"#888");}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+</script>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What is PDF/A and how is it different?</div>
+    <div class="faq-a">PDF/A is a restricted version of PDF designed for long-term archiving. It requires everything needed to display the document to be contained inside the file itself, and forbids features that depend on external resources or that may not be supported decades from now.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why does archiving need a special format?</div>
+    <div class="faq-a">Because an ordinary PDF can reference fonts installed on the computer opening it. That works today and fails in twenty years when the font no longer exists, causing substitution and layout shifts. PDF/A embeds everything so the document renders identically regardless of what is installed.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What is not allowed in PDF/A?</div>
+    <div class="faq-a">JavaScript, embedded audio and video, encryption, external content references, and non-embedded fonts. Each is excluded because it either depends on something outside the file or cannot be guaranteed to work in the distant future.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will my document look different after conversion?</div>
+    <div class="faq-a">It should look the same. Conversion embeds what was previously referenced and removes features that were not part of the visible content anyway. Check the result, particularly if the original used unusual fonts.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Who needs PDF/A?</div>
+    <div class="faq-a">Anyone with a retention obligation — courts, government bodies, universities, libraries, medical records departments, and regulated industries. Many require PDF/A specifically for submissions, and it is a sensible default for anything that must remain readable for decades.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can PDF/A files be password-protected?</div>
+    <div class="faq-a">No. Encryption is prohibited by the standard, because a password protecting an archive is a password that will eventually be lost. Store PDF/A files in a secure location rather than encrypting them individually.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>PDF to PDF/A Converter Online — Free Archival PDF Conversion</h2>
+<p>Convert a PDF into PDF/A, the ISO-standardised format designed for long-term preservation. Upload your document and download a version built to remain readable decades from now. Free, immediate, and no software required.</p>
+
+<h3>What PDF/A Actually Solves</h3>
+<p>An ordinary PDF is allowed to depend on things outside itself. It can reference a font installed on the reader's computer rather than embedding it. It can link to external content. It can contain JavaScript, embedded media, and features that only certain software understands.</p>
+<p>All of this works today. The problem is the timescale of archiving. In twenty years the referenced font may not exist on any current system, the linked content will almost certainly have moved or vanished, and the software that understood a particular feature may no longer be made. The document opens, but it does not look the way it did — text reflows because a substitute font has different metrics, images are missing, and the layout that carried the meaning is gone.</p>
+<p><strong>PDF/A eliminates the dependencies.</strong> Everything required to display the document exactly as intended must be contained within the file. Nothing external, nothing conditional, nothing that requires a particular piece of software.</p>
+
+<h3>What the Standard Requires and Forbids</h3>
+<p><strong>Fonts must be embedded.</strong> Every typeface used is included in the file, so text renders identically regardless of what is installed on the machine opening it. This is the single most important requirement and the one that prevents the most common form of archival degradation.</p>
+<p><strong>Colour must be unambiguous.</strong> Colour profiles are embedded so that colours reproduce consistently rather than being interpreted differently by different systems.</p>
+<p><strong>JavaScript is prohibited.</strong> Executable content is a security concern and a dependency on an interpreter that may not exist in the future.</p>
+<p><strong>External references are prohibited.</strong> A document that depends on something it does not contain is not self-sufficient.</p>
+<p><strong>Audio and video are prohibited.</strong> Media codecs change and the format cannot guarantee they will remain playable.</p>
+<p><strong>Encryption is prohibited.</strong> A password protecting an archive is a password that will eventually be lost, taking the document with it.</p>
+
+<h3>Who Needs PDF/A</h3>
+<p><strong>Courts and legal filing systems</strong> frequently mandate PDF/A for submissions. <strong>Government departments</strong> require it for records subject to retention schedules. <strong>Universities</strong> specify it for thesis and dissertation deposits. <strong>Libraries and archives</strong> use it as their standard preservation format. <strong>Medical records departments</strong> rely on it for documents that must remain readable for decades. <strong>Regulated industries</strong> — pharmaceutical, financial, aerospace — use it for compliance documentation with long retention requirements.</p>
+<p>Beyond formal requirements, it is a sensible default for anything genuinely important: contracts, certificates, deeds, and records you expect to need long after the software that created them is obsolete.</p>
+
+<h3>How to Convert to PDF/A</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. The conversion embeds the fonts and colour information the standard requires and removes features it prohibits. Download the archival version.</p>
+<p>Open the result and compare it against the original, paying particular attention to any unusual typography. Font embedding occasionally shifts spacing very slightly, and it is worth confirming the document reads as intended before it goes into an archive you will not revisit for years.</p>
+
+<h3>File Size Will Increase</h3>
+<p>This is expected and not a fault. Embedding complete font files adds to the file size, sometimes substantially for documents using several typefaces. It is the direct cost of self-sufficiency, and for an archival document it is the right trade — a larger file that renders correctly in 2050 is worth considerably more than a smaller one that does not.</p>
+<p>Do not compress a PDF/A file afterwards, as compression may strip the embedded resources the standard requires and break compliance.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy is retained.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/repair">Repair PDF</a> recovers damaged files before archiving. <a href="/metadata">PDF Metadata</a> sets proper titles and descriptions, which matters for catalogued archives. <a href="/merge">Merge PDF</a> combines related documents into a single archival record.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/repair">Repair PDF</a> &nbsp;·&nbsp; <a href="/metadata">PDF Metadata</a> &nbsp;·&nbsp; <a href="/merge">Merge PDF</a> &nbsp;·&nbsp; <a href="/compress">Compress PDF</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>

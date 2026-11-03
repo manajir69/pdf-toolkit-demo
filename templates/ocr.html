@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract Text from PDF (OCR) Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Extract text from PDF files online for free. Copy text from scanned PDFs. No installation required.">
+    <meta name="keywords" content="PDF OCR, extract text from PDF, PDF text extractor, scanned PDF to text, free PDF tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/ocr">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Extract Text from PDF - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/ocr">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Extract Text from PDF - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .text-box { background: white; border: 2px solid #eee; border-radius: 10px; padding: 20px; text-align: left; margin: 15px auto; max-width: 800px; }
+        .text-box h4 { color: #E53935; margin: 0 0 10px; font-size: 16px; }
+        .text-box pre { white-space: pre-wrap; font-size: 15px; color: #333; font-family: Arial, sans-serif; line-height: 1.6; margin: 0; }
+        .copy-btn { background: #F9A825; color: white; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; font-size: 14px; float: right; }
+        .copy-btn:hover { background: #EF6C00; }
+    </style>
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/ocr",
+          "url": "https://example.com/ocr",
+          "name": "Extract Text (OCR) - PDF Toolkit Demo",
+          "description": "Extract text from scanned PDFs using OCR technology online for free.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Optimize PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"Extract Text (OCR)","item":"https://example.com/ocr"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"What does OCR actually do?","acceptedAnswer":{"@type":"Answer","text":"Optical Character Recognition looks at a picture of text and works out which characters it shows. A scanned page is just an image — the words are visual shapes, not data. OCR converts those shapes into real text you can select, copy, and search."}},
+            {"@type":"Question","name":"How do I tell if my PDF needs OCR?","acceptedAnswer":{"@type":"Answer","text":"Open it and try to select a sentence with your cursor. If the text highlights, there is already a text layer and you do not need OCR. If nothing selects no matter where you drag, the page is an image and OCR is exactly what you need."}},
+            {"@type":"Question","name":"How accurate is the recognition?","acceptedAnswer":{"@type":"Answer","text":"On a clean, straight scan of ordinary printed text, accuracy is very high — typically well above 95%. It falls with poor scan quality, unusual or decorative fonts, faint or uneven printing, skewed pages, and handwriting, which remains genuinely difficult for OCR."}},
+            {"@type":"Question","name":"How can I get better results?","acceptedAnswer":{"@type":"Answer","text":"Scan quality matters more than anything else. Scan at 300 DPI or higher, keep the page straight rather than skewed, use good even lighting if photographing rather than scanning, and make sure the contrast between text and paper is strong. Use Crop PDF to remove dark scanner borders first, as they can confuse recognition."}},
+            {"@type":"Question","name":"Does OCR work on handwritten text?","acceptedAnswer":{"@type":"Answer","text":"Printed text is what OCR is designed for. Handwriting varies enormously between individuals and results are unreliable — neat, well-separated block capitals sometimes work reasonably, but ordinary cursive writing generally does not."}},
+            {"@type":"Question","name":"What do I do with the text afterwards?","acceptedAnswer":{"@type":"Answer","text":"Copy it into any document or editor. If you want the whole thing as an editable Word file, run the document through PDF to Word once it has a text layer, or paste the recognised text directly into your word processor."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Extract Text (OCR) — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/ocr"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Optimize PDF</a><span>›</span><strong>Extract Text (OCR)</strong>
+</nav>
+
+<div class="container">
+<h1 class="page-title">Extract Text</h1>
+    <p class="subtitle">Extract and copy text from your PDF file</p>
+
+    {% if error %}
+    <p class="error-msg">⚠️ {{ error }}</p>
+    {% endif %}
+
+    {% if pages %}
+    <p style="color:#555; font-size:18px;">📄 <strong>{{ filename }}</strong> — {{ pages|length }} page(s)</p>
+    {% for p in pages %}
+    <div class="text-box">
+        <h4>Page {{ p.page }} <button class="copy-btn" onclick="copyText(this)">📋 Copy</button></h4>
+        <pre>{{ p.text }}</pre>
+    </div>
+    {% endfor %}
+    <br>
+    <a href="/ocr" class="btn" style="text-decoration:none;">↩ Try Another File</a>
+    {% else %}
+
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">🔍</div>
+            <h2>Drag & Drop PDF File Here</h2>
+            <p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock & Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <button type="submit" class="btn">🔍 Extract Text</button>
+        </div>
+
+    </form>
+    {% endif %}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    function copyText(btn) {
+        const pre = btn.closest(".text-box").querySelector("pre");
+        navigator.clipboard.writeText(pre.textContent).then(() => {
+            btn.textContent = "✅ Copied!";
+            setTimeout(() => btn.textContent = "📋 Copy", 2000);
+        });
+    }
+
+    const pdfInput = document.getElementById("pdfInput");
+    if (pdfInput) {
+        const dropArea = document.getElementById("dropArea");
+        const fileCard = document.getElementById("fileCard");
+        const fileName = document.getElementById("fileName");
+        const optionsSection = document.getElementById("optionsSection");
+
+        function handleFile(file) {
+            window._pdfFile = file;
+            fileName.textContent = file.name;
+            dropArea.style.display = "none";
+            fileCard.style.display = "flex";
+            _tryLoadPdf(null);
+        }
+
+        function _tryLoadPdf(password) {
+            if (!window._pdfFile) return;
+            var r = new FileReader();
+            r.onload = function(e) {
+                var data = new Uint8Array(e.target.result);
+                var opts = password ? {data: data, password: password} : {data: data};
+                pdfjsLib.getDocument(opts).promise.then(function(pdf) {
+                    if (password) document.getElementById("pdfPasswordHidden").value = password;
+                    document.getElementById("pdfPasswordPrompt").style.display = "none";
+                    document.getElementById("pdfPassError").style.display = "none";
+                    document.getElementById("optionsSection").style.display = "block";
+                    pdf.getPage(1).then(function(page) {
+                        var canvas = document.getElementById("firstPageThumb");
+                        var ctx = canvas.getContext("2d");
+                        var vp = page.getViewport({ scale: 0.5 });
+                        canvas.width = vp.width; canvas.height = vp.height;
+                        page.render({ canvasContext: ctx, viewport: vp });
+                    });
+                }).catch(function(err) {
+                    if (err.name === "PasswordException") {
+                        document.getElementById("pdfPasswordPrompt").style.display = "block";
+                        if (password) document.getElementById("pdfPassError").style.display = "block";
+                        setTimeout(function() { document.getElementById("pdfPassInput").focus(); }, 100);
+                    }
+                });
+            };
+            r.readAsArrayBuffer(window._pdfFile);
+        }
+
+        pdfInput.addEventListener("change", () => { if (pdfInput.files[0]) handleFile(pdfInput.files[0]); });
+        dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
+        dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+        dropArea.addEventListener("drop", e => {
+            e.preventDefault(); dropArea.classList.remove("drag-over");
+            if (e.dataTransfer.files[0]) {
+                const dt = new DataTransfer(); dt.items.add(e.dataTransfer.files[0]);
+                pdfInput.files = dt.files; handleFile(e.dataTransfer.files[0]);
+            }
+        });
+        dropArea.addEventListener("click", (e) => { if (!e.target.closest("label")) pdfInput.click(); });
+
+        function removeFile() {
+            pdfInput.value = "";
+            fileCard.style.display = "none";
+            optionsSection.style.display = "none";
+            dropArea.style.display = "";
+        }
+    }
+
+    function confirmPdfPassword() {
+        var pass = document.getElementById("pdfPassInput").value;
+        if (!pass) return;
+        document.getElementById("pdfPassError").style.display = "none";
+        _tryLoadPdf(pass);
+    }
+    function togglePdfPass(btn) {
+        var inp = document.getElementById("pdfPassInput");
+        var svg = btn.querySelector("svg");
+        inp.type = inp.type === "password" ? "text" : "password";
+        svg.setAttribute("stroke", inp.type === "text" ? "#F9A825" : "#888");
+    }
+
+</script>
+
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What does OCR actually do?</div>
+    <div class="faq-a">Optical Character Recognition looks at a picture of text and works out which characters it shows. A scanned page is just an image — the words are visual shapes, not data. OCR converts those shapes into real text you can select, copy, and search.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How do I tell if my PDF needs OCR?</div>
+    <div class="faq-a">Open it and try to select a sentence with your cursor. If the text highlights, there is already a text layer and you do not need OCR. If nothing selects no matter where you drag, the page is an image and OCR is exactly what you need.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How accurate is the recognition?</div>
+    <div class="faq-a">On a clean, straight scan of ordinary printed text, accuracy is very high — typically well above 95%. It falls with poor scan quality, unusual or decorative fonts, faint or uneven printing, skewed pages, and handwriting, which remains genuinely difficult for OCR.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How can I get better results?</div>
+    <div class="faq-a">Scan quality matters more than anything else. Scan at 300 DPI or higher, keep the page straight rather than skewed, use good even lighting if photographing rather than scanning, and make sure the contrast between text and paper is strong. Use <a href='/crop'>Crop PDF</a> to remove dark scanner borders first, as they can confuse recognition.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Does OCR work on handwritten text?</div>
+    <div class="faq-a">Printed text is what OCR is designed for. Handwriting varies enormously between individuals and results are unreliable — neat, well-separated block capitals sometimes work reasonably, but ordinary cursive writing generally does not.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What do I do with the text afterwards?</div>
+    <div class="faq-a">Copy it into any document or editor. If you want the whole thing as an editable Word file, run the document through <a href='/pdf-to-word'>PDF to Word</a> once it has a text layer, or paste the recognised text directly into your word processor.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>Extract Text from PDF Online — Free OCR for Scanned Documents</h2>
+<p>Pull the text out of a PDF, including scanned pages where the words exist only as pictures. Upload your document and get back text you can select, copy, and search. Free, runs in the browser, and requires no software or account.</p>
+
+<h3>The Difference Between a Digital PDF and a Scan</h3>
+<p>Two PDFs can look completely identical on screen and be entirely different underneath, and understanding which kind you have explains everything about what you can do with it.</p>
+<p>A <strong>digital PDF</strong> — one exported from Word, a design tool, or a web page — contains real text. The characters are stored as data with fonts and positions. You can select a sentence, copy it, search for a word, and the reader finds it instantly.</p>
+<p>A <strong>scanned PDF</strong> contains a photograph of a page. To your eye it shows words; to the computer it is a grid of coloured pixels with no more textual meaning than a picture of a tree. Nothing can be selected, nothing can be searched, and nothing can be copied.</p>
+<p>OCR bridges that gap. It examines the image, identifies the shapes as letters, and produces actual text from them.</p>
+
+<h3>How to Check Which Kind You Have</h3>
+<p>Open the PDF and try to drag-select a line of text. If it highlights, you have a digital PDF with a text layer already. If your cursor draws a rectangle over the page but nothing highlights, it is a scan and OCR is what you need. This check takes two seconds and immediately tells you which tool to reach for.</p>
+
+<h3>What Affects Recognition Accuracy</h3>
+<p>OCR is pattern matching, so the cleaner the pattern the better the result.</p>
+<p><strong>Resolution</strong> matters most. At 300 DPI the letterforms are well defined and recognition is reliable; at 150 DPI characters blur together and errors multiply. If you control the scanning, use 300 DPI or higher.</p>
+<p><strong>Straightness</strong> matters more than people expect. Even a few degrees of skew degrades results noticeably, because the algorithm looks for text along horizontal lines.</p>
+<p><strong>Contrast</strong> matters. Crisp black on white recognises well; faded photocopies, coloured paper, and light grey printing all cause problems.</p>
+<p><strong>Typeface</strong> matters. Standard serif and sans-serif fonts are what OCR is trained on. Decorative, script, and heavily stylised fonts are much harder.</p>
+<p><strong>Cleanliness</strong> matters. Dust, staple marks, coffee rings, and dark scanner borders all introduce noise. Running the file through <a href="/crop">Crop PDF</a> first to trim away black edges often improves the outcome measurably.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Students and researchers</strong> pull quotations out of scanned books and journal articles instead of retyping them. <strong>Offices digitising archives</strong> make decades of paper records searchable. <strong>Legal teams</strong> search scanned discovery documents for specific terms. <strong>Accountants</strong> extract figures from scanned invoices and statements. <strong>Anyone who has been sent a scan</strong> and needs to quote from it or work with the content.</p>
+
+<h3>How to Extract Text from a PDF</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. The document is analysed and the recognised text is returned for you to copy and use. Longer documents take proportionally more time, since every page has to be processed individually.</p>
+<p>Always read through the result before relying on it. OCR is very good but not perfect, and the errors it makes tend to be plausible-looking substitutions — a lowercase l becoming a 1, or rn being read as m — rather than obvious nonsense. A quick proofread catches these.</p>
+
+<h3>Handwriting Is a Different Problem</h3>
+<p>OCR is built for printed text, where every instance of a letter looks essentially the same. Handwriting varies between individuals, and within the same person's writing from one line to the next. Neat, well-separated block capitals occasionally produce usable results, but ordinary cursive writing generally does not. This is a limitation of the technology rather than of any particular tool.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded the moment the operation finishes. Nothing is written to disk, nothing is logged, and no copy is retained — worth knowing when the scanned material is confidential correspondence or personal records.</p>
+
+<h3>Related PDF Tools</h3>
+<p><a href="/pdf-to-word">PDF to Word</a> produces an editable document from a PDF that already has a text layer. <a href="/crop">Crop PDF</a> removes scanner borders before recognition. <a href="/rotate">Rotate PDF</a> straightens pages that scanned sideways, and <a href="/translate">Translate PDF</a> converts the content into another language.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/pdf-to-word">PDF to Word</a> &nbsp;·&nbsp; <a href="/crop">Crop PDF</a> &nbsp;·&nbsp; <a href="/rotate">Rotate PDF</a> &nbsp;·&nbsp; <a href="/translate">Translate PDF</a></p>
+</div>
+
+{% include '_footer.html' %}
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Excel Online Free - PDF Toolkit Demo</title>
+    <meta name="description" content="Convert PDF tables to Excel spreadsheets online for free. Extract tabular data from PDF into XLSX format.">
+    <meta name="keywords" content="PDF to Excel, PDF to XLSX, extract table PDF, PDF spreadsheet converter">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/pdf-to-excel">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF to Excel - PDF Toolkit Demo">
+    <meta property="og:url" content="https://example.com/pdf-to-excel">
+    <meta property="og:image" content="https://example.com/static/images/logo.svg">
+        <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="PDF to Excel - PDF Toolkit Demo">
+    <meta name="twitter:description" content="Free online PDF tools.">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+    .breadcrumb { font-size: 13px; color: #888; margin: 8px 0 0; padding: 0 0 0 0; }
+    .breadcrumb a { color: #888; text-decoration: none; }
+    .breadcrumb a:hover { color: #e53935; }
+    .breadcrumb span { margin: 0 6px; }
+    .faq-section { max-width: 860px; margin: 90px auto 0; padding: 44px 20px 0; border-top: 1px solid #ececec; }
+    .faq-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: #222; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; font-size: 15px; color: #222; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: "+"; font-size: 20px; color: #e53935; font-weight: 300; }
+    .faq-q.open::after { content: "−"; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+    @media (max-width: 768px) {
+        .faq-section { margin-top: 56px; padding-top: 32px; }
+    }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://example.com/pdf-to-excel",
+          "url": "https://example.com/pdf-to-excel",
+          "name": "PDF to Excel - PDF Toolkit Demo",
+          "description": "Extract tables from PDF files and convert them to Excel spreadsheets.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://example.com/"},
+              {"@type":"ListItem","position":2,"name":"Convert PDF","item":"https://example.com/"},
+              {"@type":"ListItem","position":3,"name":"PDF to Excel","item":"https://example.com/pdf-to-excel"}
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type":"Question","name":"How well do tables convert?","acceptedAnswer":{"@type":"Answer","text":"Tables with clear ruled borders and consistent columns convert well. Tables that rely on white space alone to separate columns are harder, because the converter has to infer where one column ends and the next begins from spacing rather than from lines it can detect."}},
+            {"@type":"Question","name":"Can I convert a scanned PDF to Excel?","acceptedAnswer":{"@type":"Answer","text":"Not directly — a scan contains no text, only a picture of one. Run the file through Extract Text (OCR) first to recognise the characters. Bear in mind that OCR recovers text but not table structure, so scanned tables usually need manual arrangement afterwards."}},
+            {"@type":"Question","name":"What file format do I get back?","acceptedAnswer":{"@type":"Answer","text":"A standard spreadsheet file that opens in Microsoft Excel, Google Sheets, LibreOffice Calc, Apple Numbers, and any other modern spreadsheet application."}},
+            {"@type":"Question","name":"Will formulas be preserved?","acceptedAnswer":{"@type":"Answer","text":"No, and this is inherent to the PDF format rather than a converter limitation. When a spreadsheet is exported to PDF the formulas are evaluated and only the resulting values are stored. The original calculations no longer exist in the file, so what you get back are the numbers, not the logic that produced them."}},
+            {"@type":"Question","name":"Why did my numbers come through as text?","acceptedAnswer":{"@type":"Answer","text":"Currency symbols, thousands separators, and trailing spaces can cause a spreadsheet to treat a value as text rather than a number. Excel's Text to Columns feature or a simple find-and-replace usually fixes an entire column in one pass."}},
+            {"@type":"Question","name":"What should I check after converting?","acceptedAnswer":{"@type":"Answer","text":"Verify the row and column totals against the original document. If they match, the structure came through correctly. If they do not, look for merged cells, split rows, or a header row that was absorbed into the data."}}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "PDF to Excel — PDF Toolkit Demo",
+          "applicationCategory": "WebApplication",
+          "operatingSystem": "Any",
+          "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+          "url": "https://example.com/pdf-to-excel"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+{% include '_navbar.html' %}
+<nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:860px;margin:12px auto 0;padding:0 20px;">
+  <a href="/">Home</a><span>›</span><a href="/">Convert PDF</a><span>›</span><strong>PDF to Excel</strong>
+</nav>
+<div class="container">
+<h1 class="page-title">PDF to Excel</h1>
+    <p class="subtitle">Extract tables from PDF to Excel spreadsheet</p>
+    {% if error %}<p class="error-msg">⚠️ {{ error }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data" id="toolForm">
+        <div id="dropArea" class="drop-area">
+            <div class="drop-icon">📊</div>
+            <h2>Drag &amp; Drop File Here</h2><p>OR</p>
+            <label for="pdfInput" class="upload-btn">📄 Select PDF File</label>
+        </div>
+        <input id="pdfInput" type="file" name="pdf_file" accept=".pdf" hidden>
+        <div id="fileCard" style="display:none;" class="pdf-item">
+            <canvas id="firstPageThumb" class="pdf-thumbnail"></canvas>
+            <span id="fileName"></span>
+            <button type="button" class="file-remove-btn" onclick="removeFile()">✕</button>
+        </div>
+        <div id="pdfPasswordPrompt" style="display:none; margin:20px auto; max-width:420px; text-align:center; background:#fff5f5; border:2px solid #ffcdd2; border-radius:12px; padding:24px;">
+            <p style="color:#c62828; font-size:17px; margin:0 0 14px;"><strong>🔒 This PDF is password protected</strong></p>
+            <div class="password-wrap" style="margin:0 auto 12px;">
+                <input type="password" id="pdfPassInput" placeholder="Enter PDF password" class="range-input" style="width:100%; box-sizing:border-box; padding-right:46px;" onkeydown="if(event.key==='Enter')confirmPdfPassword()">
+                <button type="button" class="eye-btn" onclick="togglePdfPass(this)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            </div>
+            <button type="button" onclick="confirmPdfPassword()" style="background:#E53935;color:white;border:none;padding:10px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">🔓 Unlock &amp; Continue</button>
+            <p id="pdfPassError" style="color:#c62828;display:none;margin-top:10px;font-size:14px;">❌ Wrong password. Please try again.</p>
+        </div>
+        <input type="hidden" name="pdf_password" id="pdfPasswordHidden">
+        <div id="optionsSection" style="display:none;">
+            <p class="mode-hint" style="color:#888;">Detects and extracts tables from your PDF into an Excel (.xlsx) file.</p>
+            <button type="submit" class="btn">📊 Convert to Excel</button>
+        </div>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const pdfInput=document.getElementById("pdfInput"),dropArea=document.getElementById("dropArea"),fileCard=document.getElementById("fileCard"),fileName=document.getElementById("fileName"),optionsSection=document.getElementById("optionsSection");
+    function handleFile(file){window._pdfFile=file;fileName.textContent=file.name;dropArea.style.display="none";fileCard.style.display="flex";_tryLoadPdf(null);}
+    function _tryLoadPdf(password){if(!window._pdfFile)return;var r=new FileReader();r.onload=function(e){var data=new Uint8Array(e.target.result);var opts=password?{data:data,password:password}:{data:data};pdfjsLib.getDocument(opts).promise.then(function(pdf){if(password)document.getElementById("pdfPasswordHidden").value=password;document.getElementById("pdfPasswordPrompt").style.display="none";document.getElementById("pdfPassError").style.display="none";optionsSection.style.display="block";pdf.getPage(1).then(function(page){var canvas=document.getElementById("firstPageThumb");var ctx=canvas.getContext("2d");var vp=page.getViewport({scale:0.5});canvas.width=vp.width;canvas.height=vp.height;page.render({canvasContext:ctx,viewport:vp});});}).catch(function(err){if(err.name==="PasswordException"){document.getElementById("pdfPasswordPrompt").style.display="block";if(password)document.getElementById("pdfPassError").style.display="block";setTimeout(function(){document.getElementById("pdfPassInput").focus();},100);}});};r.readAsArrayBuffer(window._pdfFile);}
+    function removeFile(){pdfInput.value="";fileCard.style.display="none";optionsSection.style.display="none";dropArea.style.display="";document.getElementById("pdfPasswordPrompt").style.display="none";}
+    function confirmPdfPassword(){var pass=document.getElementById("pdfPassInput").value;if(!pass)return;document.getElementById("pdfPassError").style.display="none";_tryLoadPdf(pass);}
+    function togglePdfPass(btn){var inp=document.getElementById("pdfPassInput");inp.type=inp.type==="password"?"text":"password";btn.querySelector("svg").setAttribute("stroke",inp.type==="text"?"#F9A825":"#888");}
+    pdfInput.addEventListener("change",()=>{if(pdfInput.files[0])handleFile(pdfInput.files[0]);});
+    dropArea.addEventListener("dragover",e=>{e.preventDefault();dropArea.classList.add("drag-over");});
+    dropArea.addEventListener("dragleave",()=>dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop",e=>{e.preventDefault();dropArea.classList.remove("drag-over");if(e.dataTransfer.files[0]){const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);pdfInput.files=dt.files;handleFile(e.dataTransfer.files[0]);}});
+    dropArea.addEventListener("click",(e)=>{if(!e.target.closest("label"))pdfInput.click();});
+
+</script>
+<div class="faq-section">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">How well do tables convert?</div>
+    <div class="faq-a">Tables with clear ruled borders and consistent columns convert well. Tables that rely on white space alone to separate columns are harder, because the converter has to infer where one column ends and the next begins from spacing rather than from lines it can detect.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I convert a scanned PDF to Excel?</div>
+    <div class="faq-a">Not directly — a scan contains no text, only a picture of one. Run the file through <a href='/ocr'>Extract Text (OCR)</a> first to recognise the characters. Bear in mind that OCR recovers text but not table structure, so scanned tables usually need manual arrangement afterwards.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What file format do I get back?</div>
+    <div class="faq-a">A standard spreadsheet file that opens in Microsoft Excel, Google Sheets, LibreOffice Calc, Apple Numbers, and any other modern spreadsheet application.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Will formulas be preserved?</div>
+    <div class="faq-a">No, and this is inherent to the PDF format rather than a converter limitation. When a spreadsheet is exported to PDF the formulas are evaluated and only the resulting values are stored. The original calculations no longer exist in the file, so what you get back are the numbers, not the logic that produced them.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Why did my numbers come through as text?</div>
+    <div class="faq-a">Currency symbols, thousands separators, and trailing spaces can cause a spreadsheet to treat a value as text rather than a number. Excel's Text to Columns feature or a simple find-and-replace usually fixes an entire column in one pass.</div>
+</div>
+<div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What should I check after converting?</div>
+    <div class="faq-a">Verify the row and column totals against the original document. If they match, the structure came through correctly. If they do not, look for merged cells, split rows, or a header row that was absorbed into the data.</div>
+</div>
+</div>
+
+<div class="seo-section">
+<h2>PDF to Excel Converter Online — Free PDF to Spreadsheet</h2>
+<p>Turn tables locked inside a PDF into a spreadsheet you can actually calculate with. Upload your document, download a spreadsheet file, and open it in Excel, Google Sheets, or LibreOffice Calc. Free, no software to install, and no watermark.</p>
+
+<h3>Why This Conversion Is Needed So Often</h3>
+<p>Financial data has a habit of arriving as a PDF. Bank statements, invoices, supplier price lists, published financial reports, government statistics, and system exports are all routinely distributed in a format designed for reading rather than calculating.</p>
+<p>The numbers are all there and perfectly visible, but you cannot sum a column, sort by value, filter for a date range, or feed the figures into a model. The default response — retyping everything into a spreadsheet by hand — is slow and introduces exactly the kind of transcription errors that are hardest to spot afterwards.</p>
+
+<h3>What Converts Well and What Does Not</h3>
+<p><strong>Tables with visible ruled borders</strong> are the best case. The lines give the converter unambiguous boundaries, so columns and rows map across accurately.</p>
+<p><strong>Consistently aligned columns</strong> convert well even without borders, as long as the spacing is regular down the whole table.</p>
+<p><strong>Tables separated only by white space</strong> are harder. The converter has to guess where columns divide based on gaps, and a column of short values next to a column of long ones can confuse that judgement.</p>
+<p><strong>Merged cells, multi-line rows, and nested headers</strong> frequently need manual repair, because there is no clean spreadsheet equivalent for some of the layouts a PDF can display.</p>
+<p><strong>Scanned tables</strong> cannot be converted meaningfully at all without OCR first.</p>
+
+<h3>Formulas Do Not Survive — And Cannot</h3>
+<p>This surprises people, so it is worth explaining properly. When a spreadsheet is exported to PDF, every formula is evaluated and only the resulting value is written into the file. A cell that contained <code>=SUM(B2:B15)</code> becomes the number 4,832 and nothing else. The formula is not hidden somewhere in the PDF — it genuinely no longer exists in the document.</p>
+<p>Converting back therefore recovers the numbers but not the calculations. If you need the working model rather than the results, ask whoever produced the PDF for the original spreadsheet.</p>
+
+<h3>Who Uses This Tool</h3>
+<p><strong>Accountants and bookkeepers</strong> pull transaction data out of PDF bank statements for reconciliation. <strong>Analysts</strong> extract figures from published financial reports to build their own models. <strong>Procurement teams</strong> convert supplier price lists so they can compare across vendors. <strong>Researchers</strong> lift statistical tables out of published papers and government reports. <strong>Anyone facing a long table</strong> in a PDF who would otherwise be retyping it.</p>
+
+<h3>How to Convert PDF to Excel</h3>
+<p>Upload your PDF by dragging it onto the box or clicking to browse. The conversion runs automatically and your spreadsheet file downloads when ready. Open it and compare it against the original document before working with the data.</p>
+
+<h3>Always Verify the Totals</h3>
+<p>This is the single most valuable habit when converting tabular data. Add up a column in your new spreadsheet and check it against the total printed in the PDF. If the figures match, the rows and columns aligned correctly. If they do not, something was misread — usually a merged cell, a row that split in two, or a header absorbed into the data.</p>
+<p>Checking one or two totals takes thirty seconds and catches structural errors that would otherwise propagate silently through everything you build on the data. Numbers that are subtly wrong are considerably more dangerous than numbers that are obviously missing.</p>
+
+<h3>Fixing Numbers Stored as Text</h3>
+<p>A common annoyance after conversion is a column of figures that Excel refuses to sum. This happens when currency symbols, thousands separators, or trailing spaces come across with the value, causing the spreadsheet to treat it as text. Excel's Text to Columns feature converts a whole column in one operation, and a find-and-replace to strip symbols usually handles the rest.</p>
+
+<h3>Scanned Documents Need OCR First</h3>
+<p>If your PDF is a scan, there is no text to extract — only an image of a table. <a href="/ocr">Extract Text (OCR)</a> recognises the characters and gives you text to work with, though it recovers the words rather than the table structure, so scanned tables generally need arranging by hand afterwards.</p>
+
+<h3>Your Privacy Is Protected</h3>
+<p>Your document is processed in memory and discarded the instant your download completes. Nothing is written to disk, nothing is logged, and no copy is retained — worth knowing when the tables are bank statements or financial records.</p>
+
+<p class="related-tools" style="margin-top:16px;font-size:13px;color:#666;">Related tools: <a href="/excel-to-pdf">Excel to PDF</a> &nbsp;·&nbsp; <a href="/pdf-to-word">PDF to Word</a> &nbsp;·&nbsp; <a href="/ocr">Extract Text (OCR)</a> &nbsp;·&nbsp; <a href="/extract-pages">Extract Pages</a></p>
+</div>
+{% include '_footer.html' %}
+</body>
+</html>
